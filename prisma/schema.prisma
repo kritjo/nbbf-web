@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+  GUEST
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  role         Role          @default(GUEST)
+  email        String        @unique
+  name         String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  hasApproved  Application[] @relation("ApprovedBy")
+  applications Application[] @relation("Application")
+}
+
+enum ApplicationStatus {
+  APPROVED
+  PENDING
+  SAVED
+  REJECTED
+}
+
+model Application {
+  id                 Int               @id @default(autoincrement())
+  applicantId        Int               @unique
+  applicant          User              @relation("Application", fields: [applicantId], references: [id])
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  approvedById       Int?              @unique
+  approvedBy         User?             @relation("ApprovedBy", fields: [approvedById], references: [id])
+  application_status ApplicationStatus @default(PENDING)
+  application_text   String
+  application_date   DateTime
+}
