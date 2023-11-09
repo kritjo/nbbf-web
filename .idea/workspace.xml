@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Add official font">
-      <change afterPath="$PROJECT_DIR$/app/components/Footer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/Navbar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/nbbf-nt-nbg.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/nbbf-t-nbg.png" afterDir="false" />
+    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Logo in navbar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,7 +96,7 @@
       <updated>1697288182981</updated>
       <workItem from="1697288185315" duration="40000" />
       <workItem from="1697288558527" duration="5621000" />
-      <workItem from="1699560553838" duration="4873000" />
+      <workItem from="1699560553838" duration="6654000" />
     </task>
     <task id="LOCAL-00001" summary="Remove bun">
       <created>1697289413541</created>
@@ -199,7 +193,71 @@
       <option name="project" value="LOCAL" />
       <updated>1699565794749</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Logos">
+      <option name="closed" value="true" />
+      <created>1699566930636</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1699566930636</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Footer using official data">
+      <option name="closed" value="true" />
+      <created>1699566946481</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1699566946481</updated>
+    </task>
+    <task id="LOCAL-00016" summary="navbar in separate component">
+      <option name="closed" value="true" />
+      <created>1699566962045</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1699566962045</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Layout using new components">
+      <option name="closed" value="true" />
+      <created>1699566974238</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1699566974238</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Workspace updates">
+      <option name="closed" value="true" />
+      <created>1699566989866</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1699566989866</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Global font class">
+      <option name="closed" value="true" />
+      <created>1699567150195</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1699567150195</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Footer respecting global font class">
+      <option name="closed" value="true" />
+      <created>1699567162153</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1699567162153</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Logo in navbar">
+      <option name="closed" value="true" />
+      <created>1699568217711</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1699568217711</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,6 +287,14 @@
     <MESSAGE value="Added drizzle" />
     <MESSAGE value="Tailwind update" />
     <MESSAGE value="Add official font" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add official font" />
+    <MESSAGE value="Logos" />
+    <MESSAGE value="Footer using official data" />
+    <MESSAGE value="navbar in separate component" />
+    <MESSAGE value="Layout using new components" />
+    <MESSAGE value="Workspace updates" />
+    <MESSAGE value="Global font class" />
+    <MESSAGE value="Footer respecting global font class" />
+    <MESSAGE value="Logo in navbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Logo in navbar" />
   </component>
 </project>
