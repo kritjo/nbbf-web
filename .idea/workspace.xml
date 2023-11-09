@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="" />
+    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/db/schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bun.lockb" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lockb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,6 +37,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 3
+}]]></component>
   <component name="ProjectId" id="2Wkt0SyE8SQuImDzrrVVYXPsGEE" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -87,6 +96,7 @@
       <updated>1697288182981</updated>
       <workItem from="1697288185315" duration="40000" />
       <workItem from="1697288558527" duration="5621000" />
+      <workItem from="1699560553838" duration="2057000" />
     </task>
     <task id="LOCAL-00001" summary="Remove bun">
       <created>1697289413541</created>
@@ -151,7 +161,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697293295032</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Revert &quot;Add prisma&quot;&#10;&#10;This reverts commit 068cc8b9">
+      <option name="closed" value="true" />
+      <created>1699560652576</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1699560652576</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,6 +195,7 @@
     <MESSAGE value="Add prisma" />
     <MESSAGE value="Basic prisma schema" />
     <MESSAGE value="Added Vercel Analytics" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Vercel Analytics" />
+    <MESSAGE value="Revert &quot;Add prisma&quot;&#10;&#10;This reverts commit 068cc8b9" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;Add prisma&quot;&#10;&#10;This reverts commit 068cc8b9" />
   </component>
 </project>
