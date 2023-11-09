@@ -14,9 +14,10 @@ export default function Home() {
         <br/>
         <div className="w-2/3 ml-6">
           <p>Medlemskap i Forbundet er ikke bare en rettighet, men et privilegium.</p>
-          <p>Forbundet verdsetter dyktighet, besluttsomhet og dedikasjon til spillet som få andre kan måle seg med.
-          Som et medlem av denne eksklusive kretsen, vil du bli del av et fellesskap som streber etter perfeksjon og
-          former fremtiden. Velkommen til Forbundet – hvor hvert trekk teller.</p>
+          <p>Forbundet verdsetter dyktighet, besluttsomhet og dedikasjon til spillet som få andre kan måle seg med.</p>
+          <p>Som et medlem av denne eksklusive kretsen, vil du bli del av et fellesskap som streber etter perfeksjon og
+          former fremtiden.</p>
+          <p>Velkommen til Forbundet – hvor hvert trekk teller.</p>
         </div>
       </section>
       <section className="flex flex-col items-center justify-center py-12" data-tooltip-target="tooltip-register">
