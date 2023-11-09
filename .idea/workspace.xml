@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Wsch">
-      <change beforePath="$PROJECT_DIR$/app/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/Navbar.tsx" afterDir="false" />
+    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Localization">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +96,7 @@
       <updated>1697288182981</updated>
       <workItem from="1697288185315" duration="40000" />
       <workItem from="1697288558527" duration="5621000" />
-      <workItem from="1699560553838" duration="6990000" />
+      <workItem from="1699560553838" duration="8144000" />
     </task>
     <task id="LOCAL-00001" summary="Remove bun">
       <created>1697289413541</created>
@@ -272,7 +273,39 @@
       <option name="project" value="LOCAL" />
       <updated>1699568632975</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Minimal working navbar">
+      <option name="closed" value="true" />
+      <created>1699569316645</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1699569316645</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Contact page with only email">
+      <option name="closed" value="true" />
+      <created>1699569358796</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1699569358796</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Wsupd">
+      <option name="closed" value="true" />
+      <created>1699569365139</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1699569365139</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Localization">
+      <option name="closed" value="true" />
+      <created>1699569431655</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1699569431655</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -290,7 +323,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Remove bun" />
     <MESSAGE value="Example of serverless function API" />
     <MESSAGE value="Install shadcn-ui" />
     <MESSAGE value="Install shadcn-ui and move out of src/" />
@@ -312,6 +344,10 @@
     <MESSAGE value="Logo in navbar" />
     <MESSAGE value="Landing page" />
     <MESSAGE value="Wsch" />
-    <option name="LAST_COMMIT_MESSAGE" value="Wsch" />
+    <MESSAGE value="Minimal working navbar" />
+    <MESSAGE value="Contact page with only email" />
+    <MESSAGE value="Wsupd" />
+    <MESSAGE value="Localization" />
+    <option name="LAST_COMMIT_MESSAGE" value="Localization" />
   </component>
 </project>

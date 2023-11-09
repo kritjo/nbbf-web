@@ -1,7 +1,4 @@
-import Image from 'next/image'
-import Link from "next/link";
 import '@fontsource/pt-mono';
-
 export default function Home() {
   return (
     <main>
@@ -22,8 +19,8 @@ export default function Home() {
           former fremtiden. Velkommen til Forbundet – hvor hvert trekk teller.</p>
         </div>
       </section>
-      <section className="flex flex-col items-center justify-center py-12">
-        <form className="flex flex-col space-y-4 p-6 mt-4 bg-white rounded-lg shadow-md">
+      <section className="flex flex-col items-center justify-center py-12" data-tooltip-target="tooltip-register">
+        <form className="flex flex-col space-y-4 p-6 mt-4 bg-white rounded-lg shadow-md opacity-20">
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700" htmlFor="name">
               Navn
@@ -33,6 +30,7 @@ export default function Home() {
               id="name"
               placeholder="Ditt navn"
               required
+              disabled
             />
           </div>
           <div className="space-y-2">
@@ -45,9 +43,11 @@ export default function Home() {
               placeholder="Din e-post"
               required
               type="email"
+              disabled
             />
+
           </div>
-          <button className="w-full px-3 py-2 text-white bg-blue-500 rounded-md" type="submit">
+          <button className="w-full px-3 py-2 text-white bg-blue-500 rounded-md" type="submit" disabled>
             Send inn
           </button>
         </form>
