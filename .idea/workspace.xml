@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Logo in navbar">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Wsch">
+      <change beforePath="$PROJECT_DIR$/app/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/Navbar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +95,7 @@
       <updated>1697288182981</updated>
       <workItem from="1697288185315" duration="40000" />
       <workItem from="1697288558527" duration="5621000" />
-      <workItem from="1699560553838" duration="6654000" />
+      <workItem from="1699560553838" duration="6990000" />
     </task>
     <task id="LOCAL-00001" summary="Remove bun">
       <created>1697289413541</created>
@@ -257,7 +256,23 @@
       <option name="project" value="LOCAL" />
       <updated>1699568217711</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Landing page">
+      <option name="closed" value="true" />
+      <created>1699568627475</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1699568627475</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Wsch">
+      <option name="closed" value="true" />
+      <created>1699568632975</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1699568632975</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -295,6 +310,8 @@
     <MESSAGE value="Global font class" />
     <MESSAGE value="Footer respecting global font class" />
     <MESSAGE value="Logo in navbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="Logo in navbar" />
+    <MESSAGE value="Landing page" />
+    <MESSAGE value="Wsch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wsch" />
   </component>
 </project>
