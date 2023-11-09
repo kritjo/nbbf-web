@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/pt-mono": "^5.0.8",
     "@prisma/client": "5.4.2",
     "@vercel/analytics": "^1.1.1",
     "@vercel/postgres": "^0.5.1",
