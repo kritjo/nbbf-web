@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="py-12 px-8 flex flex-col items-center space-y-2">
       <img className="w-48 h-48" src="/nbbf-nt-nbg.png" alt="Norges Bondebridgeforbund Logo"/>
-      <p className="text-sm">Norges Bondebridgeforbund</p>
+      <p className="text-sm nbbf-font">Norges Bondebridgeforbund</p>
       <p className="text-sm">c/o Kristian Tjelta Johansen</p>
       <p className="text-sm">Sinsenveien 5A</p>
       <p className="text-sm">0572 Oslo, Norge</p>
