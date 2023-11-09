@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db/schema.ts" afterDir="false" />
+    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Add official font">
+      <change afterPath="$PROJECT_DIR$/app/components/Footer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/Navbar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/nbbf-nt-nbg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/nbbf-t-nbg.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bun.lockb" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lockb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -64,6 +69,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/api/hello-world" />
@@ -96,7 +102,7 @@
       <updated>1697288182981</updated>
       <workItem from="1697288185315" duration="40000" />
       <workItem from="1697288558527" duration="5621000" />
-      <workItem from="1699560553838" duration="2057000" />
+      <workItem from="1699560553838" duration="4873000" />
     </task>
     <task id="LOCAL-00001" summary="Remove bun">
       <created>1697289413541</created>
@@ -169,7 +175,31 @@
       <option name="project" value="LOCAL" />
       <updated>1699560652576</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Added drizzle">
+      <option name="closed" value="true" />
+      <created>1699562864242</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1699562864242</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Tailwind update">
+      <option name="closed" value="true" />
+      <created>1699562899522</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1699562899522</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Add official font">
+      <option name="closed" value="true" />
+      <created>1699565794749</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1699565794749</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -196,6 +226,9 @@
     <MESSAGE value="Basic prisma schema" />
     <MESSAGE value="Added Vercel Analytics" />
     <MESSAGE value="Revert &quot;Add prisma&quot;&#10;&#10;This reverts commit 068cc8b9" />
-    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;Add prisma&quot;&#10;&#10;This reverts commit 068cc8b9" />
+    <MESSAGE value="Added drizzle" />
+    <MESSAGE value="Tailwind update" />
+    <MESSAGE value="Add official font" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add official font" />
   </component>
 </project>
