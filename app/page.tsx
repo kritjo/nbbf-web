@@ -8,7 +8,7 @@ export default function Home() {
           backgroundImage: '"url("/hero-bg.jpg")"',
         }}
       >
-        <h1 className="text-5xl font-bold mb-4 nbbf-font">Norges Bondebridgeforbund</h1>
+        <h1 className="text-xl font-bold mb-4 nbbf-font md:text-2xl xl:text-5xl">Norges Bondebridgeforbund</h1>
         <p className="text-xl" >Det ærede samfunn hvor strategene finner sin plass.</p>
         <p className="text-xl">Bondebridge, et spill der tilfeldigheter ikke eksisterer og kun ren strategisk dyktighet rår.</p>
         <br/>

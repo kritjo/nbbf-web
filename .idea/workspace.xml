@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Locked registration form">
+    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Reformated lg sub">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,10 +36,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2Wkt0SyE8SQuImDzrrVVYXPsGEE" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -95,7 +96,8 @@
       <updated>1697288182981</updated>
       <workItem from="1697288185315" duration="40000" />
       <workItem from="1697288558527" duration="5621000" />
-      <workItem from="1699560553838" duration="8455000" />
+      <workItem from="1699560553838" duration="9745000" />
+      <workItem from="1700244324870" duration="732000" />
     </task>
     <task id="LOCAL-00001" summary="Remove bun">
       <created>1697289413541</created>
@@ -312,7 +314,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699570295259</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Reformated lg sub">
+      <option name="closed" value="true" />
+      <created>1699570375914</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1699570375914</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -330,7 +340,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Install shadcn-ui" />
     <MESSAGE value="Install shadcn-ui and move out of src/" />
     <MESSAGE value="Remove boilerplate from page.tsx" />
     <MESSAGE value="Add prisma" />
@@ -355,6 +364,7 @@
     <MESSAGE value="Wsupd" />
     <MESSAGE value="Localization" />
     <MESSAGE value="Locked registration form" />
-    <option name="LAST_COMMIT_MESSAGE" value="Locked registration form" />
+    <MESSAGE value="Reformated lg sub" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reformated lg sub" />
   </component>
 </project>
