@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Reformated lg sub">
+    <list default="true" id="63da8d3e-8d63-4486-aba8-9df2d5428bc6" name="Changes" comment="Fix ugly mobile title">
+      <change afterPath="$PROJECT_DIR$/drizzle.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bun.lockb" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lockb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +100,8 @@
       <workItem from="1697288185315" duration="40000" />
       <workItem from="1697288558527" duration="5621000" />
       <workItem from="1699560553838" duration="9745000" />
-      <workItem from="1700244324870" duration="732000" />
+      <workItem from="1700244324870" duration="1867000" />
+      <workItem from="1702912427450" duration="3034000" />
     </task>
     <task id="LOCAL-00001" summary="Remove bun">
       <created>1697289413541</created>
@@ -322,7 +326,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699570375914</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Fix ugly mobile title">
+      <option name="closed" value="true" />
+      <created>1700245601459</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1700245601459</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -340,7 +352,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Install shadcn-ui and move out of src/" />
     <MESSAGE value="Remove boilerplate from page.tsx" />
     <MESSAGE value="Add prisma" />
     <MESSAGE value="Basic prisma schema" />
@@ -365,6 +376,7 @@
     <MESSAGE value="Localization" />
     <MESSAGE value="Locked registration form" />
     <MESSAGE value="Reformated lg sub" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reformated lg sub" />
+    <MESSAGE value="Fix ugly mobile title" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix ugly mobile title" />
   </component>
 </project>
