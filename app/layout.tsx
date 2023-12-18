@@ -2,6 +2,7 @@ import './globals.css'
 import type {Metadata} from 'next'
 import {Inter} from 'next/font/google'
 import {Analytics} from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import {ReactNode} from "react";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -27,6 +28,7 @@ export default function RootLayout({
       <Footer/>
     </section>
     <Analytics/>
+    <SpeedInsights/>
     </body>
     </html>
   )
