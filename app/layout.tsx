@@ -4,8 +4,8 @@ import {Inter} from 'next/font/google'
 import {Analytics} from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import {ReactNode} from "react";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import Footer from "@/components/footer";
+import Navbar from "@/components/navbar";
 
 const inter = Inter({subsets: ['latin']})
 
