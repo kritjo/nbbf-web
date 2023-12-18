@@ -1,4 +1,6 @@
 import {boolean, integer, pgTable, serial, timestamp, varchar} from "drizzle-orm/pg-core";
+import { drizzle } from 'drizzle-orm/vercel-postgres';
+import { sql } from '@vercel/postgres';
 
 export const roles = pgTable('roles', {
   id: serial('id').primaryKey(),
@@ -8,9 +10,8 @@ export const roles = pgTable('roles', {
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
-  name: varchar('email', { length: 256 }).unique().notNull(),
-  password: varchar('password', { length: 256 }).notNull(),
-  salt: varchar('salt', { length: 256 }).notNull(),
+  email: varchar('email', { length: 256 }).unique().notNull(),
+  full_name: varchar('full_name', { length: 256 }).unique().notNull(),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
 
@@ -38,3 +39,7 @@ export const applications = pgTable('applications', {
   approved_status_at: timestamp('approved_status_at', { withTimezone: true }).notNull(),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
+
+const migrate = async () => {
+  await drizzle
+}
