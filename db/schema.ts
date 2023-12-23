@@ -39,7 +39,3 @@ export const applications = pgTable('applications', {
   approved_status_at: timestamp('approved_status_at', { withTimezone: true }).notNull(),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
-
-const migrate = async () => {
-  await drizzle
-}
