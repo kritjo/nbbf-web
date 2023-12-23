@@ -29,6 +29,16 @@ export const userSessions = pgTable('user_sessions', {
   expires_at: timestamp('expires_at', { withTimezone: true }).notNull(),
 });
 
+export const magicLinks = pgTable('magic_links', {
+  id: serial('id').primaryKey(),
+  user: integer('user_id').references(() => users.id),
+  slug: varchar('slug', { length: 64 }).unique().notNull(),
+  used: boolean('used').notNull().default(false),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull(),
+  expires_at: timestamp('expires_at', { withTimezone: true }).notNull(),
+});
+
+
 export const applications = pgTable('applications', {
   id: serial('id').primaryKey(),
   user: integer('user_id').references(() => users.id),
