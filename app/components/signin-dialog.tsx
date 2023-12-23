@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Dialog,
   DialogContent,
@@ -6,8 +8,14 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
+import {useState} from "react";
 
 const SigninDialog = () => {
+  const [submitted, setSubmitted] = useState(false);
+  const [email, setEmail] = useState("");
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -17,10 +25,20 @@ const SigninDialog = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+          <DialogTitle>Logg inn</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers.
+            {!submitted ?
+              (
+                <>
+                  {/* @ts-ignore */}
+                  <Input type="email" placeholder="E-post" value={email} onChange={e => setEmail((e.target as HTMLInputElement).value)} />
+                  <Button className="mt-4" variant="outline" size="sm">Få innloggingslenke på e-post</Button>
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Dersom du har en konto hos oss, vil du motta en e-post med en lenke for å logge inn.
+                </p>
+              )}
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
