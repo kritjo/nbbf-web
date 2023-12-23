@@ -1,2 +1,2 @@
 #!/bin/zsh
-bun run drizzle-kit studio
+bun run drizzle-kit generate:pg
