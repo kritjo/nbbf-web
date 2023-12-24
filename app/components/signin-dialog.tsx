@@ -9,12 +9,13 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
-import {useState} from "react";
+import {sendMagicLink} from "@/actions";
+import { useFormState, useFormStatus } from "react-dom";
+import FormSubmitButton from "@/components/ui/form-submit-button";
 
 const SigninDialog = () => {
-  const [submitted, setSubmitted] = useState(false);
-  const [email, setEmail] = useState("");
+  const [formState, formAction] = useFormState(sendMagicLink, null);
+
 
   return (
     <Dialog>
@@ -27,12 +28,21 @@ const SigninDialog = () => {
         <DialogHeader>
           <DialogTitle>Logg inn</DialogTitle>
           <DialogDescription>
-            {!submitted ?
+            {!(formState?.success || false) ?
               (
                 <>
                   {/* @ts-ignore */}
-                  <Input type="email" placeholder="E-post" value={email} onChange={e => setEmail((e.target as HTMLInputElement).value)} />
-                  <Button className="mt-4" variant="outline" size="sm">Få innloggingslenke på e-post</Button>
+                  <form action={formAction}>
+                    <Input type="email" placeholder="E-post" name={"email"} />
+                    {formState?.errors?.email && (
+                      <div id="name-error" style={{ color: `#dc2626` }}>
+                        {formState.errors.email.join(',')}
+                      </div>
+                    )}
+                    <FormSubmitButton>
+                      Send lenke
+                    </FormSubmitButton>
+                  </form>
                 </>
               ) : (
                 <p className="text-sm text-muted-foreground">
