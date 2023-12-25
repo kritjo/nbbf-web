@@ -19,8 +19,8 @@ export type User = typeof users.$inferSelect;
 
 export const userRoles = pgTable('user_roles', {
   id: serial('id').primaryKey(),
-  user: integer('user_id').references(() => users.id),
-  role: integer('role_id').references(() => roles.id)
+  user: integer('user_id').references(() => users.id).notNull(),
+  role: integer('role_id').references(() => roles.id).notNull(),
 });
 
 export type UserRole = typeof userRoles.$inferSelect;
@@ -37,7 +37,7 @@ export type UserSession = typeof userSessions.$inferSelect;
 
 export const magicLinks = pgTable('magic_links', {
   id: serial('id').primaryKey(),
-  user: integer('user_id').references(() => users.id),
+  user: integer('user_id').references(() => users.id).notNull(),
   slug: varchar('slug', { length: 64 }).unique().notNull(),
   used: boolean('used').notNull().default(false),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
