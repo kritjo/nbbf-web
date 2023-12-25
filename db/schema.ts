@@ -8,6 +8,8 @@ export const roles = pgTable('roles', {
   description: varchar('description', { length: 256 }).notNull(),
 });
 
+export type Role = typeof roles.$inferSelect;
+
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   email: varchar('email', { length: 256 }).unique().notNull(),
@@ -15,11 +17,15 @@ export const users = pgTable('users', {
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
 
+export type User = typeof users.$inferSelect;
+
 export const userRoles = pgTable('user_roles', {
   id: serial('id').primaryKey(),
   user: integer('user_id').references(() => users.id),
   role: integer('role_id').references(() => roles.id)
 });
+
+export type UserRole = typeof userRoles.$inferSelect;
 
 export const userSessions = pgTable('user_sessions', {
   id: serial('id').primaryKey(),
@@ -29,6 +35,8 @@ export const userSessions = pgTable('user_sessions', {
   expires_at: timestamp('expires_at', { withTimezone: true }).notNull(),
 });
 
+export type UserSession = typeof userSessions.$inferSelect;
+
 export const magicLinks = pgTable('magic_links', {
   id: serial('id').primaryKey(),
   user: integer('user_id').references(() => users.id),
@@ -37,6 +45,8 @@ export const magicLinks = pgTable('magic_links', {
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
   expires_at: timestamp('expires_at', { withTimezone: true }).notNull(),
 });
+
+export type MagicLink = typeof magicLinks.$inferSelect;
 
 
 export const applications = pgTable('applications', {
@@ -49,3 +59,5 @@ export const applications = pgTable('applications', {
   approved_status_at: timestamp('approved_status_at', { withTimezone: true }).notNull(),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
+
+export type Application = typeof applications.$inferSelect;
