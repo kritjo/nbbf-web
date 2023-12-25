@@ -29,7 +29,7 @@ export type UserRole = typeof userRoles.$inferSelect;
 
 export const userSessions = pgTable('user_sessions', {
   id: serial('id').primaryKey(),
-  user: integer('user_id').references(() => users.id),
+  user: integer('user_id').references(() => users.id).notNull(),
   token: varchar('token', { length: 256 }).unique().notNull(),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
   expires_at: timestamp('expires_at', { withTimezone: true }).notNull(),
