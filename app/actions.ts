@@ -54,15 +54,15 @@ export const sendMagicLink = async (_: any, formData: FormData): Promise<FormRes
   const expiresAt = new Date();
   expiresAt.setHours(expiresAt.getHours() + 1);
   const {email} = validatedFields.data;
-  db.insert(magicLinks).values({
+  await db.insert(magicLinks).values({
     user: user.id,
     slug: randomString,
     used: false,
     created_at: new Date(),
     expires_at: expiresAt,
-  })
+  });
 
-  const resend = new Resend('re_Ch75DQsY_6ori4vYTyE2MUvWLprz2sQCD');
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   await resend.emails.send({
     from: 'magi@varslinger.bondebridgeforbundet.no',
@@ -71,7 +71,7 @@ export const sendMagicLink = async (_: any, formData: FormData): Promise<FormRes
     html: `
       <p>Hei ${user.full_name}</p>
       <p>Her er din magiske lenke for å logge inn på Bondebridgeforbundet:</p>
-      <p><a href="https://bondebridgeforbundet.no/login/${randomString}">https://bondebridgeforbundet.no/login/${randomString}</a></p>
+      <p><a href="https://bondebridgeforbundet.no/api/login?token=${randomString}">https://bondebridgeforbundet.no/api/login?token=${randomString}</a></p>
       <p>Lenken er gyldig i 1 time.</p>
       <p>Med vennlig hilsen</p>
       <p>Bondebridgeforbundet</p>
