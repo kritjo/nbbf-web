@@ -1,5 +1,5 @@
 import Link from "next/link";
-import SigninDialog from "@/components/signin-dialog";
+import UserOrSignin from "@/components/userOrSignin";
 
 const Navbar = () => {
   return (
@@ -14,7 +14,7 @@ const Navbar = () => {
         <Link className="text-lg font-semibold hover:underline" href="/kontakt">
           Kontakt
         </Link>
-        <SigninDialog/>
+        <UserOrSignin/>
       </nav>
     </header>
   )
