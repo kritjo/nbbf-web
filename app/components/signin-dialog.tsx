@@ -9,7 +9,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import {Input} from "@/components/ui/input";
-import {sendMagicLink} from "@/actions";
+import {sendMagicLink} from "@/actions/sendMagicLink";
 import { useFormState } from "react-dom";
 import FormSubmitButton from "@/components/ui/form-submit-button";
 
