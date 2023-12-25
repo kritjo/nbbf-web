@@ -10,12 +10,11 @@ import {
 } from "@/components/ui/dialog";
 import {Input} from "@/components/ui/input";
 import {sendMagicLink} from "@/actions";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import FormSubmitButton from "@/components/ui/form-submit-button";
 
 const SigninDialog = () => {
   const [formState, formAction] = useFormState(sendMagicLink, null);
-
 
   return (
     <Dialog>
@@ -27,30 +26,27 @@ const SigninDialog = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Logg inn</DialogTitle>
-          <DialogDescription>
-            {!(formState?.success || false) ?
-              (
-                <>
-                  {/* @ts-ignore */}
-                  <form action={formAction}>
-                    <Input type="email" placeholder="E-post" name={"email"} />
-                    {formState?.errors?.email && (
-                      <div id="name-error" style={{ color: `#dc2626` }}>
-                        {formState.errors.email.join(',')}
-                      </div>
-                    )}
-                    <FormSubmitButton>
-                      Send lenke
-                    </FormSubmitButton>
-                  </form>
-                </>
-              ) : (
-                <p className="text-sm text-muted-foreground">
-                  Dersom du har en konto hos oss, vil du motta en e-post med en lenke for å logge inn.
-                </p>
-              )}
-          </DialogDescription>
         </DialogHeader>
+        {formState?.success ? (
+          <DialogDescription>
+            Dersom du har en konto hos oss, vil du motta en e-post med en lenke for å logge inn.
+          </DialogDescription>
+        ) : (
+          <>
+            {/* @ts-ignore */}
+            <form action={formAction}>
+              <Input type="email" placeholder="E-post" name={"email"}/>
+              {formState?.errors?.email && (
+                <div id="name-error" style={{color: `#dc2626`}}>
+                  {formState.errors.email.join(',')}
+                </div>
+              )}
+              <FormSubmitButton>
+                Send lenke
+              </FormSubmitButton>
+            </form>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );
