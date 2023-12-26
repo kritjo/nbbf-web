@@ -15,11 +15,7 @@ export const metadata: Metadata = {
   description: 'Det offisielle nettstedet til Norges Bondebridgeforbund',
 }
 
-export default function RootLayout({
-                                     children,
-                                   }: {
-  children: ReactNode
-}) {
+export default function RootLayout({children}: { children: ReactNode }) {
   return (
     <html lang="en">
     <body className={inter.className}>
