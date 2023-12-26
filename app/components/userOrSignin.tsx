@@ -3,13 +3,14 @@ import {getAuthenticatedUser} from "@/actions/getAuthenticatedUser";
 import { cookies } from 'next/headers';
 import {DropdownMenu, DropdownMenuContent, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import LogoutMenuButton from "@/components/ui/logout-menu-button";
+import { use } from 'react'
 
 
-const UserOrSignin = async () => {
+const UserOrSignin = () => {
   const cookieStore = cookies();
   const token = cookieStore.get('token');
   if (!token) return <SigninDialog/>;
-  const user = await getAuthenticatedUser(token.value);
+  const user = use(getAuthenticatedUser(token.value));
   if (!user) return <SigninDialog/>;
 
   return (
