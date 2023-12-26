@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
   }, {
     status: 302,
     headers: {
-      'Location': '/dashboard',
+      'Location': '/medlem',
       'Set-Cookie': `token=${token}; Path=/; HttpOnly; SameSite=Strict`,
     }
   });
