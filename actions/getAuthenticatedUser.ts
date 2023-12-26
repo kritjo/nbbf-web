@@ -2,10 +2,10 @@
 
 import {db} from "../db/connection";
 import {eq} from "drizzle-orm";
-import {User, users, userSessions} from "../db/schema";
+import {Role, User, users, userSessions} from "../db/schema";
 import {cookies} from "next/headers";
 
-export const getAuthenticatedUser = async (token: string): Promise<User | null> => {
+export const getAuthenticatedUser = async (token: string, minReqRole: Role): Promise<User | null> => {
   const userSession = await db.query.userSessions.findFirst({
     where: eq(userSessions.token, token),
   });
@@ -26,5 +26,18 @@ export const getAuthenticatedUser = async (token: string): Promise<User | null> 
     return null;
   }
 
-  return user;
+  switch (user.role) {
+    case 'admin':
+      return user;
+    case 'styre':
+      if (minReqRole === 'admin') {
+        return null;
+      }
+      return user;
+    case 'medlem':
+      if (minReqRole === 'medlem') {
+        return user;
+      }
+      return null;
+  }
 }
