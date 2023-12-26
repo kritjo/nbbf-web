@@ -1,7 +1,7 @@
 import SigninDialog from "@/components/signin-dialog";
 import {getAuthenticatedUser} from "@/actions/getAuthenticatedUser";
 import { cookies } from 'next/headers';
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import LogoutMenuButton from "@/components/ui/logout-menu-button";
 
 
