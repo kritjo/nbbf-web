@@ -1,8 +1,8 @@
 'use server'
 
-import {db} from "../../db/connection";
+import {db} from "../db/connection";
 import {cookies} from "next/headers";
-import {userSessions} from "../../db/schema";
+import {userSessions} from "../db/schema";
 import {eq} from "drizzle-orm";
 
 export const signOut = async () => {

@@ -1,8 +1,8 @@
 'use server'
 
-import {db} from "../../db/connection";
+import {db} from "../db/connection";
 import {eq} from "drizzle-orm";
-import {User, users, userSessions} from "../../db/schema";
+import {User, users, userSessions} from "../db/schema";
 import {cookies} from "next/headers";
 
 export const getAuthenticatedUser = async (token: string): Promise<User | null> => {

@@ -1,11 +1,11 @@
 'use server'
 
 import {z} from "zod";
-import {db} from "../../db/connection";
-import {magicLinks, users} from "../../db/schema";
+import {db} from "../db/connection";
+import {magicLinks, users} from "../db/schema";
 import {eq} from "drizzle-orm";
 import {Resend} from "resend";
-import {FormResponse} from "@/actions/common";
+import {FormResponse} from "./common";
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 

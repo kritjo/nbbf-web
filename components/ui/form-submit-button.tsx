@@ -1,4 +1,4 @@
-import {Button} from "@/components/ui/button";
+import {Button} from "./button";
 import {useFormStatus} from "react-dom";
 
 // @ts-ignore // TODO: Fix this

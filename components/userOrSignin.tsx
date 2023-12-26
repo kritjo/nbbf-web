@@ -1,8 +1,8 @@
-import SigninDialog from "@/components/signin-dialog";
-import {getAuthenticatedUser} from "@/actions/getAuthenticatedUser";
+import SigninDialog from "./signin-dialog";
+import {getAuthenticatedUser} from "../actions/getAuthenticatedUser";
 import { cookies } from 'next/headers';
-import {DropdownMenu, DropdownMenuContent, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
-import LogoutMenuButton from "@/components/ui/logout-menu-button";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuTrigger} from "./ui/dropdown-menu";
+import LogoutMenuButton from "./ui/logout-menu-button";
 import { use } from 'react'
 
 

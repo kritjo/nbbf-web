@@ -1,7 +1,7 @@
 'use client'
 
-import {DropdownMenuItem} from "@/components/ui/dropdown-menu";
-import {signOut} from "@/actions/signOut";
+import {DropdownMenuItem} from "./dropdown-menu";
+import {signOut} from "../../actions/signOut";
 
 const LogoutMenuButton = () => {
   return (

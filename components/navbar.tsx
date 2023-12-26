@@ -1,5 +1,5 @@
 import Link from "next/link";
-import UserOrSignin from "@/components/userOrSignin";
+import UserOrSignin from "./userOrSignin";
 import Image from "next/image";
 
 const Navbar = () => {
