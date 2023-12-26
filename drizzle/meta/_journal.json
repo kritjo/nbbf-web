@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1702916118596,
-      "tag": "0000_hesitant_pestilence",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1703364504575,
-      "tag": "0001_purple_skrulls",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1703537513580,
-      "tag": "0002_misty_shinko_yamashiro",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1703539966808,
-      "tag": "0003_wooden_wonder_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1703596430090,
-      "tag": "0004_blushing_slayback",
+      "when": 1703599034958,
+      "tag": "0000_cheerful_shiva",
       "breakpoints": true
     }
   ]
