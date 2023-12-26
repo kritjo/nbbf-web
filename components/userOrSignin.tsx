@@ -10,7 +10,7 @@ const UserOrSignin = () => {
   const cookieStore = cookies();
   const token = cookieStore.get('token');
   if (!token) return <SigninDialog/>;
-  const user = use(getAuthenticatedUser(token.value));
+  const user = use(getAuthenticatedUser(token.value, 'medlem'));
   if (!user) return <SigninDialog/>;
 
   return (
