@@ -3,7 +3,6 @@
 import {db} from "../db/connection";
 import {eq} from "drizzle-orm";
 import {Role, User, users, userSessions} from "../db/schema";
-import {cookies} from "next/headers";
 import {hasMinimumRole} from "../lib/utils";
 
 export const getAuthenticatedUser = async (token: string, minReqRole: Role): Promise<User | null> => {
