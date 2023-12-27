@@ -1,13 +1,19 @@
-import {cookies} from "next/headers";
-import {redirect} from "next/navigation";
-import {use} from "react";
-import {getAuthenticatedUser} from "../../actions/getAuthenticatedUser";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "../../components/ui/tabs";
+import Medlemmer from "@/styresider/medlemmer";
+import Soknader from "@/styresider/soknader";
 
 export default function StyreHome() {
-  const cookieStore = cookies();
-  const token = cookieStore.get('token');
-  if (!token) redirect('/')
-  const user = use(getAuthenticatedUser(token.value, 'styre'));
 
-  redirect('/styresider/medlemmer')
+  return (
+    <div className="flex w-full justify-center items-center">
+      <Tabs defaultValue="account" className="w-[400px]">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="medlemmer">Medlemmer</TabsTrigger>
+          <TabsTrigger value="soknader">Søknader</TabsTrigger>
+        </TabsList>
+        <TabsContent value="medlemmer"><Medlemmer /></TabsContent>
+        <TabsContent value="soknader"><Soknader /></TabsContent>
+      </Tabs>
+    </div>
+  )
 }
