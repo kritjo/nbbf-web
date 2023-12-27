@@ -4,6 +4,7 @@ import {db} from "../db/connection";
 import {eq} from "drizzle-orm";
 import {Role, User, users, userSessions} from "../db/schema";
 import {cookies} from "next/headers";
+import {hasMinimumRole} from "../lib/utils";
 
 export const getAuthenticatedUser = async (token: string, minReqRole: Role): Promise<User | null> => {
   const userSession = await db.query.userSessions.findFirst({
@@ -26,18 +27,8 @@ export const getAuthenticatedUser = async (token: string, minReqRole: Role): Pro
     return null;
   }
 
-  switch (user.role) {
-    case 'admin':
-      return user;
-    case 'styre':
-      if (minReqRole === 'admin') {
-        return null;
-      }
-      return user;
-    case 'medlem':
-      if (minReqRole === 'medlem') {
-        return user;
-      }
-      return null;
+  if (hasMinimumRole(user.role, minReqRole)) {
+    return user;
   }
+  return null;
 }
