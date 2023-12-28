@@ -6,7 +6,7 @@ export default function StyreHome() {
 
   return (
     <div className="flex w-full justify-center items-center">
-      <Tabs defaultValue="account" className="max-w-[800px] w-full">
+      <Tabs defaultValue="medlemmer" className="max-w-[800px] w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="medlemmer">Medlemmer</TabsTrigger>
           <TabsTrigger value="soknader">Søknader</TabsTrigger>
