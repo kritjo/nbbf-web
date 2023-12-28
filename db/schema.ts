@@ -31,14 +31,21 @@ export const magicLinks = pgTable('magic_links', {
   expires_at: timestamp('expires_at', { withTimezone: true }).notNull(),
 });
 
+const status = ['pending', 'approved', 'rejected'] as const;
+export const statusEnum = pgEnum('status_enum', status);
+export type Status = typeof status[number];
+
+
 export const applications = pgTable('applications', {
   id: serial('id').primaryKey(),
   email: varchar('email', { length: 256 }).notNull(),
   full_name: varchar('full_name', { length: 256 }).notNull(),
   title: varchar('title', { length: 256 }).notNull(),
   content: text('content').notNull(),
-  approved: boolean('approved').notNull(),
-  approved_status_by: integer('approved_status_by').references(() => users.id),
-  approved_status_at: timestamp('approved_status_at', { withTimezone: true }),
+  status: statusEnum('status').notNull().default('pending'),
+  status_by: integer('approved_status_by').references(() => users.id),
+  status_at: timestamp('approved_status_at', { withTimezone: true }),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
+
+export type Application = typeof applications.$inferSelect;
