@@ -1,3 +1,5 @@
+'use client'
+
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "./ui/table";
 import {useQuery} from "@tanstack/react-query";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
