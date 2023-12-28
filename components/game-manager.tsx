@@ -91,7 +91,7 @@ const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string,
               </p>
             </CardContent>
             <CardFooter className="flex justify-between items-center">
-              <span>Started: {game.created_at.toLocaleDateString()}</span>
+              <span>Started: {game.created_at.toLocaleDateString("no-NO")}</span>
               <Button className="text-blue-500 border-blue-500" variant="outline">
                 Vis
               </Button>
