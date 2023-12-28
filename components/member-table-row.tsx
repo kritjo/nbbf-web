@@ -9,10 +9,18 @@ import {User} from "../db/schema";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import {updateMember} from "../actions/updateMember";
 import {useFormState} from "react-dom";
+import {useEffect, useState} from "react";
 
 const MemberTableRow = ({ member, token, authenticatedUser }: {member: User, token: RequestCookie, authenticatedUser: User}) => {
   const updateMemberWithToken = updateMember.bind(null, token.value);
   const [formState, formAction] = useFormState(updateMemberWithToken, null);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (formState?.success) {
+      setOpen(false);
+    }
+  }, [formState]);
 
   return (
     <TableRow key={member.id}>
@@ -20,7 +28,7 @@ const MemberTableRow = ({ member, token, authenticatedUser }: {member: User, tok
       <TableCell>{member.full_name}</TableCell>
       <TableCell>{member.role}</TableCell>
       <TableCell>
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button variant="ghost">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
