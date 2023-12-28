@@ -4,32 +4,26 @@ import {db} from "../db/connection";
 import {eq, sql} from "drizzle-orm";
 import {GetGamesResponse} from "./common";
 
-export const getMembers = async (token: string): Promise<GetGamesResponse[]> => {
+export const getGames = async (token: string): Promise<GetGamesResponse[]> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
   if (authenticatedUser === null) {
     return [];
   }
 
-  const game_round_count = db.$with('game_round_count').as(
-    db.select({
-      rounds: sql<number>`cast(count(${users.id}) as int)`,
-      id: gameRounds.game
-    }).from(gameRounds).groupBy(gameRounds.game)
-  );
+  const game_round_count = db.select({
+      rounds: sql<number>`cast(count(${users.id}) as int)`.as('rounds'),
+      id: gameRounds.game,
+    }).from(gameRounds).groupBy(gameRounds.game).as('game_round_count')
 
-  const game_player_count = db.$with('game_player_count').as(
-    db.select({
-      players: sql<number>`cast(count(${users.id}) as int)`,
+  const game_player_count = db.select({
+      players: sql<number>`cast(count(${users.id}) as int)`.as('players'),
       id: gamePlayers.game
-    }).from(gamePlayers).groupBy(gamePlayers.game)
-  );
+    }).from(gamePlayers).groupBy(gamePlayers.game).as('game_player_count');
 
-  const creator_name = db.$with('creator_name').as(
-    db.select({
+  const creator_name = db.select({
       creator: users.full_name,
       id: games.id
-    }).from(games).innerJoin(users, eq(games.created_by, users.id))
-  );
+    }).from(games).innerJoin(users, eq(games.created_by, users.id)).as('creator_name');
 
   return db.select({
     id: games.id,
