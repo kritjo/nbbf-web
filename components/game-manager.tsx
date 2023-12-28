@@ -12,6 +12,7 @@ import {updateMember} from "../actions/updateMember";
 import {useFormState} from "react-dom";
 import {User} from "../db/schema";
 import {GetGamesResponse} from "../actions/common";
+import Link from "next/link";
 
 const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string, games: GetGamesResponse[]}) => {
   const updateMemberWithToken = updateMember.bind(null, tokenValue);
@@ -37,7 +38,7 @@ const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string,
               )}
               <div className="flex items-center gap-2 mt-[1rem]">
                 <Checkbox name="official"
-                          disabled={user.role === 'admin'}/>
+                          disabled={user.role === 'medlem'}/>
                 <Label htmlFor="official">Offisielt spill</Label>
                 {formState?.errors?.role && (
                   <div id="name-error" style={{color: `#dc2626`}}>
@@ -92,8 +93,10 @@ const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string,
             </CardContent>
             <CardFooter className="flex justify-between items-center">
               <span>Started: {game.created_at.toLocaleDateString("no-NO")}</span>
-              <Button className="text-blue-500 border-blue-500" variant="outline">
-                Vis
+              <Button className="text-blue-500 border-blue-500" variant="outline" asChild>
+                <Link href={`/spill/${game.id}`}>
+                  Se
+                </Link>
               </Button>
             </CardFooter>
           </Card>
