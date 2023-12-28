@@ -23,6 +23,7 @@ import {Button} from "./ui/button";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import {Loader2} from "lucide-react";
 import {ApplicationAction, GetApplicationsResponse} from "../actions/common";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 export type ApplcationTableRowProps = {
@@ -35,10 +36,12 @@ const ApplcationTableRow = ({ application_joined, token }: ApplcationTableRowPro
   const status_by = application_joined.users;
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleApplicationAction = async (action: ApplicationAction) => {
     startTransition(async () => {
       await applcationAction(token.value, application.id, action);
+      await queryClient.invalidateQueries({queryKey: ['applications']});
       setOpen(false);
     });
   };
@@ -92,7 +95,7 @@ const ApplcationTableRow = ({ application_joined, token }: ApplcationTableRowPro
                         <AlertDialogFooter>
                             <AlertDialogCancel>Avbryt</AlertDialogCancel>
                             <AlertDialogAction
-                                onClick={() => handleApplicationAction(ApplicationAction.approved)}
+                                onClick={() => handleApplicationAction(ApplicationAction.rejected)}
                                 disabled={isPending}
                             >
                               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
