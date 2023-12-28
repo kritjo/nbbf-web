@@ -34,10 +34,11 @@ export const magicLinks = pgTable('magic_links', {
 export const applications = pgTable('applications', {
   id: serial('id').primaryKey(),
   email: varchar('email', { length: 256 }).notNull(),
+  full_name: varchar('full_name', { length: 256 }).notNull(),
   title: varchar('title', { length: 256 }).notNull(),
   content: varchar('content', { length: 256 }).notNull(),
   approved: boolean('approved').notNull(),
   approved_status_by: integer('approved_status_by').references(() => users.id),
-  approved_status_at: timestamp('approved_status_at', { withTimezone: true }).notNull(),
+  approved_status_at: timestamp('approved_status_at', { withTimezone: true }),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
