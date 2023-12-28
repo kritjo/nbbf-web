@@ -21,7 +21,7 @@ const schema = z.object({
 })
 
 export const sendMemberApplication = async (_: any, formData: FormData): Promise<FormResponse> => {
-const validatedFields = schema.safeParse({
+  const validatedFields = schema.safeParse({
     full_name: formData.get('full_name'),
     email: formData.get('email'),
     title: formData.get('title'),
