@@ -29,6 +29,7 @@
     "@vercel/speed-insights": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "cmdk": "^0.2.0",
     "drizzle-orm": "^0.28.6",
     "eslint-plugin-drizzle": "^0.2.3",
     "lucide-react": "^0.287.0",
