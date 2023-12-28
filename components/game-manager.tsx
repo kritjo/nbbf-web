@@ -8,15 +8,15 @@ import {Checkbox} from "./ui/checkbox";
 import FormSubmitButton from "./ui/form-submit-button";
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "./ui/card";
 import {Badge} from "./ui/badge";
-import {updateMember} from "../actions/updateMember";
 import {useFormState} from "react-dom";
 import {User} from "../db/schema";
 import {GetGamesResponse} from "../actions/common";
 import Link from "next/link";
+import {createGame} from "../actions/createGame";
 
 const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string, games: GetGamesResponse[]}) => {
-  const updateMemberWithToken = updateMember.bind(null, tokenValue);
-  const [formState, formAction] = useFormState(updateMemberWithToken, null);
+  const createGameWithToken = createGame.bind(null, tokenValue);
+  const [formState, formAction] = useFormState(createGameWithToken, null);
 
   return (
     <div className="flex flex-col h-full p-4">
@@ -40,9 +40,9 @@ const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string,
                 <Checkbox name="official"
                           disabled={user.role === 'medlem'}/>
                 <Label htmlFor="official">Offisielt spill</Label>
-                {formState?.errors?.role && (
+                {formState?.errors?.official && (
                   <div id="name-error" style={{color: `#dc2626`}}>
-                    {formState.errors.role.join(',')}
+                    {formState.errors.official.join(',')}
                   </div>
                 )}
               </div>
