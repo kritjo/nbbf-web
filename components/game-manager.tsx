@@ -12,8 +12,9 @@ import Link from "next/link";
 import {updateMember} from "../actions/updateMember";
 import {useFormState} from "react-dom";
 import {User} from "../db/schema";
+import {GetGamesResponse} from "../actions/common";
 
-const GameManager = ({user, tokenValue}: {user: User, tokenValue: string}) => {
+const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string, games: GetGamesResponse[]}) => {
   const updateMemberWithToken = updateMember.bind(null, tokenValue);
   const [formState, formAction] = useFormState(updateMemberWithToken, null);
 
@@ -53,6 +54,33 @@ const GameManager = ({user, tokenValue}: {user: User, tokenValue: string}) => {
         </Dialog>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {games.map(game => (
+          <Card key={game.id}>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <CardTitle>{game.game_name}</CardTitle>
+                  <Badge className="bg-blue-500 text-white">Creator</Badge>
+                </div>
+                <Badge className="bg-green-500 text-white">Active</Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p>
+                Created by: <Link href="#">Creator 1</Link>
+              </p>
+              <p>
+                Number of players: <span className="font-bold">{game.players}</span>
+              </p>
+            </CardContent>
+            <CardFooter className="flex justify-between items-center">
+              <span>Started: 2 days ago</span>
+              <Button className="text-blue-500 border-blue-500" variant="outline">
+                View
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
