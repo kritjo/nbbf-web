@@ -10,7 +10,6 @@ export default function Soknader() {
   const token = cookieStore.get('token');
   if (!token) redirect('/')
   const applications = use(getApplications(token.value));
-  type A_type = typeof applications;
 
   return (
     <Table>
