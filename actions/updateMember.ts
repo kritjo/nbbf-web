@@ -15,7 +15,7 @@ const schema = z.object({
   email: z.string({
     invalid_type_error: 'Invalid Email',
   }),
-  role: z.optional(z.enum(roles)),
+  role: z.nullable(z.enum(roles)),
 })
 
 export const updateMember = async (token: string, _: any, formData: FormData): Promise<FormResponse> => {
@@ -43,7 +43,7 @@ export const updateMember = async (token: string, _: any, formData: FormData): P
     }
   }
 
-  if (authenticatedUser.role === 'admin' && validatedFields.data.role !== undefined) {
+  if (authenticatedUser.role === 'admin' && validatedFields.data.role !== null) {
     await db.update(users).set({
       full_name: validatedFields.data.full_name,
       email: validatedFields.data.email,

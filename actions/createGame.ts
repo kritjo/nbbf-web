@@ -8,22 +8,29 @@ const schema = z.object({
   name: z.string({
     invalid_type_error: 'Invalid Name',
   }),
-  official: z.optional(z.boolean()),
+  official: z.nullable(z.boolean()),
 })
 
-export const updateMember = async (token: string, _: any, formData: FormData): Promise<FormResponse> => {
+export const createGame = async (token: string, _: any, formData: FormData): Promise<FormResponse> => {
+  console.log(formData.get('name'))
+  console.log(formData.get('official'))
   const validatedFields = schema.safeParse({
     name: formData.get('name'),
     official: formData.get('official'),
   });
 
+  console.log("validate")
+
   // Return early if the form data is invalid
   if (!validatedFields.success) {
+    console.log("invalid", validatedFields.error.flatten().fieldErrors)
     return {
       success: false,
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
+
+  console.log("valid")
 
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
   if (authenticatedUser === null) {
@@ -35,7 +42,9 @@ export const updateMember = async (token: string, _: any, formData: FormData): P
     }
   }
 
-  if (authenticatedUser.role === 'admin' && validatedFields.data.official !== undefined) {
+  console.log("auth")
+
+  if (authenticatedUser.role === 'admin' && validatedFields.data.official !== null) {
     await db.insert(games).values({
       name: validatedFields.data.name,
       official: validatedFields.data.official,
@@ -50,6 +59,7 @@ export const updateMember = async (token: string, _: any, formData: FormData): P
     });
   }
 
+  console.log("success");
   return {
     success: true,
     errors: {},
