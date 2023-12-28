@@ -57,7 +57,7 @@ export const updateMember = async (token: string, _: any, formData: FormData): P
   }
 
   revalidatePath('/styresider')
-  revalidatePath('/medlem')
+  revalidatePath('/spill')
 
   return {
     success: true,
