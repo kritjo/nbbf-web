@@ -5,7 +5,7 @@ import {redirect} from "next/navigation";
 import GameManager from "../../components/game-manager";
 import {getGames} from "../../actions/getGames";
 
-export default function Medlem() {
+export default function Spill() {
   const cookieStore = cookies();
   const token = cookieStore.get('token');
   if (!token) redirect('/')
