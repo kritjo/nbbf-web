@@ -1,35 +1,25 @@
-import {Table, TableBody, TableHead, TableHeader, TableRow} from "../../components/ui/table";
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
 import {use} from "react";
 import {getApplications} from "../../actions/getApplications";
-import ApplcationTableRow from "../../components/applcation-table-row";
+import ApplicationTable from "../../components/application-table";
+import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
 
-export default function Soknader() {
+export default async function Soknader() {
   const cookieStore = cookies();
   const token = cookieStore.get('token');
   if (!token) redirect('/')
-  const applications = use(getApplications(token.value));
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['applications'],
+    queryFn: () => getApplications(token.value),
+  })
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>E-post</TableHead>
-          <TableHead>Fullt navn</TableHead>
-          <TableHead>Tittel</TableHead>
-          <TableHead>Status</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {applications.map((application_joined) => {
-          return (
-            <ApplcationTableRow
-              key={application_joined.applications.id}
-              application_joined={application_joined}
-              token={token}/>
-        )})}
-      </TableBody>
-    </Table>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ApplicationTable token={token}/>
+    </HydrationBoundary>
   )
 }
