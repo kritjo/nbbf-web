@@ -43,8 +43,8 @@ export const applications = pgTable('applications', {
   title: varchar('title', { length: 256 }).notNull(),
   content: text('content').notNull(),
   status: statusEnum('status').notNull().default('pending'),
-  status_by: integer('approved_status_by').references(() => users.id),
-  status_at: timestamp('approved_status_at', { withTimezone: true }),
+  status_by: integer('status_by').references(() => users.id),
+  status_at: timestamp('status_at', { withTimezone: true }),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
 
