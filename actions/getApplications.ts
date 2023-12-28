@@ -1,6 +1,6 @@
 'use server'
 
-import {Application, applications, User, users} from "../db/schema";
+import {applications, users} from "../db/schema";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {eq} from "drizzle-orm";
