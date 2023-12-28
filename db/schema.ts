@@ -50,13 +50,14 @@ export const applications = pgTable('applications', {
 
 export type Application = typeof applications.$inferSelect;
 
-const gameStatus = ['started', 'finished'] as const;
+const gameStatus = ['pending', 'started', 'finished'] as const;
 export const gameStatusEnum = pgEnum('game_status_enum', gameStatus);
 export type GameStatus = typeof gameStatus[number];
 
 export const games = pgTable('games', {
   id: serial('id').primaryKey(),
   created_by: integer('created_by').references(() => users.id).notNull(),
+  name: varchar('name', { length: 256 }).notNull(),
   official: boolean('official').notNull().default(false),
   status: gameStatusEnum('status').notNull().default('started'),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
