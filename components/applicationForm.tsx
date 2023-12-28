@@ -33,7 +33,7 @@ export default function ApplicationForm() {
                 {formState.errors.full_name.join(',')}
               </div>
             )}
-            <Label htmlFor="full_name">E-post addresse</Label>
+            <Label htmlFor="email">E-post addresse</Label>
             <Input type="email" placeholder="" name={"email"} required className="mb-1"/>
             {formState?.errors?.email && (
               <div id="name-error" style={{color: `#dc2626`}}>
@@ -47,8 +47,14 @@ export default function ApplicationForm() {
                 {formState.errors.title.join(',')}
               </div>
             )}
-            <Label htmlFor="body">Søknadens innhold</Label>
+            <Label htmlFor="content">Søknadens innhold</Label>
             <Textarea placeholder="Fortell litt om deg selv" name={"content"} required className="mb-1" />
+            {formState?.errors?.content && (
+              <div id="name-error" style={{color: `#dc2626`}}>
+                {formState.errors.content.join(',')}
+              </div>
+            )}
+
             <FormSubmitButton>
               Send inn
             </FormSubmitButton>
