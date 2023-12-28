@@ -50,6 +50,13 @@
       "when": 1703773416793,
       "tag": "0006_military_jack_flag",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1703783094562,
+      "tag": "0007_far_umar",
+      "breakpoints": true
     }
   ]
 }
