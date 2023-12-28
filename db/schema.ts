@@ -7,7 +7,7 @@ export type Role = typeof role[number];
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   email: varchar('email', { length: 256 }).unique().notNull(),
-  full_name: varchar('full_name', { length: 256 }).unique().notNull(),
+  full_name: varchar('full_name', { length: 256 }).notNull(),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
   role: roleEnum('role').notNull(),
 });

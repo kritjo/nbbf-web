@@ -43,6 +43,13 @@
       "when": 1703767326135,
       "tag": "0005_hard_jetstream",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1703773416793,
+      "tag": "0006_military_jack_flag",
+      "breakpoints": true
     }
   ]
 }
