@@ -42,6 +42,7 @@ const ApplcationTableRow = ({ application_joined, token }: ApplcationTableRowPro
     startTransition(async () => {
       await applcationAction(token.value, application.id, action);
       await queryClient.invalidateQueries({queryKey: ['applications']});
+      await queryClient.invalidateQueries({queryKey: ['members']});
       setOpen(false);
     });
   };
