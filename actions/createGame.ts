@@ -12,25 +12,18 @@ const schema = z.object({
 })
 
 export const createGame = async (token: string, _: any, formData: FormData): Promise<FormResponse> => {
-  console.log(formData.get('name'))
-  console.log(formData.get('official'))
   const validatedFields = schema.safeParse({
     name: formData.get('name'),
     official: formData.get('official'),
   });
 
-  console.log("validate")
-
   // Return early if the form data is invalid
   if (!validatedFields.success) {
-    console.log("invalid", validatedFields.error.flatten().fieldErrors)
     return {
       success: false,
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
-
-  console.log("valid")
 
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
   if (authenticatedUser === null) {
@@ -41,8 +34,6 @@ export const createGame = async (token: string, _: any, formData: FormData): Pro
       },
     }
   }
-
-  console.log("auth")
 
   if (authenticatedUser.role === 'admin' && validatedFields.data.official !== null) {
     await db.insert(games).values({
@@ -59,7 +50,6 @@ export const createGame = async (token: string, _: any, formData: FormData): Pro
     });
   }
 
-  console.log("success");
   return {
     success: true,
     errors: {},
