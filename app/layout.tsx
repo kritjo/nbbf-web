@@ -7,6 +7,7 @@ import {ReactNode} from "react";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
 import {ThemeProvider} from "../components/theme-provider";
+import Providers from "@/providers";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -27,9 +28,11 @@ export default function RootLayout({children}: { children: ReactNode }) {
         enableSystem={false}
         disableTransitionOnChange
       >
-        <Navbar/>
-        {children}
-        <Footer/>
+        <Providers>
+          <Navbar/>
+          {children}
+          <Footer/>
+        </Providers>
       </ThemeProvider>
     </section>
     <Analytics/>
