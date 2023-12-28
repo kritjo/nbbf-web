@@ -4,7 +4,7 @@ import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {ApplicationAction, FormResponse} from "./common";
 import {applications, users} from "../db/schema";
 import {db} from "../db/connection";
-import {eq} from "drizzle-orm";
+import {and, eq} from "drizzle-orm";
 import {Resend} from "resend";
 
 export const applcationAction = async (token: string, applicationId: number, action: ApplicationAction): Promise<FormResponse> => {
@@ -19,7 +19,7 @@ export const applcationAction = async (token: string, applicationId: number, act
   }
 
   const application = await db.query.applications.findFirst({
-    where: eq(applications.id, applicationId),
+    where: and(eq(applications.id, applicationId), eq(applications.status, 'pending'))
   });
 
   if (!application) {
