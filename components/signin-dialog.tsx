@@ -35,7 +35,7 @@ const SigninDialog = () => {
           <>
             {/* @ts-ignore */}
             <form action={formAction}>
-              <Input type="email" placeholder="E-post" name={"email"}/>
+              <Input type="email" placeholder="E-post" name={"email"} required/>
               {formState?.errors?.email && (
                 <div id="name-error" style={{color: `#dc2626`}}>
                   {formState.errors.email.join(',')}
