@@ -1,4 +1,4 @@
-import {gamePlayers, gameRounds, games, GameStatus, users} from "../db/schema";
+import {gamePlayers, gameRounds, games, users} from "../db/schema";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {eq, sql} from "drizzle-orm";
