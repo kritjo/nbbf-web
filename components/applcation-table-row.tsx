@@ -40,17 +40,21 @@ const ApplcationTableRow = ({ application_joined, token }: ApplcationTableRowPro
 
   const handleApplicationAction = async (action: ApplicationAction) => {
     startTransition(async () => {
-      await applcationAction(token.value, application.id, action);
+      const resp = await applcationAction(token.value, application.id, action);
       await queryClient.invalidateQueries({queryKey: ['applications']});
       await queryClient.invalidateQueries({queryKey: ['members']});
-      setOpen(false);
+      if (resp.success) {
+        setOpen(false);
+      } else {
+        alert('Noe gikk galt. Vennligst prøv igjen senere.');
+        console.error(resp);
+      }
     });
   };
 
   return (
     <TableRow key={application.id}
               className={application.status === 'pending' ? "" : application.status === 'approved' ? "bg-green-900" : "bg-red-900"}
-
     >
       <TableCell>{application.email}</TableCell>
       <TableCell>{application.full_name}</TableCell>
