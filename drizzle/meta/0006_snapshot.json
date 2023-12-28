@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "e9772f72-a4ea-4897-8634-cfd886b64812",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "c94c44cf-7339-4e6a-82be-7213144dfe15",
+  "prevId": "b7fcdbf0-deaf-4df8-94e7-73512bc9282d",
   "tables": {
     "applications": {
       "name": "applications",
@@ -20,6 +20,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "full_name": {
+          "name": "full_name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
         "title": {
           "name": "title",
           "type": "varchar(256)",
@@ -28,27 +34,28 @@
         },
         "content": {
           "name": "content",
-          "type": "varchar(256)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "approved": {
-          "name": "approved",
-          "type": "boolean",
+        "status": {
+          "name": "status",
+          "type": "status_enum",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'pending'"
         },
-        "approved_status_by": {
-          "name": "approved_status_by",
+        "status_by": {
+          "name": "status_by",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
-        "approved_status_at": {
-          "name": "approved_status_at",
+        "status_at": {
+          "name": "status_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -59,12 +66,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "applications_approved_status_by_users_id_fk": {
-          "name": "applications_approved_status_by_users_id_fk",
+        "applications_status_by_users_id_fk": {
+          "name": "applications_status_by_users_id_fk",
           "tableFrom": "applications",
           "tableTo": "users",
           "columnsFrom": [
-            "approved_status_by"
+            "status_by"
           ],
           "columnsTo": [
             "id"
@@ -252,13 +259,6 @@
           "columns": [
             "email"
           ]
-        },
-        "users_full_name_unique": {
-          "name": "users_full_name_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "full_name"
-          ]
         }
       }
     }
@@ -270,6 +270,14 @@
         "medlem": "medlem",
         "styre": "styre",
         "admin": "admin"
+      }
+    },
+    "status_enum": {
+      "name": "status_enum",
+      "values": {
+        "pending": "pending",
+        "approved": "approved",
+        "rejected": "rejected"
       }
     }
   },
