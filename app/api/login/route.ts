@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
   }).where(eq(magicLinks.id, magicLink.id));
 
   const expiresAt = new Date();
-  expiresAt.setHours(expiresAt.getHours() + 1);
+  expiresAt.setHours(expiresAt.getHours() + 12);
   const token = randomBytes(64).toString('hex');
 
   await db.insert(userSessions).values({
