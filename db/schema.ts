@@ -1,8 +1,8 @@
 import {boolean, integer, pgEnum, pgTable, serial, text, timestamp, varchar} from "drizzle-orm/pg-core";
 
-const role = ['medlem', 'styre', 'admin'] as const;
-export const roleEnum = pgEnum('role_enum', role);
-export type Role = typeof role[number];
+export const roles = ['medlem', 'styre', 'admin'] as const;
+export const roleEnum = pgEnum('role_enum', roles);
+export type Role = typeof roles[number];
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
