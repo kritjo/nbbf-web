@@ -9,8 +9,14 @@ import {User} from "../db/schema";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import {updateMember} from "../actions/updateMember";
 import {useFormState} from "react-dom";
+import {getAuthenticatedUser} from "../actions/getAuthenticatedUser";
+import {use} from "react";
+import {redirect} from "next/navigation";
 
 const MemberTableRow = ({ member, token }: {member: User, token: RequestCookie}) => {
+  const authenticatedUser = use(getAuthenticatedUser(token.value, 'styre'));
+  if (!authenticatedUser) redirect('/')
+
   const updateMemberWithToken = updateMember.bind(null, token.value);
   const [formState, formAction] = useFormState(updateMemberWithToken, null);
 
@@ -42,6 +48,19 @@ const MemberTableRow = ({ member, token }: {member: User, token: RequestCookie})
                   {formState.errors.email.join(',')}
                 </div>
               )}
+              {
+                authenticatedUser.role === 'styre' && (
+                  <>
+                    <Label htmlFor="role">Rolle</Label>
+                    <Input type="text" placeholder="" name={"role"} required className="mb-1" defaultValue={member.role}/>
+                    {formState?.errors?.role && (
+                      <div id="name-error" style={{color: `#dc2626`}}>
+                        {formState.errors.role.join(',')}
+                      </div>
+                    )}
+                  </>
+                )
+              }
               <FormSubmitButton>
                 Send inn
               </FormSubmitButton>
