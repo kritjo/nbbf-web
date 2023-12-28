@@ -43,9 +43,9 @@ const validatedFields = schema.safeParse({
     email: validatedFields.data.email,
     title: validatedFields.data.title,
     content: validatedFields.data.content,
-    approved: false,
-    approved_status_by: null,
-    approved_status_at: null,
+    status: 'pending',
+    status_by: null,
+    status_at: null,
     created_at: new Date(),
   });
 
