@@ -1,4 +1,4 @@
-import {Application, User} from "../db/schema";
+import {Application, GameStatus, User} from "../db/schema";
 
 export type FormResponse = {
   success: boolean,
@@ -15,4 +15,16 @@ export type GetApplicationsResponse = {
 export enum ApplicationAction {
   'approved' = 'approved',
   'rejected' = 'rejected'
+}
+
+export type GetGamesResponse = {
+  id: number,
+  created_by: number,
+  creator_name: string | null,
+  game_name: string,
+  official: boolean,
+  status: GameStatus,
+  created_at: Date,
+  rounds: number,
+  players: number,
 }
