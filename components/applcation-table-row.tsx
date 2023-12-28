@@ -68,7 +68,7 @@ const ApplcationTableRow = ({ application_joined, token }: ApplcationTableRowPro
               <Label htmlFor="full_name">Fullt navn</Label>
               <Input type="text" name={"full_name"} value={application.full_name} disabled className="mb-1"/>
 
-              <Label htmlFor="full_name">E-post addresse</Label>
+              <Label htmlFor="email">E-post addresse</Label>
               <Input type="email" placeholder="" name={"email"} value={application.email} disabled
                      className="mb-1"/>
 
@@ -76,7 +76,7 @@ const ApplcationTableRow = ({ application_joined, token }: ApplcationTableRowPro
               <Input type="text" placeholder="" name={"title"} value={application.title} disabled
                      className="mb-1"/>
 
-              <Label htmlFor="body">Søknadens innhold</Label>
+              <Label htmlFor="content">Søknadens innhold</Label>
               <Textarea name={"content"} value={application.content} disabled className="mb-1"/>
             </form>
 
