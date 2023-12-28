@@ -1,4 +1,4 @@
-import {boolean, integer, pgEnum, pgTable, serial, timestamp, varchar} from "drizzle-orm/pg-core";
+import {boolean, integer, pgEnum, pgTable, serial, text, timestamp, varchar} from "drizzle-orm/pg-core";
 
 const role = ['medlem', 'styre', 'admin'] as const;
 export const roleEnum = pgEnum('role_enum', role);
@@ -36,7 +36,7 @@ export const applications = pgTable('applications', {
   email: varchar('email', { length: 256 }).notNull(),
   full_name: varchar('full_name', { length: 256 }).notNull(),
   title: varchar('title', { length: 256 }).notNull(),
-  content: varchar('content', { length: 256 }).notNull(),
+  content: text('content').notNull(),
   approved: boolean('approved').notNull(),
   approved_status_by: integer('approved_status_by').references(() => users.id),
   approved_status_at: timestamp('approved_status_at', { withTimezone: true }),

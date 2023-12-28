@@ -15,6 +15,13 @@
       "when": 1703723615405,
       "tag": "0001_cool_miracleman",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1703724999678,
+      "tag": "0002_soft_makkari",
+      "breakpoints": true
     }
   ]
 }
