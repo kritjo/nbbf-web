@@ -9,13 +9,8 @@ import {User} from "../db/schema";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import {updateMember} from "../actions/updateMember";
 import {useFormState} from "react-dom";
-import {getAuthenticatedUser} from "../actions/getAuthenticatedUser";
-import {redirect} from "next/navigation";
 
-const MemberTableRow = ({ member, token }: {member: User, token: RequestCookie}) => {
-  const authenticatedUser = getAuthenticatedUser(token.value, 'styre');
-  if (!authenticatedUser) redirect('/')
-
+const MemberTableRow = ({ member, token, authenticatedUser }: {member: User, token: RequestCookie, authenticatedUser: User}) => {
   const updateMemberWithToken = updateMember.bind(null, token.value);
   const [formState, formAction] = useFormState(updateMemberWithToken, null);
 
@@ -48,7 +43,7 @@ const MemberTableRow = ({ member, token }: {member: User, token: RequestCookie})
                 </div>
               )}
               {
-                authenticatedUser.then((user) => user?.role === 'admin' && (
+                authenticatedUser.role === 'admin' && (
                   <>
                     <Label htmlFor="role">Rolle</Label>
                     <Input type="text" placeholder="" name={"role"} required className="mb-1" defaultValue={member.role}/>
@@ -58,7 +53,7 @@ const MemberTableRow = ({ member, token }: {member: User, token: RequestCookie})
                       </div>
                     )}
                   </>
-                ))
+                )
               }
               <FormSubmitButton>
                 Send inn
