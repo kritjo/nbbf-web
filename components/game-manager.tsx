@@ -8,7 +8,6 @@ import {Checkbox} from "./ui/checkbox";
 import FormSubmitButton from "./ui/form-submit-button";
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "./ui/card";
 import {Badge} from "./ui/badge";
-import Link from "next/link";
 import {updateMember} from "../actions/updateMember";
 import {useFormState} from "react-dom";
 import {User} from "../db/schema";
@@ -22,7 +21,7 @@ const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string,
     <div className="flex flex-col h-full p-4">
 
       <div className="mb-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Game Manager</h1>
+        <h1 className="text-2xl font-bold">Spilladministrasjon</h1>
         <Dialog>
           <DialogTrigger asChild>
             <Button className="text-white bg-blue-500">Nytt spill</Button>
@@ -60,102 +59,45 @@ const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string,
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <CardTitle>{game.game_name}</CardTitle>
-                  <Badge className="bg-blue-500 text-white">Creator</Badge>
+                  {game.created_by === user.id ? (
+                    <Badge className="bg-blue-500 text-white">Skaper</Badge>
+                  ) : (
+                    <Badge className="bg-gray-500 text-white">Deltager</Badge>
+                  )}
                 </div>
-                <Badge className="bg-green-500 text-white">Active</Badge>
+                {game.status === 'started' && (
+                  <Badge className="bg-green-500 text-white">Aktivt</Badge>
+                )}
+                {game.status === 'pending' && (
+                  <Badge className="bg-yellow-500 text-white">Ventende</Badge>
+                )}
+                {game.status === 'finished' && (
+                  <Badge className="bg-red-500 text-white">Fullført</Badge>
+                )}
               </div>
             </CardHeader>
             <CardContent>
               <p>
-                Created by: <Link href="#">Creator 1</Link>
+                Opprettet av: {game.creator_name}
               </p>
               <p>
-                Number of players: <span className="font-bold">{game.players}</span>
+                Antall spillere: {game.players}
+              </p>
+              <p>
+                Antall runder spilt: {game.rounds}
+              </p>
+              <p>
+                Offisielt spill: {game.official ? 'Ja' : 'Nei'}
               </p>
             </CardContent>
             <CardFooter className="flex justify-between items-center">
-              <span>Started: 2 days ago</span>
+              <span>Started: {game.created_at.toLocaleDateString()}</span>
               <Button className="text-blue-500 border-blue-500" variant="outline">
-                View
+                Vis
               </Button>
             </CardFooter>
           </Card>
         ))}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <CardTitle>Game 1</CardTitle>
-                <Badge className="bg-blue-500 text-white">Creator</Badge>
-              </div>
-              <Badge className="bg-green-500 text-white">Active</Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p>
-              Created by: <Link href="#">Creator 1</Link>
-            </p>
-            <p>
-              Number of players: <span className="font-bold">5</span>
-            </p>
-          </CardContent>
-          <CardFooter className="flex justify-between items-center">
-            <span>Started: 2 days ago</span>
-            <Button className="text-blue-500 border-blue-500" variant="outline">
-              View
-            </Button>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <CardTitle>Game 2</CardTitle>
-                <Badge className="bg-gray-500 text-white">Participant</Badge>
-              </div>
-              <Badge className="bg-red-500 text-white">Inactive</Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p>
-              Created by: <Link href="#">Creator 2</Link>
-            </p>
-            <p>
-              Number of players: <span className="font-bold">3</span>
-            </p>
-          </CardContent>
-          <CardFooter className="flex justify-between items-center">
-            <span>Started: 1 week ago</span>
-            <Button className="text-blue-500 border-blue-500" variant="outline">
-              View
-            </Button>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <CardTitle>Game 3</CardTitle>
-                <Badge className="bg-gray-500 text-white">Participant</Badge>
-              </div>
-              <Badge className="bg-yellow-500 text-white">Pending</Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p>
-              Created by: <Link href="#">Creator 3</Link>
-            </p>
-            <p>
-              Number of players: <span className="font-bold">7</span>
-            </p>
-          </CardContent>
-          <CardFooter className="flex justify-between items-center">
-            <span>Started: 5 days ago</span>
-            <Button className="text-blue-500 border-blue-500" variant="outline">
-              View
-            </Button>
-          </CardFooter>
-        </Card>
       </div>
     </div>
   )
