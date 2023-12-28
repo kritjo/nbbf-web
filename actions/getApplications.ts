@@ -1,14 +1,15 @@
 'use server'
 
-import {Application} from "../db/schema";
+import {applications, users} from "../db/schema";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
+import {eq} from "drizzle-orm";
 
-export const getApplications = async (token: string): Promise<Application[]> => {
+export const getApplications = async (token: string) => {
   const authenticatedUser = await getAuthenticatedUser(token, 'styre');
   if (authenticatedUser === null) {
     return [];
   }
 
-  return await db.query.applications.findMany();
+  return db.select().from(applications).leftJoin(users, eq(applications.status_by, users.id));
 }
