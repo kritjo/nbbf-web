@@ -40,7 +40,7 @@ export function AddPlayerBoxClient({tokenValue, gameId}: {tokenValue: string, ga
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button variant="outline" className="w-auto justify-center">
-            Add player to game
+            Legg til medlem
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0" align="start">
@@ -54,7 +54,7 @@ export function AddPlayerBoxClient({tokenValue, gameId}: {tokenValue: string, ga
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="outline" className="w-auto justify-center">
-          Add player to game
+          Legg til medlem
         </Button>
       </DrawerTrigger>
       <DrawerContent>

@@ -59,7 +59,7 @@ export default function GameInstance({ params }: { params: { id: string } }) {
       <aside className="mt-6">
         <Card>
           <CardHeader>
-            <h2 className="text-xl font-bold">Add Players</h2>
+            <h2 className="text-xl font-bold">Spillere</h2>
           </CardHeader>
           <CardContent>
             <AddPlayerBoxServer gameId={game.id}/>
