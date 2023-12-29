@@ -535,7 +535,7 @@
     "role_enum": {
       "name": "role_enum",
       "values": {
-        "spill": "spill",
+        "medlem": "medlem",
         "styre": "styre",
         "admin": "admin"
       }
