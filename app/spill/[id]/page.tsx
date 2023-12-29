@@ -13,6 +13,7 @@ import {getMembersInGame} from "../../../actions/getMembersInGame";
 import {getGuestsInGame} from "../../../actions/getGuestsInGame";
 import GameMemberRow from "../../../components/game-member-row";
 import Link from "next/link";
+import GameStatusStartBtn from "../../../components/game-status-start-btn";
 
 export default function GameInstance({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -96,6 +97,9 @@ export default function GameInstance({ params }: { params: { id: string } }) {
           </CardContent>
         </Card>
       </aside>
+      <div className="mt-4 flex justify-end items-center">
+        <GameStatusStartBtn gameId={game.id} tokenValue={token.value}/>
+      </div>
     </div>
   )
 }
