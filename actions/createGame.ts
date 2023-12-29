@@ -5,6 +5,7 @@ import {z} from "zod";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {games} from "../db/schema";
+import {revalidatePath} from "next/cache";
 
 const schema = z.object({
   name: z.string({
@@ -51,6 +52,8 @@ export const createGame = async (token: string, _: any, formData: FormData): Pro
       created_at: new Date(),
     });
   }
+
+  revalidatePath('/spill')
 
   return {
     success: true,
