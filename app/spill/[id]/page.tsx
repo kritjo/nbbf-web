@@ -81,10 +81,10 @@ export default function GameInstance({ params }: { params: { id: string } }) {
               </TableHeader>
               <TableBody>
                 {membersInGame?.map((member) => (
-                  <GameMemberRow gamePlayerId={member.id} name={member.full_name} key={member.id} tokenValue={token.value}/>
+                  <GameMemberRow gamePlayerId={member.id} name={member.full_name} key={member.id} tokenValue={token.value} type="Medlem"/>
                 ))}
                 {guestsInGame?.map((guest) => (
-                  <GameMemberRow gamePlayerId={guest.gamePlayersId} name={guest.guest_name} key={guest.gamePlayersId} tokenValue={token.value}/>
+                  <GameMemberRow gamePlayerId={guest.gamePlayersId} name={guest.guest_name} key={guest.gamePlayersId} tokenValue={token.value} type="Gjest"/>
                 ))}
               </TableBody>
             </Table>
