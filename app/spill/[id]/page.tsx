@@ -6,6 +6,7 @@ import {getGame} from "../../../actions/getGame";
 import {cookies} from "next/headers";
 import {notFound, redirect} from "next/navigation";
 import GameDeleteBtn from "../../../components/game-delete-btn";
+import {AddPlayerBoxServer} from "../../../components/add-player-box-server";
 
 export default function GameInstance({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -61,28 +62,7 @@ export default function GameInstance({ params }: { params: { id: string } }) {
             <h2 className="text-xl font-bold">Add Players</h2>
           </CardHeader>
           <CardContent>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Search Users</label>
-              <div className="mt-1 relative rounded-md">
-                <input
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
-                  placeholder="Enter username"
-                  type="text"
-                />
-                <Button className="absolute inset-y-0 right-0 pr-3 flex items-center text-blue-500">Search</Button>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Add Guest</label>
-              <div className="mt-1 relative rounded-md">
-                <input
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
-                  placeholder="Enter guest name"
-                  type="text"
-                />
-                <Button className="absolute inset-y-0 right-0 pr-3 flex items-center text-blue-500">Add</Button>
-              </div>
-            </div>
+            <AddPlayerBoxServer gameId={game.id}/>
           </CardContent>
         </Card>
       </aside>
