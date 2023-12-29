@@ -8,7 +8,7 @@ import {notFound, redirect} from "next/navigation";
 import GameDeleteBtn from "../../../components/game-delete-btn";
 import {AddPlayerBoxServer} from "../../../components/add-player-box-server";
 import AddGuestBox from "../../../components/add-guest-box";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../../../components/ui/table";
+import {Table, TableBody, TableHead, TableHeader, TableRow} from "../../../components/ui/table";
 import {getMembersInGame} from "../../../actions/getMembersInGame";
 import {getGuestsInGame} from "../../../actions/getGuestsInGame";
 import GameMemberRow from "../../../components/game-member-row";

@@ -3,7 +3,7 @@
 import {gamePlayers, User, users} from "../db/schema";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
-import {eq, not} from "drizzle-orm";
+import {eq} from "drizzle-orm";
 
 export const getMembersNotInGame = async (token: string, gameID: number): Promise<User[]> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
