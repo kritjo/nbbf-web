@@ -3,7 +3,7 @@
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {eq} from "drizzle-orm";
-import {games} from "../db/schema";
+import {gamePlayers, games} from "../db/schema";
 
 export const deleteGameUser = async (token: string, gamePlayersId: number): Promise<boolean> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
@@ -31,7 +31,7 @@ export const deleteGameUser = async (token: string, gamePlayersId: number): Prom
     return false;
   }
 
-  await db.delete(games).where(eq(games.id, gamePlayersId));
+  await db.delete(gamePlayers).where(eq(gamePlayers.id, gamePlayersId));
 
   return true;
 }
