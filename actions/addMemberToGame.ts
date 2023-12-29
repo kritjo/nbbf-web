@@ -2,8 +2,9 @@
 
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
-import {eq} from "drizzle-orm";
+import {and, eq} from "drizzle-orm";
 import {gamePlayers, games} from "../db/schema";
+import {revalidatePath} from "next/cache";
 
 export const addMemberToGame = async (token: string, gameID: number, memberID=-1, guestName=""): Promise<boolean> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
@@ -14,6 +15,14 @@ export const addMemberToGame = async (token: string, gameID: number, memberID=-1
   const game = await db.query.games.findFirst({
     where: eq(games.id, gameID),
   });
+
+  const gameMembers = await db.query.gamePlayers.findMany({
+    where: and(eq(gamePlayers.game, gameID), eq(gamePlayers.user, memberID)),
+  });
+
+  if (gameMembers.length > 0) {
+    return false;
+  }
 
   if (game === undefined) {
     return false;
@@ -44,6 +53,9 @@ export const addMemberToGame = async (token: string, gameID: number, memberID=-1
       created_at: new Date(),
     });
   }
+
+  revalidatePath('/spill');
+  revalidatePath(`/spill/${gameID}`);
 
   return true;
 }
