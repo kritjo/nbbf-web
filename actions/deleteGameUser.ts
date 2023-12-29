@@ -1,3 +1,5 @@
+'use server'
+
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {eq} from "drizzle-orm";
