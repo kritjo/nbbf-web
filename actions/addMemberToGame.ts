@@ -16,14 +16,6 @@ export const addMemberToGame = async (token: string, gameID: number, memberID=-1
     where: eq(games.id, gameID),
   });
 
-  const gameMembers = await db.query.gamePlayers.findMany({
-    where: and(eq(gamePlayers.game, gameID), eq(gamePlayers.user, memberID)),
-  });
-
-  if (gameMembers.length > 0) {
-    return false;
-  }
-
   if (game === undefined) {
     return false;
   }
@@ -41,12 +33,27 @@ export const addMemberToGame = async (token: string, gameID: number, memberID=-1
   }
 
   if (memberID === -1) {
+    const gameMembers = await db.query.gamePlayers.findMany({
+      where: and(eq(gamePlayers.game, gameID), eq(gamePlayers.guest, guestName)),
+    });
+
+    if (gameMembers.length > 0) {
+      return false;
+    }
+
     await db.insert(gamePlayers).values({
       game: gameID,
       guest: guestName,
       created_at: new Date(),
     });
   } else {
+    const gameMembers = await db.query.gamePlayers.findMany({
+      where: and(eq(gamePlayers.game, gameID), eq(gamePlayers.user, memberID)),
+    });
+
+    if (gameMembers.length > 0) {
+      return false;
+    }
     await db.insert(gamePlayers).values({
       game: gameID,
       user: memberID,
