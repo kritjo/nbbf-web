@@ -97,9 +97,11 @@ export default function GameInstance({ params }: { params: { id: string } }) {
           </CardContent>
         </Card>
       </aside>
-      <div className="mt-4 flex justify-end items-center">
-        <GameStatusStartBtn gameId={game.id} tokenValue={token.value}/>
-      </div>
+      { game.status === 'pending' && (
+        <div className="mt-4 flex justify-end items-center">
+          <GameStatusStartBtn gameId={game.id} tokenValue={token.value}/>
+        </div>
+      )}
     </div>
   )
 }
