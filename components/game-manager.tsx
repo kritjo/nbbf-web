@@ -13,17 +13,25 @@ import {User} from "../db/schema";
 import {GetGamesResponse} from "../actions/common";
 import Link from "next/link";
 import {createGame} from "../actions/createGame";
+import {useEffect, useState} from "react";
 
 const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string, games: GetGamesResponse[]}) => {
   const createGameWithToken = createGame.bind(null, tokenValue);
   const [formState, formAction] = useFormState(createGameWithToken, null);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (formState?.success) {
+      setOpen(false);
+    }
+  }, [formState]);
 
   return (
     <div className="flex flex-col h-full p-4">
 
       <div className="mb-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Spilladministrasjon</h1>
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button className="text-white bg-blue-500">Nytt spill</Button>
           </DialogTrigger>
