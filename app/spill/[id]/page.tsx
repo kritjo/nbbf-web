@@ -12,6 +12,7 @@ import {Table, TableBody, TableHead, TableHeader, TableRow} from "../../../compo
 import {getMembersInGame} from "../../../actions/getMembersInGame";
 import {getGuestsInGame} from "../../../actions/getGuestsInGame";
 import GameMemberRow from "../../../components/game-member-row";
+import Link from "next/link";
 
 export default function GameInstance({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -26,7 +27,11 @@ export default function GameInstance({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col h-full p-4">
       <div className="mb-4 flex justify-end items-center">
-        <Button className="text-white bg-blue-500">Tilbake til Spilladministrasjon</Button>
+        <Button className="text-white bg-blue-500" asChild>
+          <Link href={"/spill"}>
+            Tilbake til Spilladministrasjon
+          </Link>
+        </Button>
       </div>
       <main>
         <Card>
