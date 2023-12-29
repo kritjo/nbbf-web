@@ -48,12 +48,12 @@ export const updateMember = async (token: string, _: any, formData: FormData): P
       full_name: validatedFields.data.full_name,
       email: validatedFields.data.email,
       role: validatedFields.data.role,
-    }).where(eq(users.id, authenticatedUser.id));
+    }).where(eq(users.email, validatedFields.data.email));
   } else {
     await db.update(users).set({
       full_name: validatedFields.data.full_name,
       email: validatedFields.data.email,
-    }).where(eq(users.id, authenticatedUser.id));
+    }).where(eq(users.email, validatedFields.data.email));
   }
 
   revalidatePath('/styresider')
