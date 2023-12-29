@@ -11,7 +11,7 @@ export const getMembersNotInGame = async (token: string, gameID: number): Promis
     return [];
   }
 
-  const gamePlayersInGame = await db.select().from(gamePlayers).where(eq(gamePlayers.game, gameID)).as('gamePlayersInGame')
+  const gamePlayersInGame = db.select().from(gamePlayers).where(eq(gamePlayers.game, gameID)).as('gamePlayersInGame')
 
   const query = await db.select().from(users)
     .leftJoin(gamePlayersInGame, eq(users.id, gamePlayersInGame.user));
