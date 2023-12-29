@@ -5,6 +5,7 @@ import {use} from "react";
 import {getGame} from "../../../actions/getGame";
 import {cookies} from "next/headers";
 import {notFound, redirect} from "next/navigation";
+import GameDeleteBtn from "../../../components/game-delete-btn";
 
 export default function GameInstance({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -12,6 +13,7 @@ export default function GameInstance({ params }: { params: { id: string } }) {
   if (!token) redirect('/');
   const game = use(getGame(token.value, parseInt(id)));
   if (!game) notFound();
+
 
   return (
     <div className="flex flex-col h-full p-4">
@@ -34,6 +36,7 @@ export default function GameInstance({ params }: { params: { id: string } }) {
                   <Badge className="bg-red-500 text-white">Fullført</Badge>
                 )}
               </div>
+              <GameDeleteBtn gameId={game.id} tokenValue={token.value}/>
             </div>
           </CardHeader>
           <CardContent>
