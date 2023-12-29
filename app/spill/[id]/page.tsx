@@ -7,6 +7,9 @@ import {cookies} from "next/headers";
 import {notFound, redirect} from "next/navigation";
 import GameDeleteBtn from "../../../components/game-delete-btn";
 import {AddPlayerBoxServer} from "../../../components/add-player-box-server";
+import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "../../../components/ui/dialog";
+import {Input} from "../../../components/ui/input";
+import AddGuestBox from "../../../components/add-guest-box";
 
 export default function GameInstance({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -63,6 +66,7 @@ export default function GameInstance({ params }: { params: { id: string } }) {
           </CardHeader>
           <CardContent>
             <AddPlayerBoxServer gameId={game.id}/>
+            <AddGuestBox gameId={game.id} tokenValue={token.value}/>
           </CardContent>
         </Card>
       </aside>
