@@ -6,7 +6,7 @@ import {useTransition} from "react";
 import {deleteGameUser} from "../actions/deleteGameUser";
 import {Loader2} from "lucide-react";
 
-const GameMemberRow = ({gamePlayerId, name, tokenValue}: {gamePlayerId: number, name: string, tokenValue: string}) => {
+const GameMemberRow = ({gamePlayerId, name, tokenValue, type}: {gamePlayerId: number, name: string, tokenValue: string, type: string}) => {
   const [isPending, startTransition] = useTransition();
 
   const removeMember = async () => {
@@ -19,7 +19,7 @@ const GameMemberRow = ({gamePlayerId, name, tokenValue}: {gamePlayerId: number, 
   return (
     <TableRow key={gamePlayerId}>
       <TableCell>{name}</TableCell>
-      <TableCell>Medlem</TableCell>
+      <TableCell>{type}</TableCell>
       <TableCell>
         <Button variant="outline" className="text-red-500" onClick={() => removeMember()} disabled={isPending}>
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
