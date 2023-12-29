@@ -14,8 +14,6 @@ const GameDeleteBtn = ({gameId, tokenValue}: {gameId: number, tokenValue: string
       const resp = await deleteGame(tokenValue, gameId);
       if (resp) {
         redirect('/spill');
-      } else {
-        alert('Noe gikk galt. Vennligst prøv igjen senere.');
       }
     });
   }
