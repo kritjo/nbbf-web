@@ -37,29 +37,20 @@ export const createGame = async (token: string, _: any, formData: FormData): Pro
     }
   }
 
-  console.log(`Game ${validatedFields.data.name} created by ${authenticatedUser.email}`);
-  console.log("Using database: ", db)
-
   if (authenticatedUser.role === 'admin' && validatedFields.data.official !== null) {
-    console.log("Admin user creating official game")
     await db.insert(games).values({
       name: validatedFields.data.name,
       official: validatedFields.data.official,
       created_by: authenticatedUser.id,
       created_at: new Date(),
     });
-    console.log("Success!!")
   } else {
-    console.log("Non-admin user creating unofficial game")
     await db.insert(games).values({
       name: validatedFields.data.name,
       created_by: authenticatedUser.id,
       created_at: new Date(),
     });
-    console.log("Success!!")
   }
-
-  console.log("Success!!!")
 
   return {
     success: true,
