@@ -6,7 +6,7 @@ import {db} from "../db/connection";
 import {eq, not} from "drizzle-orm";
 
 export const getMembersNotInGame = async (token: string, gameID: number): Promise<User[]> => {
-  const authenticatedUser = await getAuthenticatedUser(token, 'styre');
+  const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
   if (authenticatedUser === null) {
     return [];
   }
@@ -15,8 +15,6 @@ export const getMembersNotInGame = async (token: string, gameID: number): Promis
 
   const query = await db.select().from(users)
     .leftJoin(gamePlayersInGame, eq(users.id, gamePlayersInGame.user));
-
-  console.log(query);
 
   return query.filter((q) => q.gamePlayersInGame === null).map((q) => q.users);
 }
