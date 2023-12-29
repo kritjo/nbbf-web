@@ -5,6 +5,7 @@ import {db} from "../db/connection";
 import {games} from "../db/schema";
 import {eq} from "drizzle-orm";
 import {revalidatePath} from "next/cache";
+import {redirect} from "next/navigation";
 
 export const deleteGame = async (token: string, gameID: number): Promise<boolean> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
@@ -28,5 +29,5 @@ export const deleteGame = async (token: string, gameID: number): Promise<boolean
 
   revalidatePath('/spill');
 
-  return true;
+  redirect('/spill');
 }
