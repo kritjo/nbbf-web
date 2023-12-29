@@ -7,9 +7,11 @@ import {cookies} from "next/headers";
 import {notFound, redirect} from "next/navigation";
 import GameDeleteBtn from "../../../components/game-delete-btn";
 import {AddPlayerBoxServer} from "../../../components/add-player-box-server";
-import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "../../../components/ui/dialog";
-import {Input} from "../../../components/ui/input";
 import AddGuestBox from "../../../components/add-guest-box";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../../../components/ui/table";
+import {getMembersInGame} from "../../../actions/getMembersInGame";
+import {getGuestsInGame} from "../../../actions/getGuestsInGame";
+import GameMemberRow from "../../../components/game-member-row";
 
 export default function GameInstance({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -17,6 +19,8 @@ export default function GameInstance({ params }: { params: { id: string } }) {
   if (!token) redirect('/');
   const game = use(getGame(token.value, parseInt(id)));
   if (!game) notFound();
+  const membersInGame = use(getMembersInGame(token.value, parseInt(id)));
+  const guestsInGame = use(getGuestsInGame(token.value, parseInt(id)));
 
 
   return (
@@ -67,6 +71,23 @@ export default function GameInstance({ params }: { params: { id: string } }) {
           <CardContent>
             <AddPlayerBoxServer gameId={game.id}/>
             <AddGuestBox gameId={game.id} tokenValue={token.value}/>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Navn</TableHead>
+                  <TableHead>Medlem/Gjest</TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {membersInGame?.map((member) => (
+                  <GameMemberRow gamePlayerId={member.id} name={member.full_name} key={member.id}/>
+                ))}
+                {guestsInGame?.map((guest) => (
+                  <GameMemberRow gamePlayerId={guest.gamePlayersId} name={guest.guest_name} key={guest.gamePlayersId}/>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       </aside>
