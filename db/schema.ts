@@ -59,7 +59,7 @@ export const games = pgTable('games', {
   created_by: integer('created_by').references(() => users.id).notNull(),
   name: varchar('name', { length: 256 }).notNull(),
   official: boolean('official').notNull().default(false),
-  status: gameStatusEnum('status').notNull().default('started'),
+  status: gameStatusEnum('status').notNull().default('pending'),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
 
