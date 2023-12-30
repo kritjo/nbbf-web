@@ -1,5 +1,4 @@
-import {Application, GameStatus, User} from "../db/schema";
-
+import {Application, GameStatus, RoundWaitFor, User} from "../db/schema";
 export type FormResponse = {
   success: boolean,
   errors: {
@@ -27,4 +26,8 @@ export type GetGamesResponse = {
   created_at: Date,
   rounds: number,
   players: number,
+}
+
+export type GetGameResponseWithWaitingFor = GetGamesResponse & {
+  waiting_for: RoundWaitFor
 }
