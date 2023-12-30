@@ -16,8 +16,6 @@ import {
   TableHeader,
   TableRow
 } from "../../../components/ui/table";
-import {getMembersInGame} from "../../../actions/getMembersInGame";
-import {getGuestsInGame} from "../../../actions/getGuestsInGame";
 import GameMemberRow from "../../../components/game-member-row";
 import Link from "next/link";
 import GameStatusStartBtn from "../../../components/game-status-start-btn";
@@ -40,8 +38,6 @@ export default function GameInstance({ params }: { params: { id: string } }) {
   if (!token) redirect('/');
   const game = use(getGame(token.value, parseInt(id)));
   if (!game) notFound();
-  const membersInGame = use(getMembersInGame(token.value, parseInt(id)));
-  const guestsInGame = use(getGuestsInGame(token.value, parseInt(id)));
   const playersInGame = use(getPlayersInGame(token.value, parseInt(id)));
 
   if (!playersInGame) {
@@ -76,6 +72,11 @@ export default function GameInstance({ params }: { params: { id: string } }) {
                   {game.waiting_for === 'finished' && 'Venter på neste runde'}
                 </CardTitle>
               </div>
+              <Button className="text-white bg-blue-500">
+                {game.waiting_for === 'bids' && 'Gjør bud'}
+                {game.waiting_for === 'tricks' && 'Bekreft stikk'}
+                {game.waiting_for === 'finished' && 'Neste runde'}
+              </Button>
             </div>
           </CardHeader>
           <CardContent>
@@ -112,7 +113,7 @@ export default function GameInstance({ params }: { params: { id: string } }) {
                           required
                           className="w-[5rem]"
                           disabled={game.waiting_for !== 'bids'}
-                          defaultValue={playerCurrentRound?.game_round_players.bid || 0}
+                          value={playerCurrentRound?.game_round_players.bid || 0}
                         />
                       </TableCell>
                       <TableCell>
@@ -122,7 +123,7 @@ export default function GameInstance({ params }: { params: { id: string } }) {
                           required
                           className="w-[5rem]"
                           disabled={game.waiting_for !== 'tricks'}
-                          defaultValue={playerCurrentRound?.game_round_players.tricks || 0}
+                          value={playerCurrentRound?.game_round_players.tricks || 0}
                         />
                       </TableCell>
                     </TableRow>
@@ -183,11 +184,8 @@ export default function GameInstance({ params }: { params: { id: string } }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {membersInGame?.map((member) => (
-                  <GameMemberRow gamePlayerId={member.id} name={member.full_name} key={member.id} tokenValue={token.value} type="Medlem"/>
-                ))}
-                {guestsInGame?.map((guest) => (
-                  <GameMemberRow gamePlayerId={guest.gamePlayersId} name={guest.guest_name} key={guest.gamePlayersId} tokenValue={token.value} type="Gjest"/>
+                {playersInGame.players.map((player) => (
+                  <GameMemberRow gamePlayerId={player.id} name={player.name} key={player.id} tokenValue={token.value} type={player.type}/>
                 ))}
               </TableBody>
             </Table>
