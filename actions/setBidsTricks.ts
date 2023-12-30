@@ -27,6 +27,10 @@ export const setBidsTricks = async (token: string, roundGamePlayer: number, bids
     return false;
   }
 
+  if (gameRound.wait_for === 'finished') {
+    return false;
+  }
+
   const game = await db.query.games.findFirst({
     where: eq(games.id, gameRound.game),
   });
