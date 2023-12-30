@@ -4,12 +4,15 @@ import {Button} from "./ui/button";
 import {useTransition} from "react";
 import {changeGameState} from "../actions/changeGameState";
 import {Loader2} from "lucide-react";
+import {newRound} from "../actions/newRound";
 
 const GameStatusStartBtn = ({tokenValue, gameId}: {tokenValue: string, gameId: number}) => {
   const [isPending, startTransition] = useTransition();
   const handleStart = async () => {
     startTransition(async () => {
+      console.log('start game');
       const resp = await changeGameState(tokenValue, gameId, 'started');
+      if (resp) await newRound(tokenValue, gameId);
     });
   }
 

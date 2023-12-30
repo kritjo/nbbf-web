@@ -1,0 +1,1 @@
+ALTER TYPE "round_wait_for_enum" ADD VALUE 'finished';

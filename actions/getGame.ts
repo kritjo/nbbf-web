@@ -1,10 +1,10 @@
-import {GetGamesResponse} from "./common";
+import {GetGameResponseWithWaitingFor} from "./common";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {eq, sql} from "drizzle-orm";
 import {gamePlayers, gameRounds, games, users} from "../db/schema";
 
-export const getGame = async (token: string, id: number): Promise<GetGamesResponse | null> => {
+export const getGame = async (token: string, id: number): Promise<GetGameResponseWithWaitingFor | null> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
   if (authenticatedUser === null) {
     return null;
@@ -25,6 +25,18 @@ export const getGame = async (token: string, id: number): Promise<GetGamesRespon
     id: games.id
   }).from(games).where(eq(games.id, id)).innerJoin(users, eq(games.created_by, users.id)).as('creator_name');
 
+  const prevMaxRound = await db.select({
+    value: sql`max(${gameRounds.round})`.mapWith(gameRounds.round)
+  }).from(gameRounds).where(eq(gameRounds.game, id));
+
+  const round = await db.query.gameRounds.findFirst({
+    where: eq(gameRounds.id, prevMaxRound[0].value),
+  });
+
+  if (round === undefined) {
+    return null;
+  }
+
   const responses = await db.select({
     id: games.id,
     created_by: games.created_by,
@@ -44,7 +56,10 @@ export const getGame = async (token: string, id: number): Promise<GetGamesRespon
   if (responses.length === 0) {
     return null;
   } else if (responses.length === 1) {
-    return responses[0];
+    return {
+      ...responses[0],
+      waiting_for: round.wait_for
+    }
   } else {
     throw new Error('Multiple games found');
   }

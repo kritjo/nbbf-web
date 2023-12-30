@@ -8,12 +8,31 @@ import {notFound, redirect} from "next/navigation";
 import GameDeleteBtn from "../../../components/game-delete-btn";
 import {AddPlayerBoxServer} from "../../../components/add-player-box-server";
 import AddGuestBox from "../../../components/add-guest-box";
-import {Table, TableBody, TableHead, TableHeader, TableRow} from "../../../components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "../../../components/ui/table";
 import {getMembersInGame} from "../../../actions/getMembersInGame";
 import {getGuestsInGame} from "../../../actions/getGuestsInGame";
 import GameMemberRow from "../../../components/game-member-row";
 import Link from "next/link";
 import GameStatusStartBtn from "../../../components/game-status-start-btn";
+import {getPlayersInGame} from "../../../actions/getPlayersInGame";
+import {Input} from "../../../components/ui/input";
+
+const calculatePoints = (game_round_player: {id: number, game_round: number, game_player: number, bid: number, tricks: number, created_at: Date}) => {
+  if (game_round_player.bid === 0 && game_round_player.tricks === 0) {
+    return 5;
+  } else if (game_round_player.bid ===  game_round_player.tricks) {
+    return 10 + game_round_player.bid;
+  } else {
+    return 0;
+  }
+}
 
 export default function GameInstance({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -23,7 +42,19 @@ export default function GameInstance({ params }: { params: { id: string } }) {
   if (!game) notFound();
   const membersInGame = use(getMembersInGame(token.value, parseInt(id)));
   const guestsInGame = use(getGuestsInGame(token.value, parseInt(id)));
+  const playersInGame = use(getPlayersInGame(token.value, parseInt(id)));
 
+  if (!playersInGame) {
+    return (
+        <div className="mb-4 flex justify-end items-center">
+          <Button className="text-white bg-blue-500" asChild>
+            <Link href={"/spill"}>
+              Tilbake til Spilladministrasjon
+            </Link>
+          </Button>
+        </div>
+    )
+  }
 
   return (
     <div className="flex flex-col h-full p-4">
@@ -35,6 +66,72 @@ export default function GameInstance({ params }: { params: { id: string } }) {
         </Button>
       </div>
       <main>
+        <Card className="mb-6">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <CardTitle>
+                  {game.waiting_for === 'bids' && 'Venter på bud'}
+                  {game.waiting_for === 'tricks' && 'Venter på stikk'}
+                  {game.waiting_for === 'finished' && 'Venter på neste runde'}
+                </CardTitle>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Spiller</TableHead>
+                  <TableHead>Poeng</TableHead>
+                  <TableHead>Bud</TableHead>
+                  <TableHead>Stikk</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {playersInGame.players.map((player, i) => {
+                  const playerPoints = playersInGame.rounds.reduce((acc, round) => {
+                    if (round.game_players?.id === player.id && round.game_rounds?.wait_for === 'finished') {
+                      return acc + calculatePoints(round.game_round_players);
+                    }
+                    return acc;
+                  }, 0);
+
+                  const playerCurrentRound = playersInGame.rounds.find((round) => {
+                    return round.game_players?.id === player.id;
+                  });
+
+                  return (
+                    <TableRow key={i}>
+                      <TableCell className="font-medium">{player.name}</TableCell>
+                      <TableCell>{playerPoints}</TableCell>
+                      <TableCell>
+                        <Input
+                          type="number"
+                          name={"bid"}
+                          required
+                          className="w-[5rem]"
+                          disabled={game.waiting_for !== 'bids'}
+                          defaultValue={playerCurrentRound?.game_round_players.bid || 0}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Input
+                          type="number"
+                          name={"tricks"}
+                          required
+                          className="w-[5rem]"
+                          disabled={game.waiting_for !== 'tricks'}
+                          defaultValue={playerCurrentRound?.game_round_players.tricks || 0}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
