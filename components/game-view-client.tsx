@@ -11,9 +11,11 @@ import {AddPlayerBoxServer} from "./add-player-box-server";
 import AddGuestBox from "./add-guest-box";
 import GameMemberRow from "./game-member-row";
 import GameStatusStartBtn from "./game-status-start-btn";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {getGame} from "../actions/getGame";
 import {getPlayersInGame} from "../actions/getPlayersInGame";
+import {setBidsTricks} from "../actions/setBidsTricks";
+import {PlayersInGameResponse} from "../actions/common";
 
 const calculatePoints = (game_round_player: {id: number, game_round: number, game_player: number, bid: number, tricks: number, created_at: Date}) => {
   if (game_round_player.bid === 0 && game_round_player.tricks === 0) {
@@ -30,8 +32,57 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
   const {data: game} = useQuery({queryKey: ['game', gameId], queryFn: () => getGame(tokenValue, gameId)})
   const {data: playersInGame} = useQuery({queryKey: ['playersInGame', gameId], queryFn: () => getPlayersInGame(tokenValue, gameId)})
 
-  if (!game) return null; // TODO: loading skeleton
-  if (!playersInGame) return null; // TODO: loading skeleton
+  const updateMutation = useMutation({
+    mutationFn: (update: {gameRoundPlayer: number, bids: number, tricks: number}) => {
+      return setBidsTricks(tokenValue, update.gameRoundPlayer, update.bids, update.tricks)
+    },
+    onMutate: async (newGameRoundPlayer) => {
+      await queryClient.cancelQueries({ queryKey: ['playersInGame', gameId] })
+      const previousUsers = queryClient.getQueryData<PlayersInGameResponse>(['playersInGame', gameId])
+      if (previousUsers === undefined) throw new Error('Missing previousUsers')
+      queryClient.setQueryData<PlayersInGameResponse>(['playersInGame', gameId], (old) => {
+        if (old === undefined) throw new Error('Missing old')
+        if (old?.rounds === undefined) throw new Error('Missing old.rounds')
+        if (old?.players === undefined) throw new Error('Missing old.players')
+
+        return {
+          ...old,
+          rounds: old?.rounds.map((round) => {
+            if (round.game_round_players.id === newGameRoundPlayer.gameRoundPlayer) {
+              return {
+                ...round,
+                game_round_players: {
+                  ...round.game_round_players,
+                  bid: newGameRoundPlayer.bids,
+                  tricks: newGameRoundPlayer.tricks
+                }
+              }
+            } else {
+              return round
+          }
+        })}
+      })
+      return {previousUsers}
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['playersInGame', gameId]})
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+  })
+
+  // TODO: loading skeleton
+  if (!game) return (
+    <>
+      <p>Loading game...</p>
+      <p>Game id: {gameId}</p>
+      <p>Token: {tokenValue}</p>
+    </>
+  );
+  if (!playersInGame) return (
+    <p>Loading pig...</p>
+  )
 
   return (
 
@@ -54,7 +105,10 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                   {game.waiting_for === 'finished' && 'Venter på neste runde'}
                 </CardTitle>
               </div>
-              <Button className="text-white bg-blue-500">
+              <Button
+                className="text-white bg-blue-500"
+                disabled={queryClient.isMutating({mutationKey: ['playersInGame', gameId]}) > 0}
+              >
                 {game.waiting_for === 'bids' && 'Gjør bud'}
                 {game.waiting_for === 'tricks' && 'Bekreft stikk'}
                 {game.waiting_for === 'finished' && 'Neste runde'}
@@ -96,6 +150,14 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                           className="w-[5rem]"
                           disabled={game.waiting_for !== 'bids'}
                           value={playerCurrentRound?.game_round_players.bid || 0}
+                          onChange={(e) => {
+                            if (!playerCurrentRound?.game_round_players.id) throw new Error('Missing game_round_player.id')
+                            updateMutation.mutate({
+                              gameRoundPlayer: playerCurrentRound?.game_round_players.id,
+                              bids: parseInt(e.target.value),
+                              tricks: playerCurrentRound?.game_round_players.tricks || 0
+                            })
+                          }}
                         />
                       </TableCell>
                       <TableCell>
@@ -106,6 +168,14 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                           className="w-[5rem]"
                           disabled={game.waiting_for !== 'tricks'}
                           value={playerCurrentRound?.game_round_players.tricks || 0}
+                          onChange={(e) => {
+                            if (!playerCurrentRound?.game_round_players.id) throw new Error('Missing game_round_player.id')
+                            updateMutation.mutate({
+                              gameRoundPlayer: playerCurrentRound?.game_round_players.id,
+                              bids: playerCurrentRound?.game_round_players.bid || 0,
+                              tricks: parseInt(e.target.value)
+                            })
+                          }}
                         />
                       </TableCell>
                     </TableRow>
