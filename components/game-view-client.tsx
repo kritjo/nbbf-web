@@ -99,6 +99,9 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
               <Button
                 className="text-white bg-blue-500"
                 disabled={queryClient.isMutating({mutationKey: ['playersInGame', gameId]}) > 0}
+                onClick={() => {
+
+                }}
               >
                 {game.waiting_for === 'bids' && 'Gjør bud'}
                 {game.waiting_for === 'tricks' && 'Bekreft stikk'}
@@ -216,8 +219,8 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
             <h2 className="text-xl font-bold">Spillere</h2>
           </CardHeader>
           <CardContent>
-            <AddPlayerBoxClient tokenValue={tokenValue} gameId={gameId} />
-            <AddGuestBox gameId={game.id} tokenValue={tokenValue}/>
+            {game.status === 'pending' && <AddPlayerBoxClient tokenValue={tokenValue} gameId={gameId}/>}
+            {game.status === 'pending' && <AddGuestBox gameId={game.id} tokenValue={tokenValue}/>}
             <Table>
               <TableHeader>
                 <TableRow>
@@ -229,7 +232,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
               <TableBody>
                 {playersInGame.players.map((player) => (
                   <GameMemberRow gamePlayerId={player.id} name={player.name} key={player.id} tokenValue={tokenValue}
-                                 type={player.type}/>
+                                 type={player.type} disableDelete={game.status !== 'pending'}/>
                 ))}
               </TableBody>
             </Table>
