@@ -2,17 +2,9 @@ import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {gamePlayers, gameRoundPlayers, gameRounds, RoundWaitFor, users} from "../db/schema";
 import {and, eq, not} from "drizzle-orm";
+import {PlayersInGameResponse} from "./common";
 
-export const getPlayersInGame = async (token: string, gameID: number): Promise<{
-  players: {id: number, name: string, type: string, userId: number | null}[],
-  rounds: {
-    users: {id: number, email: string, full_name: string, created_at: Date, role: "medlem" | "styre" | "admin"} | null,
-    game_players: {id: number, game: number, user: number | null, guest: string | null, created_at: Date} | null,
-    game_round_players: {id: number, game_round: number, game_player: number, bid: number, tricks: number, created_at: Date},
-    game_rounds: {id: number, game: number, round: number, created_at: Date, wait_for: RoundWaitFor} | null,
-  }[],
-  uniquePlayers: {}[]
-} | null> => {
+export const getPlayersInGame = async (token: string, gameID: number): Promise<PlayersInGameResponse> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
   if (authenticatedUser === null) {
     return null;
