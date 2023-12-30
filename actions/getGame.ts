@@ -1,3 +1,5 @@
+'use server'
+
 import {GetGameResponseWithWaitingFor} from "./common";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";

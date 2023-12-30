@@ -1,3 +1,5 @@
+'use server'
+
 import {gamePlayers, gameRounds, games, users} from "../db/schema";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";

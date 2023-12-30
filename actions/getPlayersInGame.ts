@@ -1,3 +1,5 @@
+'use server'
+
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {gamePlayers, gameRoundPlayers, gameRounds, RoundWaitFor, users} from "../db/schema";
@@ -65,8 +67,6 @@ export const getPlayersInGame = async (token: string, gameID: number): Promise<P
     rounds: qs,
     uniquePlayers: uniquePlayers, //TODO: maybe remove this, or add type
   }
-
-  console.log(ret.rounds);
 
   return ret;
 
