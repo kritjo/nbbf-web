@@ -18,7 +18,7 @@ const schema = z.object({
   role: z.nullable(z.enum(roles)),
 })
 
-export const updateMember = async (token: string, _: any, formData: FormData): Promise<FormResponse> => {
+export const updateMember = async (token: string, memberId: number, _: any, formData: FormData): Promise<FormResponse> => {
   const validatedFields = schema.safeParse({
     full_name: formData.get('full_name'),
     email: formData.get('email'),
@@ -48,12 +48,12 @@ export const updateMember = async (token: string, _: any, formData: FormData): P
       full_name: validatedFields.data.full_name,
       email: validatedFields.data.email,
       role: validatedFields.data.role,
-    }).where(eq(users.email, validatedFields.data.email));
+    }).where(eq(users.id, memberId));
   } else {
     await db.update(users).set({
       full_name: validatedFields.data.full_name,
       email: validatedFields.data.email,
-    }).where(eq(users.email, validatedFields.data.email));
+    }).where(eq(users.id, memberId));
   }
 
   revalidatePath('/styresider')

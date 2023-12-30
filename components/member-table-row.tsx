@@ -12,7 +12,7 @@ import {useFormState} from "react-dom";
 import {useEffect, useState} from "react";
 
 const MemberTableRow = ({ member, token, authenticatedUser }: {member: User, token: RequestCookie, authenticatedUser: User}) => {
-  const updateMemberWithToken = updateMember.bind(null, token.value);
+  const updateMemberWithToken = updateMember.bind(null, token.value, member.id);
   const [formState, formAction] = useFormState(updateMemberWithToken, null);
   const [open, setOpen] = useState(false);
 
