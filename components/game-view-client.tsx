@@ -29,8 +29,8 @@ const calculatePoints = (game_round_player: {id: number, game_round: number, gam
 
 const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: string }) => {
   const queryClient = useQueryClient();
-  const {data: game} = useQuery({queryKey: ['game', gameId], queryFn: () => getGame(tokenValue, gameId)})
-  const {data: playersInGame} = useQuery({queryKey: ['playersInGame', gameId], queryFn: () => getPlayersInGame(tokenValue, gameId)})
+  const {data: game, isLoading: isGameLoading} = useQuery({queryKey: ['game', gameId], queryFn: () => getGame(tokenValue, gameId)})
+  const {data: playersInGame, isLoading: isPIGLoading} = useQuery({queryKey: ['playersInGame', gameId], queryFn: () => getPlayersInGame(tokenValue, gameId)})
 
   const updateMutation = useMutation({
     mutationFn: (update: {gameRoundPlayer: number, bids: number, tricks: number}) => {
@@ -72,17 +72,8 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
     },
   })
 
-  // TODO: loading skeleton
-  if (!game) return (
-    <>
-      <p>Loading game...</p>
-      <p>Game id: {gameId}</p>
-      <p>Token: {tokenValue}</p>
-    </>
-  );
-  if (!playersInGame) return (
-    <p>Loading pig...</p>
-  )
+  if (!game || !playersInGame) return null;
+  if (isGameLoading || isPIGLoading) return null;
 
   return (
 
