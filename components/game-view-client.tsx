@@ -7,7 +7,6 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "./u
 import {Input} from "./ui/input";
 import {Badge} from "./ui/badge";
 import GameDeleteBtn from "./game-delete-btn";
-import {AddPlayerBoxServer} from "./add-player-box-server";
 import AddGuestBox from "./add-guest-box";
 import GameMemberRow from "./game-member-row";
 import GameStatusStartBtn from "./game-status-start-btn";
@@ -16,6 +15,7 @@ import {getGame} from "../actions/getGame";
 import {getPlayersInGame} from "../actions/getPlayersInGame";
 import {setBidsTricks} from "../actions/setBidsTricks";
 import {PlayersInGameResponse} from "../actions/common";
+import {AddPlayerBoxClient} from "./add-player-box-client";
 
 const calculatePoints = (game_round_player: {id: number, game_round: number, game_player: number, bid: number, tricks: number, created_at: Date}) => {
   if (game_round_player.bid === 0 && game_round_player.tricks === 0) {
@@ -216,7 +216,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
             <h2 className="text-xl font-bold">Spillere</h2>
           </CardHeader>
           <CardContent>
-            <AddPlayerBoxServer gameId={game.id}/>
+            <AddPlayerBoxClient tokenValue={tokenValue} gameId={gameId} />
             <AddGuestBox gameId={game.id} tokenValue={tokenValue}/>
             <Table>
               <TableHeader>
