@@ -39,6 +39,5 @@ export type PlayersInGameResponse = {
     game_players: {id: number, game: number, user: number | null, guest: string | null, created_at: Date} | null,
     game_round_players: {id: number, game_round: number, game_player: number, bid: number, tricks: number, created_at: Date},
     game_rounds: {id: number, game: number, round: number, created_at: Date, wait_for: RoundWaitFor} | null,
-  }[],
-  uniquePlayers: {}[]
+  }[]
 } | null

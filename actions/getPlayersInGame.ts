@@ -58,15 +58,10 @@ export const getPlayersInGame = async (token: string, gameID: number): Promise<P
     .leftJoin(gameRounds, eq(gameRounds.id, gameRoundPlayers.game_round))
     .where(eq(gameRounds.game, gameID));
 
-  const uniquePlayers = await db.select()
-    .from(gamePlayers)
-    .leftJoin(users, eq(users.id, gamePlayers.user))
-    .where(eq(gamePlayers.game, gameID));
 
   return {
     players: allPlayers,
     rounds: qs,
-    uniquePlayers: uniquePlayers, //TODO: maybe remove this, or add type
   };
 
 }
