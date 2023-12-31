@@ -16,7 +16,7 @@ import {getPlayersInGame} from "../actions/getPlayersInGame";
 import {setBidsTricks} from "../actions/setBidsTricks";
 import {PlayersInGameResponse} from "../actions/common";
 import {AddPlayerBoxClient} from "./add-player-box-client";
-import {useTransition} from "react";
+import {useState} from "react";
 import {changeRoundState} from "../actions/changeRoundState";
 import {RoundWaitFor} from "../db/schema";
 import {newRound} from "../actions/newRound";
@@ -35,7 +35,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
   const queryClient = useQueryClient();
   const {data: game, isLoading: isGameLoading} = useQuery({queryKey: ['game', gameId], queryFn: () => getGame(tokenValue, gameId)})
   const {data: playersInGame, isLoading: isPIGLoading} = useQuery({queryKey: ['playersInGame', gameId], queryFn: () => getPlayersInGame(tokenValue, gameId)})
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
 
   const updateMutation = useMutation({
     mutationFn: (update: {gameRoundPlayer: number, bids: number, tricks: number}) => {
@@ -72,7 +72,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['playersInGame', gameId]})
     },
-    onError: (err, newGuest, context) => {
+    onError: (err, _, context) => {
       console.log(err)
       if (context?.previousUsers === undefined) {
         throw new Error('Missing context.previousUsers, while handling error in updateMutation')
@@ -81,11 +81,36 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
     },
   })
 
-  const handleNextAction = async (state: RoundWaitFor) => {
-    startTransition(async () => {
-      await changeRoundState(tokenValue, gameId, state)
-    })
-  }
+  const handleNextAction = useMutation({
+    mutationFn: (nextAction: RoundWaitFor) => changeRoundState(tokenValue, gameId, nextAction),
+    onMutate: async () => {
+      setIsPending(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['playersInGame', gameId]})
+      queryClient.invalidateQueries({queryKey: ['game', gameId]})
+    },
+    onError: (err) => {
+      console.log(err)
+    },
+    onSettled: () => {
+      setIsPending(false);
+    }
+  })
+
+  const handleNewRound = useMutation({
+    mutationFn: () => newRound(tokenValue, gameId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['game', gameId]});
+      queryClient.invalidateQueries({queryKey: ['playersInGame', gameId]});
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+    onSettled: () => {
+      setIsPending(false);
+    }
+  })
 
   if (!game || !playersInGame) return null;
   if (isGameLoading || isPIGLoading) return null;
@@ -118,7 +143,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                         queryClient.isMutating({mutationKey: ['playersInGame', gameId]}) > 0
                         || isPending
                       }
-                      onClick={() => handleNextAction(game.waiting_for === 'bids' ? 'tricks' : 'finished')}
+                      onClick={() => handleNextAction.mutate(game.waiting_for === 'bids' ? 'tricks' : 'finished')}
                   >
                     {game.waiting_for === 'bids' && 'Gjør bud'}
                     {game.waiting_for === 'tricks' && 'Bekreft stikk'}
@@ -128,7 +153,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                   <Button
                       className="text-white bg-blue-500"
                       disabled={isPending}
-                      onClick={() => newRound(tokenValue, gameId)}
+                      onClick={() => handleNewRound.mutate()}
                   >
                       Neste runde
                   </Button>
