@@ -72,8 +72,12 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['playersInGame', gameId]})
     },
-    onError: (error) => {
-      console.error(error)
+    onError: (err, newGuest, context) => {
+      console.log(err)
+      if (context?.previousUsers === undefined) {
+        throw new Error('Missing context.previousUsers, while handling error in updateMutation')
+      }
+      queryClient.setQueryData(['playersInGame', gameId], context.previousUsers)
     },
   })
 
