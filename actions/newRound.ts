@@ -30,28 +30,28 @@ export const newRound = async (token: string, gameID: number): Promise<boolean> 
   const maxRound = prevMaxRound[0].value + 1;
 
 
-  await db.insert(gameRounds).values({
+  const gr = await db.insert(gameRounds).values({
     game: gameID,
     round: maxRound,
     created_at: new Date(),
     wait_for: 'bids',
-  });
+  }).returning();
 
   const gamePl = await db.query.gamePlayers.findMany({
     where: eq(gamePlayers.game, gameID),
   });
 
-  await db.insert(gameRoundPlayers).values(
-    gamePl.map((gp) => {
-      return {
-        game_round: maxRound,
-        game_player: gp.id,
-        bid: 0,
-        tricks: 0,
-        created_at: new Date(),
-      }
-    })
-  );
+  const gplVals = gamePl.map((gp) => {
+    return {
+      game_round: gr[0].id,
+      game_player: gp.id,
+      bid: 0,
+      tricks: 0,
+      created_at: new Date(),
+    }
+  });
+
+  await db.insert(gameRoundPlayers).values(gplVals);
 
   return true;
 }
