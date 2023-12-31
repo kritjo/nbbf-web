@@ -3,7 +3,7 @@
 import {GetGameResponseWithWaitingFor} from "./common";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
-import {eq, sql} from "drizzle-orm";
+import {and, eq, sql} from "drizzle-orm";
 import {gamePlayers, gameRounds, games, users} from "../db/schema";
 
 export const getGame = async (token: string, id: number): Promise<GetGameResponseWithWaitingFor | null> => {
@@ -32,7 +32,7 @@ export const getGame = async (token: string, id: number): Promise<GetGameRespons
   }).from(gameRounds).where(eq(gameRounds.game, id));
 
   const round = await db.query.gameRounds.findFirst({
-    where: eq(gameRounds.id, prevMaxRound[0].value),
+    where: and(eq(gameRounds.game, id), eq(gameRounds.round, prevMaxRound[0].value)),
   });
 
   const responses = await db.select({
