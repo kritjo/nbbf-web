@@ -101,21 +101,32 @@ function PlayerList({
               type: 'medlem',
               userId: newGameRoundPlayer.playerId,
             }
-          ],
-          uniquePlayers: old.uniquePlayers,
+          ]
         }
       })
-      return {previousUsers}
+      const previousNotInGame = queryClient.getQueryData<User[]>(['membersNotInGame', gameId])
+      if (previousNotInGame === undefined) throw new Error('Missing previousNotInGame')
+      queryClient.setQueryData<User[]>(['membersNotInGame', gameId], (old) => {
+        if (old === undefined) throw new Error('Missing old')
+        return old.filter((user) => user.full_name !== newGameRoundPlayer.playerName)
+      })
+
+      return {previousUsers, previousNotInGame}
     },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['playersInGame', gameId]})
+      queryClient.invalidateQueries({queryKey: ['membersNotInGame', gameId]})
     },
     onError: (err, newGuest, context) => {
       console.log(err)
       if (context?.previousUsers === undefined) {
         throw new Error('Missing context.previousUsers, while handling error in updateMutation')
       }
+      if (context?.previousNotInGame === undefined) {
+        throw new Error('Missing context.previousNotInGame, while handling error in updateMutation')
+      }
       queryClient.setQueryData(['playersInGame', gameId], context.previousUsers)
+      queryClient.setQueryData(['membersNotInGame', gameId], context.previousNotInGame)
     },
     onSettled: () => {
       setOpen(false)
