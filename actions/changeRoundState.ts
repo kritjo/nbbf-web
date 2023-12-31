@@ -3,7 +3,7 @@
 import {gamePlayers, gameRounds, games, RoundWaitFor} from "../db/schema";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
-import {eq, sql} from "drizzle-orm";
+import {and, eq, sql} from "drizzle-orm";
 
 export const changeRoundState = async (token: string, gameId: number, state: RoundWaitFor) => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
@@ -37,7 +37,10 @@ export const changeRoundState = async (token: string, gameId: number, state: Rou
 
   await db.update(gameRounds).set({
     wait_for: state,
-  }).where(eq(gameRounds.id, prevMaxRound[0].value));
+  }).where(and(
+    eq(gameRounds.game, gameId),
+    eq(gameRounds.round, prevMaxRound[0].value),
+  ));
 
   return true;
 }
