@@ -82,9 +82,7 @@ function PlayerList({
   const queryClient = useQueryClient();
 
   const handleAddPlayer = useMutation({
-    mutationFn: (update: {playerId: number, playerName: string}) => {
-      return addMemberToGame(tokenValue, gameId, update.playerId)
-    },
+    mutationFn: (update: {playerId: number, playerName: string}) => addMemberToGame(tokenValue, gameId, update.playerId),
     onMutate: async (newGameRoundPlayer) => {
       await queryClient.cancelQueries({ queryKey: ['playersInGame', gameId] })
       const previousUsers = queryClient.getQueryData<PlayersInGameResponse>(['playersInGame', gameId])
