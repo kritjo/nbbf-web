@@ -4,7 +4,6 @@ import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {eq, sql} from "drizzle-orm";
 import {gamePlayers, gameRoundPlayers, gameRounds, games} from "../db/schema";
-import {revalidatePath} from "next/cache";
 
 export const newRound = async (token: string, gameID: number): Promise<boolean> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
@@ -53,9 +52,6 @@ export const newRound = async (token: string, gameID: number): Promise<boolean> 
       }
     })
   );
-
-  revalidatePath('/spill')
-  revalidatePath(`/spill/${gameID}`)
 
   return true;
 }
