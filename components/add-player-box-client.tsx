@@ -22,10 +22,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "./ui/popover"
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {User} from "../db/schema";
 import {addMemberToGame} from "../actions/addMemberToGame";
 import {getMembersNotInGame} from "../actions/getMembersNotInGame";
+import {setBidsTricks} from "../actions/setBidsTricks";
+import {PlayersInGameResponse} from "../actions/common";
 
 export function AddPlayerBoxClient({tokenValue, gameId}: {tokenValue: string, gameId: number}) {
   const [open, setOpen] = React.useState(false);
@@ -78,6 +80,51 @@ function PlayerList({
   gameId: number
 }) {
   const queryClient = useQueryClient();
+
+  const handleAddPlayer = useMutation({
+    mutationFn: (update: {playerId: number, playerName: string}) => {
+      return addMemberToGame(tokenValue, gameId, update.playerId)
+    },
+    onMutate: async (newGameRoundPlayer) => {
+      await queryClient.cancelQueries({ queryKey: ['playersInGame', gameId] })
+      const previousUsers = queryClient.getQueryData<PlayersInGameResponse>(['playersInGame', gameId])
+      if (previousUsers === undefined) throw new Error('Missing previousUsers')
+      queryClient.setQueryData<PlayersInGameResponse>(['playersInGame', gameId], (old) => {
+        if (old === undefined) throw new Error('Missing old')
+        if (old?.rounds === undefined) throw new Error('Missing old.rounds')
+        if (old?.players === undefined) throw new Error('Missing old.players')
+
+        return {
+          rounds: old.rounds,
+          players: [
+            ...old.players,
+            {
+              id: -1,
+              name: newGameRoundPlayer.playerName,
+              type: 'medlem',
+              userId: newGameRoundPlayer.playerId,
+            }
+          ],
+          uniquePlayers: old.uniquePlayers,
+        }
+      })
+      return {previousUsers}
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['playersInGame', gameId]})
+    },
+    onError: (err, newGuest, context) => {
+      console.log(err)
+      if (context?.previousUsers === undefined) {
+        throw new Error('Missing context.previousUsers, while handling error in updateMutation')
+      }
+      queryClient.setQueryData(['playersInGame', gameId], context.previousUsers)
+    },
+    onSettled: () => {
+      setOpen(false)
+    }
+  })
+
   return (
     <Command>
       <CommandInput placeholder="Søk etter spiller ..." />
@@ -88,10 +135,8 @@ function PlayerList({
             <CommandItem
               key={player.id}
               value={player.full_name}
-              onSelect={async () => {
-                await addMemberToGame(tokenValue, gameId, player.id)
-                await queryClient.invalidateQueries({queryKey: ['membersNotInGame', gameId]})
-                setOpen(false)
+              onSelect={() => {
+                handleAddPlayer.mutate({playerId: player.id, playerName: player.full_name})
               }}
             >
               {player.full_name}
