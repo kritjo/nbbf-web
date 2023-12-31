@@ -35,10 +35,6 @@ export const getGame = async (token: string, id: number): Promise<GetGameRespons
     where: eq(gameRounds.id, prevMaxRound[0].value),
   });
 
-  if (round === undefined) {
-    return null;
-  }
-
   const responses = await db.select({
     id: games.id,
     created_by: games.created_by,
@@ -60,7 +56,7 @@ export const getGame = async (token: string, id: number): Promise<GetGameRespons
   } else if (responses.length === 1) {
     return {
       ...responses[0],
-      waiting_for: round.wait_for
+      waiting_for: round?.wait_for || null,
     }
   } else {
     throw new Error('Multiple games found');

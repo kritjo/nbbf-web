@@ -10,7 +10,6 @@ const GameStatusStartBtn = ({tokenValue, gameId}: {tokenValue: string, gameId: n
   const [isPending, startTransition] = useTransition();
   const handleStart = async () => {
     startTransition(async () => {
-      console.log('start game');
       const resp = await changeGameState(tokenValue, gameId, 'started');
       if (resp) await newRound(tokenValue, gameId);
     });

@@ -16,6 +16,10 @@ import {getPlayersInGame} from "../actions/getPlayersInGame";
 import {setBidsTricks} from "../actions/setBidsTricks";
 import {PlayersInGameResponse} from "../actions/common";
 import {AddPlayerBoxClient} from "./add-player-box-client";
+import {useTransition} from "react";
+import {changeRoundState} from "../actions/changeRoundState";
+import {RoundWaitFor} from "../db/schema";
+import {newRound} from "../actions/newRound";
 
 const calculatePoints = (game_round_player: {id: number, game_round: number, game_player: number, bid: number, tricks: number, created_at: Date}) => {
   if (game_round_player.bid === 0 && game_round_player.tricks === 0) {
@@ -31,6 +35,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
   const queryClient = useQueryClient();
   const {data: game, isLoading: isGameLoading} = useQuery({queryKey: ['game', gameId], queryFn: () => getGame(tokenValue, gameId)})
   const {data: playersInGame, isLoading: isPIGLoading} = useQuery({queryKey: ['playersInGame', gameId], queryFn: () => getPlayersInGame(tokenValue, gameId)})
+  const [isPending, startTransition] = useTransition();
 
   const updateMutation = useMutation({
     mutationFn: (update: {gameRoundPlayer: number, bids: number, tricks: number}) => {
@@ -72,6 +77,12 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
     },
   })
 
+  const handleNextAction = async (state: RoundWaitFor) => {
+    startTransition(async () => {
+      await changeRoundState(tokenValue, gameId, state)
+    })
+  }
+
   if (!game || !playersInGame) return null;
   if (isGameLoading || isPIGLoading) return null;
 
@@ -86,7 +97,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
         </Button>
       </div>
       <main>
-        <Card className="mb-6">
+        {game.waiting_for !== null && <Card className="mb-6">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -96,17 +107,28 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                   {game.waiting_for === 'finished' && 'Venter på neste runde'}
                 </CardTitle>
               </div>
-              <Button
-                className="text-white bg-blue-500"
-                disabled={queryClient.isMutating({mutationKey: ['playersInGame', gameId]}) > 0}
-                onClick={() => {
-
-                }}
-              >
-                {game.waiting_for === 'bids' && 'Gjør bud'}
-                {game.waiting_for === 'tricks' && 'Bekreft stikk'}
-                {game.waiting_for === 'finished' && 'Neste runde'}
-              </Button>
+              {game.waiting_for !== 'finished' &&
+                  <Button
+                      className="text-white bg-blue-500"
+                      disabled={
+                        queryClient.isMutating({mutationKey: ['playersInGame', gameId]}) > 0
+                        || isPending
+                      }
+                      onClick={() => handleNextAction(game.waiting_for === 'bids' ? 'tricks' : 'finished')}
+                  >
+                    {game.waiting_for === 'bids' && 'Gjør bud'}
+                    {game.waiting_for === 'tricks' && 'Bekreft stikk'}
+                  </Button>
+              }
+              {game.waiting_for === 'finished' &&
+                  <Button
+                      className="text-white bg-blue-500"
+                      disabled={isPending}
+                      onClick={() => newRound(tokenValue, gameId)}
+                  >
+                      Neste runde
+                  </Button>
+              }
             </div>
           </CardHeader>
           <CardContent>
@@ -178,7 +200,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
               </TableBody>
             </Table>
           </CardContent>
-        </Card>
+        </Card>}
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">

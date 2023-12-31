@@ -29,7 +29,7 @@ export type GetGamesResponse = {
 }
 
 export type GetGameResponseWithWaitingFor = GetGamesResponse & {
-  waiting_for: RoundWaitFor
+  waiting_for: RoundWaitFor | null,
 }
 
 export type PlayersInGameResponse = {
