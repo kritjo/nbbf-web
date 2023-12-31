@@ -16,7 +16,7 @@ const GameStatusStartBtn = ({tokenValue, gameId}: {tokenValue: string, gameId: n
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['game', gameId]});
     },
-    onError: (err, newGuest, context) => {
+    onError: (err) => {
       console.log(err);
     },
     onSettled: () => {
@@ -33,7 +33,7 @@ const GameStatusStartBtn = ({tokenValue, gameId}: {tokenValue: string, gameId: n
       queryClient.invalidateQueries({queryKey: ['game', gameId]});
       handleNewRound.mutate();
     },
-    onError: (err, newGuest, context) => {
+    onError: (err) => {
       console.log(err);
       setIsPending(false);
     },

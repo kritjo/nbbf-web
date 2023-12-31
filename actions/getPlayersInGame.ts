@@ -2,7 +2,7 @@
 
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
-import {gamePlayers, gameRoundPlayers, gameRounds, RoundWaitFor, users} from "../db/schema";
+import {gamePlayers, gameRoundPlayers, gameRounds, users} from "../db/schema";
 import {and, eq, not} from "drizzle-orm";
 import {PlayersInGameResponse} from "./common";
 
@@ -62,12 +62,10 @@ export const getPlayersInGame = async (token: string, gameID: number): Promise<P
     .leftJoin(users, eq(users.id, gamePlayers.user))
     .where(eq(gamePlayers.game, gameID));
 
-  const ret = {
+  return {
     players: allPlayers,
     rounds: qs,
     uniquePlayers: uniquePlayers, //TODO: maybe remove this, or add type
-  }
-
-  return ret;
+  };
 
 }

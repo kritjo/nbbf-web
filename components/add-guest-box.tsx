@@ -3,11 +3,10 @@
 import {Dialog, DialogContent, DialogTitle, DialogTrigger} from "./ui/dialog";
 import {Button} from "./ui/button";
 import {Input} from "./ui/input";
-import {useState, useTransition} from "react";
+import {useState} from "react";
 import {Loader2} from "lucide-react";
 import {addMemberToGame} from "../actions/addMemberToGame";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {PlayersInGameResponse} from "../actions/common";
 
 const AddGuestBox = ({gameId, tokenValue}: {gameId: number, tokenValue: string}) => {
   const [open, setOpen] = useState(false);
@@ -17,13 +16,13 @@ const AddGuestBox = ({gameId, tokenValue}: {gameId: number, tokenValue: string})
 
   const handleAddGuest = useMutation({
     mutationFn: (guestName: string) => addMemberToGame(tokenValue, gameId, -1, guestName),
-    onMutate: async (newGuestName) => {
+    onMutate: async () => {
       setIsPending(true);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['playersInGame']});
     },
-    onError: (err, newGuest, context) => {
+    onError: (err) => {
       console.log(err);
     },
     onSettled: () => {

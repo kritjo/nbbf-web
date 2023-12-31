@@ -2,12 +2,10 @@
 
 import {TableCell, TableRow} from "./ui/table";
 import {Button} from "./ui/button";
-import {useState, useTransition} from "react";
+import {useState} from "react";
 import {deleteGameUser} from "../actions/deleteGameUser";
 import {Loader2} from "lucide-react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {setBidsTricks} from "../actions/setBidsTricks";
-import {PlayersInGameResponse} from "../actions/common";
 
 const GameMemberRow = ({gamePlayerId, name, tokenValue, type, disableDelete}: {gamePlayerId: number, name: string, tokenValue: string, type: string, disableDelete: boolean}) => {
   const queryClient = useQueryClient();
@@ -17,13 +15,13 @@ const GameMemberRow = ({gamePlayerId, name, tokenValue, type, disableDelete}: {g
     mutationFn: () => {
       return deleteGameUser(tokenValue, gamePlayerId);
     },
-    onMutate: async (newGameRoundPlayer) => {
+    onMutate: async () => {
       setIsPending(true);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['playersInGame']});
     },
-    onError: (err, newGuest, context) => {
+    onError: (err) => {
       console.log(err);
     },
     onSettled: () => {

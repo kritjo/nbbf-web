@@ -26,7 +26,6 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {User} from "../db/schema";
 import {addMemberToGame} from "../actions/addMemberToGame";
 import {getMembersNotInGame} from "../actions/getMembersNotInGame";
-import {setBidsTricks} from "../actions/setBidsTricks";
 import {PlayersInGameResponse} from "../actions/common";
 
 export function AddPlayerBoxClient({tokenValue, gameId}: {tokenValue: string, gameId: number}) {
