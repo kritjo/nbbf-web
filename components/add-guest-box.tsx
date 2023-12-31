@@ -17,38 +17,18 @@ const AddGuestBox = ({gameId, tokenValue}: {gameId: number, tokenValue: string})
 
   const handleAddGuest = useMutation({
     mutationFn: (guestName: string) => addMemberToGame(tokenValue, gameId, -1, guestName),
-    onMutate: async (newGuest) => {
+    onMutate: async (newGuestName) => {
       setIsPending(true);
-      await queryClient.cancelQueries({queryKey: ['playersInGame', gameId]});
-      const previousPlayersInGame= queryClient.getQueryData<PlayersInGameResponse>(['playersInGame', gameId]);
-      if (!previousPlayersInGame) throw new Error('Missing previousPlayersInGame, while handling onMutate in handleAddGuest mutation');
-      queryClient.setQueryData<PlayersInGameResponse>(['playersInGame', gameId], (old) => {
-        if (!old) throw new Error('Missing old, while handling onMutate in handleAddGuest mutation');
-        return {
-          ...old,
-          players: [...old.players, {
-            id: -1,
-            name: newGuest,
-            type: 'gjest',
-            userId: null,
-          }]
-        }
-      });
-      return { previousPlayersInGame };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['playersInGame']});
     },
     onError: (err, newGuest, context) => {
       console.log(err);
-      if (context?.previousPlayersInGame === undefined) {
-        throw new Error('Missing context.previousMembers, while handling error in handleAddGuest mutation')
-      }
-      queryClient.setQueryData(['membersNotInGame', gameId], context.previousPlayersInGame);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['membersNotInGame', gameId]});
-      setOpen(false);
     },
     onSettled: () => {
       setIsPending(false);
+      setOpen(false);
     }
   })
 
