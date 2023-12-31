@@ -15,6 +15,7 @@ const GameStatusStartBtn = ({tokenValue, gameId}: {tokenValue: string, gameId: n
     mutationFn: () => newRound(tokenValue, gameId),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['game', gameId]});
+      queryClient.invalidateQueries({queryKey: ['playersInGame', gameId]});
     },
     onError: (err) => {
       console.log(err);
