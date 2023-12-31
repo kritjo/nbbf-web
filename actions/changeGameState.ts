@@ -4,7 +4,6 @@ import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {games} from "../db/schema";
 import {eq} from "drizzle-orm";
 import {db} from "../db/connection";
-import {revalidatePath} from "next/cache";
 
 export const changeGameState = async (token: string, gameID: number, state: 'started' | 'finished'): Promise<boolean> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
@@ -27,9 +26,6 @@ export const changeGameState = async (token: string, gameID: number, state: 'sta
   await db.update(games).set({
     status: state,
   }).where(eq(games.id, gameID));
-
-  revalidatePath('/spill')
-  revalidatePath(`/spill/${gameID}`)
 
   return true;
 }
