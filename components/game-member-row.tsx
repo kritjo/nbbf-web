@@ -19,7 +19,8 @@ const GameMemberRow = ({gamePlayerId, name, tokenValue, type, disableDelete}: {g
       setIsPending(true);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['playersInGame']});
+      queryClient.invalidateQueries({queryKey: ['playersInGame']})
+      queryClient.invalidateQueries({queryKey: ['membersNotInGame']})
     },
     onError: (err) => {
       console.log(err);
