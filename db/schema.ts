@@ -67,7 +67,7 @@ export type Game = typeof games.$inferSelect;
 
 export const gamePlayers = pgTable('game_players', {
   id: serial('id').primaryKey(),
-  game: integer('game_id').references(() => games.id).notNull(),
+  game: integer('game_id').references(() => games.id, {onDelete: 'cascade'}).notNull(),
   user: integer('user_id').references(() => users.id),
   guest: varchar('guest', { length: 256 }),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
@@ -83,7 +83,7 @@ export type RoundWaitFor = typeof roundWaitFor[number];
 
 export const gameRounds = pgTable('game_rounds', {
   id: serial('id').primaryKey(),
-  game: integer('game_id').references(() => games.id).notNull(),
+  game: integer('game_id').references(() => games.id, {onDelete: 'cascade'}).notNull(),
   round: integer('round').notNull(),
   wait_for: roundWaitForEnum('wait_for').notNull().default('bids'),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
@@ -93,8 +93,8 @@ export type GameRound = typeof gameRounds.$inferSelect;
 
 export const gameRoundPlayers = pgTable('game_round_players', {
   id: serial('id').primaryKey(),
-  game_round: integer('game_round_id').references(() => gameRounds.id).notNull(),
-  game_player: integer('game_player_id').references(() => gamePlayers.id).notNull(),
+  game_round: integer('game_round_id').references(() => gameRounds.id, {onDelete: 'cascade'}).notNull(),
+  game_player: integer('game_player_id').references(() => gamePlayers.id, {onDelete: 'cascade'}).notNull(),
   bid: integer('bid').notNull(),
   tricks: integer('tricks').notNull(),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),

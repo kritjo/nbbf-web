@@ -99,6 +99,13 @@
       "when": 1703958360096,
       "tag": "0013_far_aaron_stack",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "5",
+      "when": 1704026506529,
+      "tag": "0014_slim_harpoon",
+      "breakpoints": true
     }
   ]
 }
