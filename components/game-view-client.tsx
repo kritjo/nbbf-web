@@ -144,7 +144,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                       <p>
                        {game.waiting_for === 'bids' && 'Venter på bud'}
                         {game.waiting_for === 'tricks' && 'Venter på stikk'}
-                        {game.waiting_for === 'finished' && 'Venter på neste runde'}
+                        {game.waiting_for === 'finished' && game.rounds !== max_rounds && 'Venter på neste runde'}
                       </p>
                   </div>
                 </CardTitle>
@@ -168,10 +168,10 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
               {game.waiting_for === 'finished' &&
                   <Button
                       className="text-white bg-blue-500"
-                      disabled={isPending}
+                      disabled={isPending || game.rounds === max_rounds}
                       onClick={() => handleNewRound.mutate()}
                   >
-                      Neste runde
+                    {game.rounds === max_rounds ? 'Ingen flere runder' : 'Neste runde'}
                   </Button>
               }
             </div>
