@@ -6,7 +6,7 @@ import {Label} from "./ui/label";
 import {Input} from "./ui/input";
 import {Checkbox} from "./ui/checkbox";
 import FormSubmitButton from "./ui/form-submit-button";
-import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "./ui/card";
+import {Card, CardFooter, CardHeader, CardTitle} from "./ui/card";
 import {Badge} from "./ui/badge";
 import {useFormState} from "react-dom";
 import {User} from "../db/schema";
