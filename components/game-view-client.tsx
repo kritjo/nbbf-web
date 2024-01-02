@@ -124,6 +124,12 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
     cards_this_round = max_rounds - game.rounds + 1;
   }
 
+  const bets_this_round = playersInGame.rounds.filter((round) => {
+    return round.game_rounds?.round === game.rounds;
+  }).reduce((acc, round) => {
+    return acc + round.game_round_players.bid;
+  }, 0);
+
   return (
 
     <div className="flex flex-col h-full p-4">
@@ -149,9 +155,6 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                   </div>
                 </CardTitle>
               </div>
-                <p>
-                    Runde {game.rounds}/{max_rounds} ({cards_this_round} kort denne runden)
-                </p>
               {game.waiting_for !== 'finished' &&
                   <Button
                       className="text-white bg-blue-500"
@@ -175,6 +178,17 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                   </Button>
               }
             </div>
+            <p>
+                Runde {game.rounds}/{max_rounds} ({cards_this_round} kort denne runden)
+            </p>
+            { game.waiting_for !== 'bids' &&
+                <p>
+                    {bets_this_round > cards_this_round ?
+                      'Overmeldt' : bets_this_round === cards_this_round ?
+                      'Meldt riktig' : 'Undermeldt'
+                    }
+                </p>
+            }
           </CardHeader>
           <CardContent>
             <Table>
