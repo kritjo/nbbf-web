@@ -14,6 +14,7 @@ import {GetGamesResponse} from "../actions/common";
 import Link from "next/link";
 import {createGame} from "../actions/createGame";
 import {useEffect, useState} from "react";
+import GameCardContent from "./GameCardContent";
 
 const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string, games: GetGamesResponse[]}) => {
   const createGameWithToken = createGame.bind(null, tokenValue);
@@ -85,20 +86,7 @@ const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string,
                 )}
               </div>
             </CardHeader>
-            <CardContent>
-              <p>
-                Opprettet av: {game.creator_name}
-              </p>
-              <p>
-                Antall spillere: {game.players}
-              </p>
-              <p>
-                Antall runder spilt: {game.rounds}
-              </p>
-              <p>
-                Offisielt spill: {game.official ? 'Ja' : 'Nei'}
-              </p>
-            </CardContent>
+            <GameCardContent game={game}/>
             <CardFooter className="flex justify-between items-center">
               <span>Started: {game.created_at.toLocaleDateString("no-NO")}</span>
               <Button className="text-blue-500 border-blue-500" variant="outline" asChild>

@@ -20,6 +20,7 @@ import {useState} from "react";
 import {changeRoundState} from "../actions/changeRoundState";
 import {RoundWaitFor} from "../db/schema";
 import {newRound} from "../actions/newRound";
+import GameCardContent from "./GameCardContent";
 
 const calculatePoints = (game_round_player: {id: number, game_round: number, game_player: number, bid: number, tricks: number, created_at: Date}) => {
   if (game_round_player.bid === 0 && game_round_player.tricks === 0) {
@@ -248,20 +249,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
               <GameDeleteBtn gameId={game.id} tokenValue={tokenValue}/>
             </div>
           </CardHeader>
-          <CardContent>
-            <p>
-              Opprettet av: {game.creator_name}
-            </p>
-            <p>
-              Antall spillere: {game.players}
-            </p>
-            <p>
-              Antall runder spilt: {game.rounds}
-            </p>
-            <p>
-              Offisielt spill: {game.official ? 'Ja' : 'Nei'}
-            </p>
-          </CardContent>
+          <GameCardContent game={game}/>
         </Card>
       </main>
       <aside className="mt-6">
