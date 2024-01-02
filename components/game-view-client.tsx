@@ -116,6 +116,14 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
   if (!game || !playersInGame) return null;
   if (isGameLoading || isPIGLoading) return null;
 
+  const max_rounds = Math.round(52 / game.players) * 2;
+  let cards_this_round;
+  if (max_rounds / 2 >= game.rounds) {
+    cards_this_round = game.rounds;
+  } else {
+    cards_this_round = max_rounds - game.rounds + 1;
+  }
+
   return (
 
     <div className="flex flex-col h-full p-4">
@@ -132,11 +140,18 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <CardTitle>
-                  {game.waiting_for === 'bids' && 'Venter på bud'}
-                  {game.waiting_for === 'tricks' && 'Venter på stikk'}
-                  {game.waiting_for === 'finished' && 'Venter på neste runde'}
+                  <div className="flex justify-around">
+                      <p>
+                       {game.waiting_for === 'bids' && 'Venter på bud'}
+                        {game.waiting_for === 'tricks' && 'Venter på stikk'}
+                        {game.waiting_for === 'finished' && 'Venter på neste runde'}
+                      </p>
+                  </div>
                 </CardTitle>
               </div>
+                <p>
+                    Runde {game.rounds}/{max_rounds} ({cards_this_round} kort denne runden)
+                </p>
               {game.waiting_for !== 'finished' &&
                   <Button
                       className="text-white bg-blue-500"
