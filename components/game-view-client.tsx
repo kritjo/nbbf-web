@@ -210,7 +210,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                   }, 0);
 
                   const playerCurrentRound = playersInGame.rounds.find((round) => {
-                    return round.game_players?.id === player.id && round.game_rounds?.wait_for === game.waiting_for;
+                    return round.game_players?.id === player.id && round.game_rounds?.round === game.rounds;
                   });
 
                   return (
