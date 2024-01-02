@@ -2,18 +2,21 @@ import {cookies} from "next/headers";
 import {use} from "react";
 import {getAuthenticatedUser} from "../../actions/getAuthenticatedUser";
 import {redirect} from "next/navigation";
+import GameManager from "../../components/game-manager";
+import {getGames} from "../../actions/getGames";
 
-export default function Medlem() {
+export default function Spill() {
   const cookieStore = cookies();
   const token = cookieStore.get('token');
   if (!token) redirect('/')
   const user = use(getAuthenticatedUser(token.value, 'medlem'));
+  if (!user) redirect('/')
+  const games = use(getGames(token.value));
+
 
   return (
     <main>
-      <section className="flex flex-col items-center justify-center py-12">
-        <p className="text-2xl font-bold">Hei {user?.full_name}, du er nå innlogget. Type: Medlem</p>
-      </section>
+        <GameManager user={user} tokenValue={token.value} games={games}/>
     </main>
   )
 }

@@ -5,8 +5,9 @@ import {useQuery} from "@tanstack/react-query";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import {getMembers} from "../actions/getMembers";
 import MemberTableRow from "./member-table-row";
+import {User} from "../db/schema";
 
-const MemberTable = ({token}: {token: RequestCookie}) => {
+const MemberTable = ({token, authenticatedUser}: {token: RequestCookie, authenticatedUser: User}) => {
   const { data } = useQuery({ queryKey: ['members'], queryFn: () => getMembers(token.value) })
 
   return (
@@ -21,7 +22,7 @@ const MemberTable = ({token}: {token: RequestCookie}) => {
       </TableHeader>
       <TableBody>
         {data?.map(member => (
-          <MemberTableRow member={member} key={member.id} token={token}/>
+          <MemberTableRow authenticatedUser={authenticatedUser} member={member} key={member.id} token={token}/>
         ))}
       </TableBody>
     </Table>

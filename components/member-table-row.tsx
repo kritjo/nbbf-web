@@ -9,15 +9,18 @@ import {User} from "../db/schema";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import {updateMember} from "../actions/updateMember";
 import {useFormState} from "react-dom";
-import {getAuthenticatedUser} from "../actions/getAuthenticatedUser";
-import {redirect} from "next/navigation";
+import {useEffect, useState} from "react";
 
-const MemberTableRow = ({ member, token }: {member: User, token: RequestCookie}) => {
-  const authenticatedUser = getAuthenticatedUser(token.value, 'styre');
-  if (!authenticatedUser) redirect('/')
-
-  const updateMemberWithToken = updateMember.bind(null, token.value);
+const MemberTableRow = ({ member, token, authenticatedUser }: {member: User, token: RequestCookie, authenticatedUser: User}) => {
+  const updateMemberWithToken = updateMember.bind(null, token.value, member.id);
   const [formState, formAction] = useFormState(updateMemberWithToken, null);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (formState?.success) {
+      setOpen(false);
+    }
+  }, [formState]);
 
   return (
     <TableRow key={member.id}>
@@ -25,7 +28,7 @@ const MemberTableRow = ({ member, token }: {member: User, token: RequestCookie})
       <TableCell>{member.full_name}</TableCell>
       <TableCell>{member.role}</TableCell>
       <TableCell>
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button variant="ghost">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
@@ -48,7 +51,7 @@ const MemberTableRow = ({ member, token }: {member: User, token: RequestCookie})
                 </div>
               )}
               {
-                authenticatedUser.then((user) => user?.role === 'admin' && (
+                authenticatedUser.role === 'admin' && (
                   <>
                     <Label htmlFor="role">Rolle</Label>
                     <Input type="text" placeholder="" name={"role"} required className="mb-1" defaultValue={member.role}/>
@@ -58,7 +61,7 @@ const MemberTableRow = ({ member, token }: {member: User, token: RequestCookie})
                       </div>
                     )}
                   </>
-                ))
+                )
               }
               <FormSubmitButton>
                 Send inn

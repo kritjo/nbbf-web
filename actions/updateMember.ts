@@ -15,10 +15,10 @@ const schema = z.object({
   email: z.string({
     invalid_type_error: 'Invalid Email',
   }),
-  role: z.optional(z.enum(roles)),
+  role: z.nullable(z.enum(roles)),
 })
 
-export const updateMember = async (token: string, _: any, formData: FormData): Promise<FormResponse> => {
+export const updateMember = async (token: string, memberId: number, _: any, formData: FormData): Promise<FormResponse> => {
   const validatedFields = schema.safeParse({
     full_name: formData.get('full_name'),
     email: formData.get('email'),
@@ -43,21 +43,21 @@ export const updateMember = async (token: string, _: any, formData: FormData): P
     }
   }
 
-  if (authenticatedUser.role === 'admin' && validatedFields.data.role !== undefined) {
+  if (authenticatedUser.role === 'admin' && validatedFields.data.role !== null) {
     await db.update(users).set({
       full_name: validatedFields.data.full_name,
       email: validatedFields.data.email,
       role: validatedFields.data.role,
-    }).where(eq(users.id, authenticatedUser.id));
+    }).where(eq(users.id, memberId));
   } else {
     await db.update(users).set({
       full_name: validatedFields.data.full_name,
       email: validatedFields.data.email,
-    }).where(eq(users.id, authenticatedUser.id));
+    }).where(eq(users.id, memberId));
   }
 
   revalidatePath('/styresider')
-  revalidatePath('/medlem')
+  revalidatePath('/spill')
 
   return {
     success: true,

@@ -25,8 +25,8 @@ const Navbar = () => {
           Kontakt
         </Link>
         { user && hasMinimumRole(user.role, 'medlem') &&
-            <Link className="text-lg font-semibold hover:underline" href={"/medlem"}>
-                Medlemssider
+            <Link className="text-lg font-semibold hover:underline" href={"/spill"}>
+                Spill
             </Link>
         }
         { user && hasMinimumRole(user.role, 'styre') &&

@@ -1,4 +1,4 @@
-import {boolean, integer, pgEnum, pgTable, serial, text, timestamp, varchar} from "drizzle-orm/pg-core";
+import {boolean, integer, pgEnum, pgTable, serial, text, timestamp, unique, varchar} from "drizzle-orm/pg-core";
 
 export const roles = ['medlem', 'styre', 'admin'] as const;
 export const roleEnum = pgEnum('role_enum', roles);
@@ -49,3 +49,55 @@ export const applications = pgTable('applications', {
 });
 
 export type Application = typeof applications.$inferSelect;
+
+const gameStatus = ['pending', 'started', 'finished'] as const;
+export const gameStatusEnum = pgEnum('game_status_enum', gameStatus);
+export type GameStatus = typeof gameStatus[number];
+
+export const games = pgTable('games', {
+  id: serial('id').primaryKey(),
+  created_by: integer('created_by').references(() => users.id).notNull(),
+  name: varchar('name', { length: 256 }).notNull(),
+  official: boolean('official').notNull().default(false),
+  status: gameStatusEnum('status').notNull().default('pending'),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull(),
+});
+
+export type Game = typeof games.$inferSelect;
+
+export const gamePlayers = pgTable('game_players', {
+  id: serial('id').primaryKey(),
+  game: integer('game_id').references(() => games.id, {onDelete: 'cascade'}).notNull(),
+  user: integer('user_id').references(() => users.id),
+  guest: varchar('guest', { length: 256 }),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull(),
+}, (table) => ({
+  unq: unique().on(table.game, table.user, table.guest),
+}));
+
+export type GamePlayer = typeof gamePlayers.$inferSelect;
+
+const roundWaitFor = ['bids', 'tricks', 'finished'] as const;
+export const roundWaitForEnum = pgEnum('round_wait_for_enum', roundWaitFor);
+export type RoundWaitFor = typeof roundWaitFor[number];
+
+export const gameRounds = pgTable('game_rounds', {
+  id: serial('id').primaryKey(),
+  game: integer('game_id').references(() => games.id, {onDelete: 'cascade'}).notNull(),
+  round: integer('round').notNull(),
+  wait_for: roundWaitForEnum('wait_for').notNull().default('bids'),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull(),
+});
+
+export type GameRound = typeof gameRounds.$inferSelect;
+
+export const gameRoundPlayers = pgTable('game_round_players', {
+  id: serial('id').primaryKey(),
+  game_round: integer('game_round_id').references(() => gameRounds.id, {onDelete: 'cascade'}).notNull(),
+  game_player: integer('game_player_id').references(() => gamePlayers.id, {onDelete: 'cascade'}).notNull(),
+  bid: integer('bid').notNull(),
+  tricks: integer('tricks').notNull(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull(),
+});
+
+export type GameRoundPlayer = typeof gameRoundPlayers.$inferSelect;
