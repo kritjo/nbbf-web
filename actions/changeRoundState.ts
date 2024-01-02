@@ -35,12 +35,30 @@ export const changeRoundState = async (token: string, gameId: number, state: Rou
     return false;
   }
 
-  await db.update(gameRounds).set({
+  const rounds = await db.update(gameRounds).set({
     wait_for: state,
   }).where(and(
     eq(gameRounds.game, gameId),
     eq(gameRounds.round, prevMaxRound[0].value),
-  ));
+  )).returning();
+
+  if (rounds.length !== 1) {
+    return false;
+  }
+
+  const round = rounds[0];
+
+  const gamePlayrs = await db.query.gamePlayers.findMany({
+    where: eq(gamePlayers.game, game.id),
+  });
+
+  const max_rounds = Math.round(52 / gamePlayrs.length) * 2;
+
+  if (round.round === max_rounds && round.wait_for === 'finished') {
+    await db.update(games).set({
+      status: 'finished',
+    }).where(eq(games.id, game.id));
+  }
 
   return true;
 }
