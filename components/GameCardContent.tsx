@@ -10,9 +10,16 @@ const GameCardContent = ({game}: { game: GetGamesResponse }) => {
       <p>
         Antall spillere: {game.players}
       </p>
-      <p>
-        Antall runder spilt: {game.rounds}
-      </p>
+      { game.status === 'finished' &&
+          <p>
+            Antall runder spilt: {game.rounds}
+          </p>
+      }
+      { game.status === 'started' &&
+          <p>
+            Gjeldende runde: {game.rounds}
+          </p>
+      }
       <p>
         Offisielt spill: {game.official ? 'Ja' : 'Nei'}
       </p>
