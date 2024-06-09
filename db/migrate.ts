@@ -1,28 +1,30 @@
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { migrate } from 'drizzle-orm/node-postgres/migrator';
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import postgres from "postgres";
 import * as dotenv from 'dotenv';
-import { Client } from "pg";
 
 dotenv.config({
   path: '.vercel/.env.development.local',
 })
 
-const connectionString = process.env.POSTGRES_URL;
+const doMigrate = async (): Promise<void> => {
+  const connectionString = process.env.POSTGRES_URL;
+  if (!connectionString) {
+    throw new Error("POSTGRES_URL is not set");
+  }
+  const sql = postgres(connectionString, { max: 1, ssl: { rejectUnauthorized: false } });
+  const db = drizzle(sql);
 
-if (!connectionString) {
-  throw new Error('Missing POSTGRES_URL');
-}
+  await migrate(db, { migrationsFolder: "drizzle" });
 
-const migrationClient = new Client({
-  connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+  await sql.end();
+};
 
-await migrationClient.connect();
-
-// This will run migrations on the database, skipping the ones already applied
-await migrate(drizzle(migrationClient), { migrationsFolder: './drizzle' });
-
-console.log('Migrations complete');
+// The trailing space is important for correct unicode formatting in some shells
+doMigrate()
+  .then(() => {
+    console.log("Migration: ✅ "); // eslint-disable-line no-console -- CLI
+  })
+  .catch((error: unknown) => {
+    console.error("Migration: ❌ ", error);
+  });
