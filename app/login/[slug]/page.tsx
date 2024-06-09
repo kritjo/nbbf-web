@@ -15,7 +15,7 @@ export default function Login({ params }: { params: { slug: string } }) {
       <section className="flex flex-col items-center justify-center py-12">
         <Button className="mt-4" disabled={pending} aria-busy={pending} aria-disabled={pending} onClick={() => {
           setPending(true);
-          signIn(params.slug).then(r => {
+          signIn(params.slug).then(_ => {
             setPending(false);
             router.push('/spill');
           }).catch(e => {
