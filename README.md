@@ -14,15 +14,16 @@ Website for Norges Bondebridgeforbund - a card game federation
 First, run the development server:
 
 ```bash
-bun dev
+pnpm install
+vercel dev
 ```
 
 Or for automatic env config, use `vercel` cli.
 
 ## To make migrations
 ```bash
-bun run drizzle-kit generate:pg
-bun run db/migrate.ts
+pnpm makemigrations
+pnpm migrate
 ```
 
 You should probably do `vercel pull` first
