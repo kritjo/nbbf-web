@@ -1,7 +1,7 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import { migrate } from 'drizzle-orm/postgres-js/migrator';
-import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { migrate } from 'drizzle-orm/node-postgres/migrator';
 import * as dotenv from 'dotenv';
+import { Client } from "pg";
 
 dotenv.config({
   path: '.vercel/.env.development.local',
@@ -13,7 +13,14 @@ if (!connectionString) {
   throw new Error('Missing POSTGRES_URL');
 }
 
-const migrationClient = postgres(connectionString, { max: 1, ssl: true });
+const migrationClient = new Client({
+  connectionString,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
+
+await migrationClient.connect();
 
 // This will run migrations on the database, skipping the ones already applied
 await migrate(drizzle(migrationClient), { migrationsFolder: './drizzle' });
