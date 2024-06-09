@@ -15,7 +15,7 @@ First, run the development server:
 
 ```bash
 pnpm install
-pnpm dev
+vercel dev
 ```
 
 Or for automatic env config, use `vercel` cli.

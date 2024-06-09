@@ -65,7 +65,7 @@ export const sendMagicLink = async (_: any, formData: FormData): Promise<FormRes
     html: `
       <p>Hei ${user.full_name}</p>
       <p>Her er din magiske lenke for å logge inn på Bondebridgeforbundet:</p>
-      <p><a href="https://bondebridgeforbundet.no/login/${randomString}">https://bondebridgeforbundet.no/login/${randomString}</a></p>
+      <p><a href="${process.env.NEXT_PUBLIC_URL}/login/${randomString}">${process.env.NEXT_PUBLIC_URL}/login/${randomString}</a></p>
       <p>Lenken er gyldig i 1 time.</p>
       <p>Med vennlig hilsen</p>
       <p>Bondebridgeforbundet</p>
