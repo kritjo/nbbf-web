@@ -130,6 +130,18 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
     return acc + round.game_round_players.bid;
   }, 0);
 
+  const pointsPerPlayer = playersInGame.players.map((player) => {
+    return {
+      player: player,
+      points: playersInGame.rounds.reduce((acc, round) => {
+        if (round.game_players?.id === player.id && round.game_rounds?.wait_for === 'finished') {
+          return acc + calculatePoints(round.game_round_players);
+        }
+        return acc;
+      }, 0)
+    };
+  });
+
   return (
 
     <div className="flex flex-col h-full p-4">
@@ -201,13 +213,11 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {playersInGame.players.map((player, i) => {
-                  const playerPoints = playersInGame.rounds.reduce((acc, round) => {
-                    if (round.game_players?.id === player.id && round.game_rounds?.wait_for === 'finished') {
-                      return acc + calculatePoints(round.game_round_players);
-                    }
-                    return acc;
-                  }, 0);
+                {pointsPerPlayer.sort((a, b) => {
+                  return b.points - a.points;
+                }).map((playerWithPoints, i) => {
+                  const player = playerWithPoints.player;
+                  const playerPoints = playerWithPoints.points;
 
                   const playerCurrentRound = playersInGame.rounds.find((round) => {
                     return round.game_players?.id === player.id && round.game_rounds?.round === game.rounds;
