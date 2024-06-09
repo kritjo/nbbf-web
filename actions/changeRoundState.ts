@@ -52,7 +52,7 @@ export const changeRoundState = async (token: string, gameId: number, state: Rou
     where: eq(gamePlayers.game, game.id),
   });
 
-  const max_rounds = Math.round(52 / gamePlayrs.length) * 2;
+  const max_rounds = Math.floor((52 - 1) / gamePlayrs.length) * 2;
 
   if (round.round === max_rounds && round.wait_for === 'finished') {
     await db.update(games).set({
