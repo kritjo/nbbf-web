@@ -17,8 +17,13 @@ export const getGame = async (token: string, id: number): Promise<GetGameRespons
     id: gameRounds.game,
   }).from(gameRounds).where(eq(gameRounds.game, id)).groupBy(gameRounds.game).as('game_round_count')
 
+  const game_players = db.select({
+    players: sql<number[]>`ARRAY_AGG(${users.id})`.as('players'),
+    id: gamePlayers.game
+  }).from(gamePlayers).innerJoin(users, eq(gamePlayers.user, users.id)).where(eq(gamePlayers.game, id)).groupBy(gamePlayers.game).as('game_players');
+
   const game_player_count = db.select({
-    players: sql<number>`cast(count(${users.id}) as int)`.as('players'),
+    players: sql<number>`cast(count(${users.id}) as int)`.as('players_count'),
     id: gamePlayers.game
   }).from(gamePlayers).where(eq(gamePlayers.game, id)).groupBy(gamePlayers.game).as('game_player_count');
 
@@ -44,10 +49,12 @@ export const getGame = async (token: string, id: number): Promise<GetGameRespons
     status: games.status,
     created_at: games.created_at,
     rounds: game_round_count.rounds,
-    players: game_player_count.players,
+    players: game_players.players,
+    player_count: game_player_count.players,
   }).from(games)
     .leftJoin(game_round_count, eq(games.id, game_round_count.id))
     .leftJoin(game_player_count, eq(games.id, game_player_count.id))
+    .leftJoin(game_players, eq(games.id, game_players.id))
     .leftJoin(creator_name, eq(games.id, creator_name.id))
     .where(eq(games.id, id));
 

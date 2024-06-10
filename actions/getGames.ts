@@ -23,7 +23,7 @@ export const getGames = async (token: string): Promise<GetGamesResponse[]> => {
     }).from(gamePlayers).innerJoin(users, eq(gamePlayers.user, users.id)).groupBy(gamePlayers.game).as('game_players');
 
   const game_player_count = db.select({
-    players: sql<number>`cast(count(${users.id}) as int)`.as('players'),
+    players: sql<number>`cast(count(${users.id}) as int)`.as('players_count'),
     id: gamePlayers.game
   }).from(gamePlayers).groupBy(gamePlayers.game).as('game_player_count');
 
