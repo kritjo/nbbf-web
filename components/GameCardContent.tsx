@@ -8,7 +8,7 @@ const GameCardContent = ({game}: { game: GetGamesResponse }) => {
         Opprettet av: {game.creator_name}
       </p>
       <p>
-        Antall spillere: {game.players}
+        Antall spillere: {game.player_count}
       </p>
       { game.status === 'finished' &&
           <p>
