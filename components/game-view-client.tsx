@@ -18,7 +18,7 @@ import {PlayersInGameResponse} from "../actions/common";
 import {AddPlayerBoxClient} from "./add-player-box-client";
 import {useState} from "react";
 import {changeRoundState} from "../actions/changeRoundState";
-import {gameRoundPlayers, RoundWaitFor} from "../db/schema";
+import {RoundWaitFor} from "../db/schema";
 import {newRound} from "../actions/newRound";
 import GameCardContent from "./GameCardContent";
 import {Slider} from "./ui/slider";
