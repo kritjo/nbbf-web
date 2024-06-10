@@ -46,7 +46,7 @@ export const newRound = async (token: string, gameID: number): Promise<boolean> 
       game_round: gr[0].id,
       game_player: gp.id,
       bid: 0,
-      tricks: 0,
+      managed: false,
       created_at: new Date(),
     }
   });

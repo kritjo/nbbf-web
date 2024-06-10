@@ -5,7 +5,7 @@ import {db} from "../db/connection";
 import {eq} from "drizzle-orm";
 import {gameRoundPlayers, gameRounds, games} from "../db/schema";
 
-export const setBidsTricks = async (token: string, roundGamePlayer: number, bids: number, tricks: number): Promise<boolean> => {
+export const setBidsTricks = async (token: string, roundGamePlayer: number, bids: number, managed: boolean): Promise<boolean> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
   if (authenticatedUser === null) {
     return false;
@@ -45,7 +45,7 @@ export const setBidsTricks = async (token: string, roundGamePlayer: number, bids
 
   await db.update(gameRoundPlayers).set({
     bid: bids,
-    tricks: tricks,
+    managed: managed
   }).where(eq(gameRoundPlayers.id, roundGamePlayer));
 
   return true;

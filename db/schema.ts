@@ -96,7 +96,7 @@ export const gameRoundPlayers = pgTable('game_round_players', {
   game_round: integer('game_round_id').references(() => gameRounds.id, {onDelete: 'cascade'}).notNull(),
   game_player: integer('game_player_id').references(() => gamePlayers.id, {onDelete: 'cascade'}).notNull(),
   bid: integer('bid').notNull(),
-  tricks: integer('tricks').notNull(),
+  managed: boolean('managed').notNull(),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
 
