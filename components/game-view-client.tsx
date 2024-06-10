@@ -118,7 +118,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
   if (!game || !playersInGame) return null;
   if (isGameLoading || isPIGLoading) return null;
 
-  const max_rounds = Math.round(52 / game.players) * 2;
+  const max_rounds = Math.round(52 / game.player_count) * 2;
   let cards_this_round;
   if (max_rounds / 2 >= game.rounds) {
     cards_this_round = game.rounds;

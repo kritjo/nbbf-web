@@ -22,6 +22,11 @@ export const getGames = async (token: string): Promise<GetGamesResponse[]> => {
       id: gamePlayers.game
     }).from(gamePlayers).innerJoin(users, eq(gamePlayers.user, users.id)).groupBy(gamePlayers.game).as('game_players');
 
+  const game_player_count = db.select({
+    players: sql<number>`cast(count(${users.id}) as int)`.as('players'),
+    id: gamePlayers.game
+  }).from(gamePlayers).groupBy(gamePlayers.game).as('game_player_count');
+
   const creator_name = db.select({
       creator: users.full_name,
       id: games.id
@@ -37,8 +42,10 @@ export const getGames = async (token: string): Promise<GetGamesResponse[]> => {
     created_at: games.created_at,
     rounds: game_round_count.rounds,
     players: game_players.players,
+    player_count: game_player_count.players,
   }).from(games)
     .leftJoin(game_round_count, eq(games.id, game_round_count.id))
+    .leftJoin(game_player_count, eq(games.id, game_player_count.id))
     .leftJoin(game_players, eq(games.id, game_players.id))
     .leftJoin(creator_name, eq(games.id, creator_name.id));
 }
