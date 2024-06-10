@@ -18,14 +18,16 @@ import {PlayersInGameResponse} from "../actions/common";
 import {AddPlayerBoxClient} from "./add-player-box-client";
 import {useState} from "react";
 import {changeRoundState} from "../actions/changeRoundState";
-import {RoundWaitFor} from "../db/schema";
+import {gameRoundPlayers, RoundWaitFor} from "../db/schema";
 import {newRound} from "../actions/newRound";
 import GameCardContent from "./GameCardContent";
+import {Slider} from "./ui/slider";
+import {Switch} from "./ui/switch";
 
-const calculatePoints = (game_round_player: {id: number, game_round: number, game_player: number, bid: number, tricks: number, created_at: Date}) => {
-  if (game_round_player.bid === 0 && game_round_player.tricks === 0) {
+const calculatePoints = (game_round_player: {id: number, game_round: number, game_player: number, bid: number, managed: boolean, created_at: Date}) => {
+  if (game_round_player.bid === 0 && game_round_player.managed) {
     return 5;
-  } else if (game_round_player.bid ===  game_round_player.tricks) {
+  } else if (game_round_player.managed) {
     return 10 + game_round_player.bid;
   } else {
     return 0;
@@ -39,8 +41,8 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
   const [isPending, setIsPending] = useState(false);
 
   const updateMutation = useMutation({
-    mutationFn: (update: {gameRoundPlayer: number, bids: number, tricks: number}) => {
-      return setBidsTricks(tokenValue, update.gameRoundPlayer, update.bids, update.tricks)
+    mutationFn: (update: {gameRoundPlayer: number, bids: number, managed: boolean}) => {
+      return setBidsTricks(tokenValue, update.gameRoundPlayer, update.bids, update.managed)
     },
     onMutate: async (newGameRoundPlayer) => {
       await queryClient.cancelQueries({ queryKey: ['playersInGame', gameId] })
@@ -60,7 +62,7 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                 game_round_players: {
                   ...round.game_round_players,
                   bid: newGameRoundPlayer.bids,
-                  tricks: newGameRoundPlayer.tricks
+                  managed: newGameRoundPlayer.managed,
                 }
               }
             } else {
@@ -207,9 +209,9 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
               <TableHeader>
                 <TableRow>
                   <TableHead>Spiller</TableHead>
-                  <TableHead>Poeng</TableHead>
+                  <TableHead>Poeng totalt</TableHead>
                   <TableHead>Bud</TableHead>
-                  <TableHead>Stikk</TableHead>
+                  <TableHead>Riktig?</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -228,40 +230,59 @@ const GameViewClient = ({gameId, tokenValue}: { gameId: number, tokenValue: stri
                       <TableCell className="font-medium">{player.name}</TableCell>
                       <TableCell>{playerPoints}</TableCell>
                       <TableCell>
-                        <Input
-                          type="number"
-                          name={"bid"}
-                          required
-                          className="w-[5rem]"
-                          disabled={game.waiting_for !== 'bids'}
-                          value={playerCurrentRound?.game_round_players.bid || 0}
-                          onChange={(e) => {
-                            if (!playerCurrentRound?.game_round_players.id) throw new Error('Missing game_round_player.id')
-                            updateMutation.mutate({
-                              gameRoundPlayer: playerCurrentRound?.game_round_players.id,
-                              bids: parseInt(e.target.value),
-                              tricks: playerCurrentRound?.game_round_players.tricks || 0
-                            })
-                          }}
-                        />
+                        <div className="flex items-center gap-10">
+                          <Slider
+                            defaultValue={[0]}
+                            min={0}
+                            max={cards_this_round}
+                            step={1}
+                            className={"w-full min-w-[10rem]" + (game.waiting_for !== "bids" ? ' opacity-50' : ' opacity-100')}
+                            value={[playerCurrentRound?.game_round_players.bid || 0]}
+                            onValueChange={(value) => {
+                              if (!playerCurrentRound?.game_round_players.id) throw new Error('Missing game_round_player.id')
+                              updateMutation.mutate({
+                                gameRoundPlayer: playerCurrentRound?.game_round_players.id,
+                                bids: value[0],
+                                managed: false,
+                              })
+                            }}
+                            disabled={game.waiting_for !== 'bids'}
+                          />
+                          <Input
+                            type="number"
+                            name={"bid"}
+                            required
+                            className="w-[5rem]"
+                            disabled={game.waiting_for !== 'bids'}
+                            value={playerCurrentRound?.game_round_players.bid || 0}
+                            max={cards_this_round}
+                            onChange={(e) => {
+                              if (!playerCurrentRound?.game_round_players.id) throw new Error('Missing game_round_player.id')
+                              updateMutation.mutate({
+                                gameRoundPlayer: playerCurrentRound?.game_round_players.id,
+                                bids: parseInt(e.target.value),
+                                managed: false,
+                              })
+                            }}
+                          />
+                        </div>
                       </TableCell>
-                      <TableCell>
-                        <Input
-                          type="number"
-                          name={"tricks"}
-                          required
-                          className="w-[5rem]"
-                          disabled={game.waiting_for !== 'tricks'}
-                          value={playerCurrentRound?.game_round_players.tricks || 0}
-                          onChange={(e) => {
-                            if (!playerCurrentRound?.game_round_players.id) throw new Error('Missing game_round_player.id')
-                            updateMutation.mutate({
-                              gameRoundPlayer: playerCurrentRound?.game_round_players.id,
-                              bids: playerCurrentRound?.game_round_players.bid || 0,
-                              tricks: parseInt(e.target.value)
-                            })
-                          }}
-                        />
+                      <TableCell className="flex items-center gap-10">
+                        <div className="flex items-center gap-10">
+                          <Switch
+                            checked={playerCurrentRound?.game_round_players.managed}
+                            disabled={game.waiting_for !== 'tricks'}
+                            onCheckedChange={(e) => {
+                              if (!playerCurrentRound?.game_round_players.id) throw new Error('Missing game_round_player.id')
+                              updateMutation.mutate({
+                                gameRoundPlayer: playerCurrentRound?.game_round_players.id,
+                                bids: playerCurrentRound?.game_round_players.bid,
+                                managed: e,
+                              })
+                            }}
+                          />
+                          {playerCurrentRound?.game_round_players.managed ? '✅' : '❌'}
+                        </div>
                       </TableCell>
                     </TableRow>
                   )
