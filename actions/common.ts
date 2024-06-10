@@ -25,7 +25,8 @@ export type GetGamesResponse = {
   status: GameStatus,
   created_at: Date,
   rounds: number,
-  players: number,
+  players: number[],
+  player_count: number
 }
 
 export type GetGameResponseWithWaitingFor = GetGamesResponse & {
