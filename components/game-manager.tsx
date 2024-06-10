@@ -67,23 +67,23 @@ const GameManager = ({user, tokenValue, games}: {user: User, tokenValue: string,
           <Card key={game.id}>
             <CardHeader>
               <div className="flex items-center justify-between">
+                <CardTitle>{game.game_name}</CardTitle>
                 <div className="flex items-center gap-2">
-                  <CardTitle>{game.game_name}</CardTitle>
                   {game.created_by === user.id ? (
                     <Badge className="bg-blue-500 text-white">Skaper</Badge>
-                  ) : (
+                  ) : game.players.includes(user.id) ? (
                     <Badge className="bg-gray-500 text-white">Deltager</Badge>
+                  ) : null }
+                  {game.status === 'started' && (
+                    <Badge className="bg-green-500 text-white">Aktivt</Badge>
+                  )}
+                  {game.status === 'pending' && (
+                    <Badge className="bg-yellow-500 text-white">Ventende</Badge>
+                  )}
+                  {game.status === 'finished' && (
+                    <Badge className="bg-red-500 text-white">Fullført</Badge>
                   )}
                 </div>
-                {game.status === 'started' && (
-                  <Badge className="bg-green-500 text-white">Aktivt</Badge>
-                )}
-                {game.status === 'pending' && (
-                  <Badge className="bg-yellow-500 text-white">Ventende</Badge>
-                )}
-                {game.status === 'finished' && (
-                  <Badge className="bg-red-500 text-white">Fullført</Badge>
-                )}
               </div>
             </CardHeader>
             <GameCardContent game={game}/>
