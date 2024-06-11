@@ -10,5 +10,5 @@ export const getMembers = async (token: string): Promise<User[]> => {
     return [];
   }
 
-  return await db.query.users.findMany();
+  return db.query.users.findMany();
 }
