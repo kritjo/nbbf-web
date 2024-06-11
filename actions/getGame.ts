@@ -1,12 +1,12 @@
 'use server'
 
-import {GetGameResponseWithWaitingFor} from "./common";
+import {GetGamesResponse} from "./common";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {and, eq, sql} from "drizzle-orm";
 import {gamePlayers, gameRounds, games, users} from "../db/schema";
 
-export const getGame = async (token: string, id: number): Promise<GetGameResponseWithWaitingFor | null> => {
+export const getGame = async (token: string, id: number): Promise<GetGamesResponse | null> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
   if (authenticatedUser === null) {
     return null;
@@ -36,10 +36,6 @@ export const getGame = async (token: string, id: number): Promise<GetGameRespons
     value: sql`max(${gameRounds.round})`.mapWith(gameRounds.round)
   }).from(gameRounds).where(eq(gameRounds.game, id));
 
-  const round = await db.query.gameRounds.findFirst({
-    where: and(eq(gameRounds.game, id), eq(gameRounds.round, prevMaxRound[0].value)),
-  });
-
   const responses = await db.select({
     id: games.id,
     created_by: games.created_by,
@@ -63,7 +59,6 @@ export const getGame = async (token: string, id: number): Promise<GetGameRespons
   } else if (responses.length === 1) {
     return {
       ...responses[0],
-      waiting_for: round?.wait_for || null,
     }
   } else {
     throw new Error('Multiple games found');

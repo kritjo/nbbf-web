@@ -34,7 +34,6 @@ export const newRound = async (token: string, gameID: number): Promise<boolean> 
     game: gameID,
     round: maxRound,
     created_at: new Date(),
-    wait_for: 'bids',
   }).returning();
 
   const gamePl = await db.query.gamePlayers.findMany({
