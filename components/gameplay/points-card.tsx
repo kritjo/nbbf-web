@@ -1,16 +1,16 @@
-import {Card, CardContent, CardHeader, CardTitle} from "./ui/card";
-import {Button} from "./ui/button";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "./ui/table";
-import {Slider} from "./ui/slider";
-import {Input} from "./ui/input";
-import {Switch} from "./ui/switch";
+import {Card, CardContent, CardHeader, CardTitle} from "../ui/card";
+import {Button} from "../ui/button";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../ui/table";
+import {Slider} from "../ui/slider";
+import {Input} from "../ui/input";
+import {Switch} from "../ui/switch";
 import {useState} from "react";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {newRound} from "../actions/newRound";
-import {setBidsTricks} from "../actions/setBidsTricks";
-import {PlayersInGameResponse} from "../actions/common";
-import {getGame} from "../actions/getGame";
-import {getPlayersInGame} from "../actions/getPlayersInGame";
+import {newRound} from "../../actions/newRound";
+import {setBidsTricks} from "../../actions/setBidsTricks";
+import {PlayersInGameResponse} from "../../actions/common";
+import {getGame} from "../../actions/getGame";
+import {getPlayersInGame} from "../../actions/getPlayersInGame";
 
 enum WaitingFor {
   Bids = 0,

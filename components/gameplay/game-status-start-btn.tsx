@@ -1,11 +1,11 @@
 'use client'
 
-import {Button} from "./ui/button";
+import {Button} from "../ui/button";
 import {useState} from "react";
-import {changeGameState} from "../actions/changeGameState";
+import {changeGameState} from "../../actions/changeGameState";
 import {Loader2} from "lucide-react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {newRound} from "../actions/newRound";
+import {newRound} from "../../actions/newRound";
 
 const GameStatusStartBtn = ({tokenValue, gameId}: {tokenValue: string, gameId: number}) => {
   const [isPending, setIsPending] = useState(false);

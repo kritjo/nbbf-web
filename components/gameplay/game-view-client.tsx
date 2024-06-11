@@ -1,17 +1,17 @@
 'use client'
 
-import {Button} from "./ui/button";
+import {Button} from "../ui/button";
 import Link from "next/link";
-import {Card, CardContent, CardHeader, CardTitle} from "./ui/card";
-import {Table, TableBody, TableHead, TableHeader, TableRow} from "./ui/table";
-import {Badge} from "./ui/badge";
+import {Card, CardContent, CardHeader, CardTitle} from "../ui/card";
+import {Table, TableBody, TableHead, TableHeader, TableRow} from "../ui/table";
+import {Badge} from "../ui/badge";
 import GameDeleteBtn from "./game-delete-btn";
 import AddGuestBox from "./add-guest-box";
 import GameMemberRow from "./game-member-row";
 import GameStatusStartBtn from "./game-status-start-btn";
 import {useQuery, useQueryClient} from "@tanstack/react-query";
-import {getGame} from "../actions/getGame";
-import {getPlayersInGame} from "../actions/getPlayersInGame";
+import {getGame} from "../../actions/getGame";
+import {getPlayersInGame} from "../../actions/getPlayersInGame";
 import {AddPlayerBoxClient} from "./add-player-box-client";
 import GameCardContent from "./GameCardContent";
 import PointsCard from "./points-card";

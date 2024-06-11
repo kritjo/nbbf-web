@@ -1,7 +1,7 @@
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
 import {getApplications} from "../../actions/getApplications";
-import ApplicationTable from "../../components/application-table";
+import ApplicationTable from "../../components/application/application-table";
 import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
 
 export default async function Soknader() {

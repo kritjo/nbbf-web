@@ -1,5 +1,5 @@
 import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
-import GameViewClient from "../../../components/game-view-client";
+import GameViewClient from "../../../components/gameplay/game-view-client";
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
 import {getGame} from "../../../actions/getGame";
