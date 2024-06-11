@@ -4,7 +4,7 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../
 import {Slider} from "../ui/slider";
 import {Input} from "../ui/input";
 import {Switch} from "../ui/switch";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {newRound} from "../../actions/newRound";
 import {setBidsTricks} from "../../actions/setBidsTricks";
@@ -30,18 +30,25 @@ const calculatePoints = (game_round_player: {id: number, game_round: number, gam
 
 const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }) => {
   const queryClient = useQueryClient();
-  const [round, setRound] = useState(0);
+  const [gameRoundState, setGameRoundState] = useState(0);
   const [waitingFor, setWaitingFor] = useState(WaitingFor.Bids);
   const [isPending, setIsPending] = useState(false);
 
   const {data: game, isLoading: isGameLoading} = useQuery({
     queryKey: ['game', gameId],
-    queryFn: () => getGame(tokenValue, gameId)
-  })
+    queryFn: () => getGame(tokenValue, gameId),
+  });
+
+  useEffect(() => {
+    if (game?.rounds) {
+      setGameRoundState(game.rounds);
+    }
+  }, [game?.rounds]);
+
   const {data: playersInGame, isLoading: isPIGLoading} = useQuery({
     queryKey: ['playersInGame', gameId],
     queryFn: () => getPlayersInGame(tokenValue, gameId)
-  })
+  });
 
   const handleNewRound = useMutation({
     mutationFn: () => newRound(tokenValue, gameId),
@@ -49,7 +56,7 @@ const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }
       queryClient.invalidateQueries({queryKey: ['game', gameId]});
       queryClient.invalidateQueries({queryKey: ['playersInGame', gameId]});
 
-      setRound((prev) => prev + 1);
+      setGameRoundState((prev) => prev + 1);
       setWaitingFor(WaitingFor.Bids);
     },
     onError: (err) => {
@@ -108,7 +115,7 @@ const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }
   if (isGameLoading || isPIGLoading) return null;
 
   const bets_this_round = playersInGame.rounds.filter((round) => {
-    return round.game_rounds?.round === game.rounds;
+    return round.game_rounds?.round === gameRoundState;
   }).reduce((acc, round) => {
     return acc + round.game_round_players.bid;
   }, 0);
@@ -127,10 +134,10 @@ const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }
 
   const max_rounds = Math.floor((52 - 1) / game.player_count) * 2;
   let cards_this_round;
-  if (max_rounds / 2 >= game.rounds) {
-    cards_this_round = game.rounds;
+  if (max_rounds / 2 >= gameRoundState) {
+    cards_this_round = gameRoundState;
   } else {
-    cards_this_round = max_rounds - game.rounds + 1;
+    cards_this_round = max_rounds - gameRoundState + 1;
   }
 
   return (
@@ -143,7 +150,7 @@ const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }
                 <p>
                   {waitingFor === WaitingFor.Bids && 'Venter på bud'}
                   {waitingFor === WaitingFor.Tricks && 'Venter på stikk'}
-                  {waitingFor === WaitingFor.NewRound && game.rounds !== max_rounds && 'Venter på neste runde'}
+                  {waitingFor === WaitingFor.NewRound && gameRoundState !== max_rounds && 'Venter på neste runde'}
                 </p>
               </div>
             </CardTitle>
@@ -160,15 +167,15 @@ const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }
           {waitingFor === WaitingFor.NewRound &&
               <Button
                   className="text-white bg-blue-500"
-                  disabled={isPending || game.rounds === max_rounds}
+                  disabled={isPending || gameRoundState === max_rounds}
                   onClick={() => handleNewRound.mutate()}
               >
-                {game.rounds === max_rounds ? 'Ingen flere runder' : 'Neste runde'}
+                {gameRoundState === max_rounds ? 'Ingen flere runder' : 'Neste runde'}
               </Button>
           }
         </div>
         <p>
-          Runde {game.rounds}/{max_rounds} ({cards_this_round} kort denne runden)
+          Runde {gameRoundState}/{max_rounds} ({cards_this_round} kort denne runden)
         </p>
         { waitingFor !== WaitingFor.Bids &&
             <p>
@@ -197,7 +204,7 @@ const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }
               const playerPoints = playerWithPoints.points;
 
               const playerCurrentRound = playersInGame.rounds.find((round) => {
-                return round.game_players?.id === player.id && round.game_rounds?.round === game.rounds;
+                return round.game_players?.id === player.id && round.game_rounds?.round === gameRoundState;
               });
 
               return (
