@@ -1,6 +1,5 @@
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
-import {use} from "react";
 import {getApplications} from "../../actions/getApplications";
 import ApplicationTable from "../../components/application-table";
 import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
