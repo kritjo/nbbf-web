@@ -155,24 +155,50 @@ const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }
               </div>
             </CardTitle>
           </div>
-          {waitingFor !== WaitingFor.NewRound &&
-              <Button
-                  className="text-white bg-blue-500"
-                  onClick={() => setWaitingFor((prev) => prev + 1)}
-              >
-                {waitingFor === WaitingFor.Bids && 'Gjør bud'}
-                {waitingFor === WaitingFor.Tricks && 'Bekreft stikk'}
-              </Button>
-          }
-          {waitingFor === WaitingFor.NewRound &&
-              <Button
-                  className="text-white bg-blue-500"
-                  disabled={isPending || gameRoundState === max_rounds}
-                  onClick={() => handleNewRound.mutate()}
-              >
-                {gameRoundState === max_rounds ? 'Ingen flere runder' : 'Neste runde'}
-              </Button>
-          }
+          <div className="flex items-center gap-2">
+            <Button
+              className="text-white bg-blue-500"
+              disabled={isPending || gameRoundState === 0}
+              onClick={() => {
+                if (waitingFor === WaitingFor.Bids) {
+                  setWaitingFor(WaitingFor.NewRound);
+                  setGameRoundState((prev) => prev - 1);
+                } else if (waitingFor === WaitingFor.Tricks) {
+                  setWaitingFor(WaitingFor.Bids);
+                } else if (waitingFor === WaitingFor.NewRound) {
+                  setWaitingFor(WaitingFor.Tricks);
+                } else {
+                  throw new Error('Invalid waitingFor state');
+                }
+              }}
+            >
+              Tilbake
+            </Button>
+            {waitingFor !== WaitingFor.NewRound &&
+                <Button
+                    className="text-white bg-blue-500"
+                    onClick={() => setWaitingFor((prev) => prev + 1)}
+                >
+                  {waitingFor === WaitingFor.Bids && 'Gjør bud'}
+                  {waitingFor === WaitingFor.Tricks && 'Bekreft stikk'}
+                </Button>
+            }
+            {waitingFor === WaitingFor.NewRound &&
+                <Button
+                    className="text-white bg-blue-500"
+                    disabled={isPending || gameRoundState === max_rounds}
+                    onClick={() => {
+                      if (gameRoundState === game?.rounds)handleNewRound.mutate()
+                      else {
+                        setWaitingFor(WaitingFor.Bids);
+                        setGameRoundState((prev) => prev + 1);
+                      }
+                    }}
+                >
+                  {gameRoundState === max_rounds ? 'Ingen flere runder' : 'Neste runde'}
+                </Button>
+            }
+          </div>
         </div>
         <p>
           Runde {gameRoundState}/{max_rounds} ({cards_this_round} kort denne runden)
