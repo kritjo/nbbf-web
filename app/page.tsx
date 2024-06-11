@@ -1,5 +1,5 @@
 import '@fontsource/pt-mono';
-import ApplicationForm from "../components/applicationForm";
+import ApplicationForm from "../components/application/applicationForm";
 export default function Home() {
   return (
     <main>

@@ -1,10 +1,10 @@
 'use client'
 
-import {Table, TableBody, TableHead, TableHeader, TableRow} from "./ui/table";
+import {Table, TableBody, TableHead, TableHeader, TableRow} from "../ui/table";
 import ApplcationTableRow from "./applcation-table-row";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import {useQuery} from "@tanstack/react-query";
-import {getApplications} from "../actions/getApplications";
+import {getApplications} from "../../actions/getApplications";
 
 const ApplicationTable = ({token} : {token: RequestCookie}) => {
   const { data } = useQuery({ queryKey: ['applications'], queryFn: () => getApplications(token.value) })

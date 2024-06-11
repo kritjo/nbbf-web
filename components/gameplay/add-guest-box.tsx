@@ -1,11 +1,11 @@
 'use client'
 
-import {Dialog, DialogContent, DialogTitle, DialogTrigger} from "./ui/dialog";
-import {Button} from "./ui/button";
-import {Input} from "./ui/input";
+import {Dialog, DialogContent, DialogTitle, DialogTrigger} from "../ui/dialog";
+import {Button} from "../ui/button";
+import {Input} from "../ui/input";
 import {useState} from "react";
 import {Loader2} from "lucide-react";
-import {addMemberToGame} from "../actions/addMemberToGame";
+import {addMemberToGame} from "../../actions/addMemberToGame";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 const AddGuestBox = ({gameId, tokenValue}: {gameId: number, tokenValue: string}) => {

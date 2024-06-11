@@ -8,9 +8,7 @@ import {PlayersInGameResponse} from "./common";
 
 export const getPlayersInGame = async (token: string, gameID: number): Promise<PlayersInGameResponse> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
-  if (authenticatedUser === null) {
-    return null;
-  }
+  if (authenticatedUser === null) return null;
 
   const gamePlayersInGame =
     db.select().from(gamePlayers).where(eq(gamePlayers.game, gameID)).as('gamePlayersInGame');

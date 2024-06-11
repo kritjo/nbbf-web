@@ -1,13 +1,13 @@
 'use client'
 
 import {ReactNode, useState, useTransition} from "react";
-import {applcationAction} from "../actions/applicationAction";
-import {TableCell, TableRow} from "./ui/table";
-import {Dialog, DialogContent, DialogTrigger} from "./ui/dialog";
-import {Label} from "./ui/label";
-import {Input} from "./ui/input";
-import {Textarea} from "./ui/textarea";
-import {Separator} from "./ui/separator";
+import {applcationAction} from "../../actions/applicationAction";
+import {TableCell, TableRow} from "../ui/table";
+import {Dialog, DialogContent, DialogTrigger} from "../ui/dialog";
+import {Label} from "../ui/label";
+import {Input} from "../ui/input";
+import {Textarea} from "../ui/textarea";
+import {Separator} from "../ui/separator";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,11 +18,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger
-} from "./ui/alert-dialog";
-import {Button} from "./ui/button";
+} from "../ui/alert-dialog";
+import {Button} from "../ui/button";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import {Loader2} from "lucide-react";
-import {ApplicationAction, GetApplicationsResponse} from "../actions/common";
+import {ApplicationAction, GetApplicationsResponse} from "../../actions/common";
 import {useQueryClient} from "@tanstack/react-query";
 
 
