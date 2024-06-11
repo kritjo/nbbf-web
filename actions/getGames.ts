@@ -8,29 +8,36 @@ import {GetGamesResponse} from "./common";
 
 export const getGames = async (token: string): Promise<GetGamesResponse[]> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
-  if (authenticatedUser === null) {
-    return [];
-  }
+  if (authenticatedUser === null) return [];
 
   const game_round_count = db.select({
       rounds: sql<number>`cast(count(${users.id}) as int)`.as('rounds'),
       id: gameRounds.game,
-    }).from(gameRounds).groupBy(gameRounds.game).as('game_round_count')
+  }).from(gameRounds)
+    .groupBy(gameRounds.game)
+    .as('game_round_count')
 
   const game_players = db.select({
       players: sql<number[]>`ARRAY_AGG(${users.id})`.as('players'),
       id: gamePlayers.game
-    }).from(gamePlayers).innerJoin(users, eq(gamePlayers.user, users.id)).groupBy(gamePlayers.game).as('game_players');
+  }).from(gamePlayers)
+    .innerJoin(users, eq(gamePlayers.user, users.id))
+    .groupBy(gamePlayers.game)
+    .as('game_players');
 
   const game_player_count = db.select({
     players: sql<number>`cast(count(${users.id}) as int)`.as('players_count'),
     id: gamePlayers.game
-  }).from(gamePlayers).groupBy(gamePlayers.game).as('game_player_count');
+  }).from(gamePlayers)
+    .groupBy(gamePlayers.game)
+    .as('game_player_count');
 
   const creator_name = db.select({
       creator: users.full_name,
       id: games.id
-    }).from(games).innerJoin(users, eq(games.created_by, users.id)).as('creator_name');
+  }).from(games)
+    .innerJoin(users, eq(games.created_by, users.id))
+    .as('creator_name');
 
   return db.select({
     id: games.id,
