@@ -77,15 +77,10 @@ export const gamePlayers = pgTable('game_players', {
 
 export type GamePlayer = typeof gamePlayers.$inferSelect;
 
-const roundWaitFor = ['bids', 'tricks', 'finished'] as const;
-export const roundWaitForEnum = pgEnum('round_wait_for_enum', roundWaitFor);
-export type RoundWaitFor = typeof roundWaitFor[number];
-
 export const gameRounds = pgTable('game_rounds', {
   id: serial('id').primaryKey(),
   game: integer('game_id').references(() => games.id, {onDelete: 'cascade'}).notNull(),
   round: integer('round').notNull(),
-  wait_for: roundWaitForEnum('wait_for').notNull().default('bids'),
   created_at: timestamp('created_at', { withTimezone: true }).notNull(),
 });
 

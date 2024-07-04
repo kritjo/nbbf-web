@@ -1,18 +1,18 @@
 'use client'
 
-import {Dialog, DialogContent, DialogTrigger} from "./ui/dialog";
-import {Button} from "./ui/button";
-import {Label} from "./ui/label";
-import {Input} from "./ui/input";
-import {Checkbox} from "./ui/checkbox";
-import FormSubmitButton from "./ui/form-submit-button";
-import {Card, CardFooter, CardHeader, CardTitle} from "./ui/card";
-import {Badge} from "./ui/badge";
+import {Dialog, DialogContent, DialogTrigger} from "../ui/dialog";
+import {Button} from "../ui/button";
+import {Label} from "../ui/label";
+import {Input} from "../ui/input";
+import {Checkbox} from "../ui/checkbox";
+import FormSubmitButton from "../ui/form-submit-button";
+import {Card, CardFooter, CardHeader, CardTitle} from "../ui/card";
+import {Badge} from "../ui/badge";
 import {useFormState} from "react-dom";
-import {User} from "../db/schema";
-import {GetGamesResponse} from "../actions/common";
+import {User} from "../../db/schema";
+import {GetGamesResponse} from "../../actions/common";
 import Link from "next/link";
-import {createGame} from "../actions/createGame";
+import {createGame} from "../../actions/createGame";
 import {useEffect, useState} from "react";
 import GameCardContent from "./GameCardContent";
 

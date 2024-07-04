@@ -1,9 +1,9 @@
 'use client'
 
-import {TableCell, TableRow} from "./ui/table";
-import {Button} from "./ui/button";
+import {TableCell, TableRow} from "../ui/table";
+import {Button} from "../ui/button";
 import {useState} from "react";
-import {deleteGameUser} from "../actions/deleteGameUser";
+import {deleteGameUser} from "../../actions/deleteGameUser";
 import {Loader2} from "lucide-react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 

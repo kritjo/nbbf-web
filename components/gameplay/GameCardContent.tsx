@@ -1,5 +1,5 @@
-import {CardContent} from "./ui/card";
-import {GetGamesResponse} from "../actions/common";
+import {CardContent} from "../ui/card";
+import {GetGamesResponse} from "../../actions/common";
 
 const GameCardContent = ({game}: { game: GetGamesResponse }) => {
   return (

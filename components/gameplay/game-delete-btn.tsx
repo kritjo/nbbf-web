@@ -1,9 +1,9 @@
 'use client'
 
 import {Loader2} from "lucide-react";
-import {Button} from "./ui/button";
+import {Button} from "../ui/button";
 import {useTransition} from "react";
-import {deleteGame} from "../actions/deleteGame";
+import {deleteGame} from "../../actions/deleteGame";
 import {redirect} from "next/navigation";
 
 const GameDeleteBtn = ({gameId, tokenValue}: {gameId: number, tokenValue: string}) => {

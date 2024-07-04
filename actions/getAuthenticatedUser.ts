@@ -10,24 +10,16 @@ export const getAuthenticatedUser = async (token: string, minReqRole: Role): Pro
     where: eq(userSessions.token, token),
   });
 
-  if (!userSession) {
-    return null;
-  }
+  if (!userSession) return null;
 
-  if (userSession.expires_at < new Date()) {
-    return null;
-  }
+  if (userSession.expires_at < new Date()) return null;
 
   const user = await db.query.users.findFirst({
     where: eq(users.id, userSession?.user),
   });
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
-  if (hasMinimumRole(user.role, minReqRole)) {
-    return user;
-  }
+  if (hasMinimumRole(user.role, minReqRole)) return user;
   return null;
 }

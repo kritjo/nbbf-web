@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { useMediaQuery } from "../hooks/use-media-query"
-import { Button } from "./ui/button"
+import { useMediaQuery } from "../../hooks/use-media-query"
+import { Button } from "../ui/button"
 import {
   Command,
   CommandEmpty,
@@ -11,22 +11,22 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "./ui/command"
+} from "../ui/command"
 import {
   Drawer,
   DrawerContent,
   DrawerTrigger,
-} from "./ui/drawer"
+} from "../ui/drawer"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "./ui/popover"
+} from "../ui/popover"
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {User} from "../db/schema";
-import {addMemberToGame} from "../actions/addMemberToGame";
-import {getMembersNotInGame} from "../actions/getMembersNotInGame";
-import {PlayersInGameResponse} from "../actions/common";
+import {User} from "../../db/schema";
+import {addMemberToGame} from "../../actions/addMemberToGame";
+import {getMembersNotInGame} from "../../actions/getMembersNotInGame";
+import {PlayersInGameResponse} from "../../actions/common";
 
 export function AddPlayerBoxClient({tokenValue, gameId}: {tokenValue: string, gameId: number}) {
   const [open, setOpen] = React.useState(false);

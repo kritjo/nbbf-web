@@ -1,44 +1,52 @@
 'use server'
 
-import {GetGameResponseWithWaitingFor} from "./common";
+import {GetGamesResponse} from "./common";
 import {getAuthenticatedUser} from "./getAuthenticatedUser";
 import {db} from "../db/connection";
 import {and, eq, sql} from "drizzle-orm";
 import {gamePlayers, gameRounds, games, users} from "../db/schema";
 
-export const getGame = async (token: string, id: number): Promise<GetGameResponseWithWaitingFor | null> => {
+export const getGame = async (token: string, id: number): Promise<GetGamesResponse | null> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
-  if (authenticatedUser === null) {
-    return null;
-  }
+  if (authenticatedUser === null) return null;
 
   const game_round_count = db.select({
     rounds: sql<number>`cast(count(${users.id}) as int)`.as('rounds'),
     id: gameRounds.game,
-  }).from(gameRounds).where(eq(gameRounds.game, id)).groupBy(gameRounds.game).as('game_round_count')
+  }).from(gameRounds)
+    .where(eq(gameRounds.game, id))
+    .groupBy(gameRounds.game)
+    .as('game_round_count')
 
   const game_players = db.select({
     players: sql<number[]>`ARRAY_AGG(${users.id})`.as('players'),
     id: gamePlayers.game
-  }).from(gamePlayers).innerJoin(users, eq(gamePlayers.user, users.id)).where(eq(gamePlayers.game, id)).groupBy(gamePlayers.game).as('game_players');
+  }).from(gamePlayers)
+    .innerJoin(users, eq(gamePlayers.user, users.id))
+    .where(eq(gamePlayers.game, id))
+    .groupBy(gamePlayers.game)
+    .as('game_players');
 
   const game_player_count = db.select({
     players: sql<number>`cast(count(${users.id}) as int)`.as('players_count'),
     id: gamePlayers.game
-  }).from(gamePlayers).where(eq(gamePlayers.game, id)).groupBy(gamePlayers.game).as('game_player_count');
+  }).from(gamePlayers)
+    .where(eq(gamePlayers.game, id))
+    .groupBy(gamePlayers.game)
+    .as('game_player_count');
 
   const creator_name = db.select({
     creator: users.full_name,
     id: games.id
-  }).from(games).where(eq(games.id, id)).innerJoin(users, eq(games.created_by, users.id)).as('creator_name');
+  }).from(games)
+    .where(eq(games.id, id))
+    .innerJoin(users, eq(games.created_by, users.id))
+    .as('creator_name');
 
   const prevMaxRound = await db.select({
     value: sql`max(${gameRounds.round})`.mapWith(gameRounds.round)
-  }).from(gameRounds).where(eq(gameRounds.game, id));
-
-  const round = await db.query.gameRounds.findFirst({
-    where: and(eq(gameRounds.game, id), eq(gameRounds.round, prevMaxRound[0].value)),
-  });
+  }).from(gameRounds)
+    .where(eq(gameRounds.game, id));
 
   const responses = await db.select({
     id: games.id,
@@ -63,7 +71,6 @@ export const getGame = async (token: string, id: number): Promise<GetGameRespons
   } else if (responses.length === 1) {
     return {
       ...responses[0],
-      waiting_for: round?.wait_for || null,
     }
   } else {
     throw new Error('Multiple games found');

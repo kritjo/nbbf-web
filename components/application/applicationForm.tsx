@@ -1,13 +1,13 @@
 'use client'
 
-import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger} from "./ui/dialog";
-import {Button} from "./ui/button";
-import {Label} from "./ui/label";
-import {Input} from "./ui/input";
-import {Textarea} from "./ui/textarea";
-import FormSubmitButton from "./ui/form-submit-button";
+import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger} from "../ui/dialog";
+import {Button} from "../ui/button";
+import {Label} from "../ui/label";
+import {Input} from "../ui/input";
+import {Textarea} from "../ui/textarea";
+import FormSubmitButton from "../ui/form-submit-button";
 import {useFormState} from "react-dom";
-import {sendMemberApplication} from "../actions/sendMemberApplication";
+import {sendMemberApplication} from "../../actions/sendMemberApplication";
 
 export default function ApplicationForm() {
   const [formState, formAction] = useFormState(sendMemberApplication, null);

@@ -22,14 +22,14 @@ export function useMediaQuery(query: string): boolean {
     handleChange()
 
     // Listen matchMedia
-    if (matchMedia.addListener) {
+    if (matchMedia.addListener) { // The use of this method is deprecated, but we need to support older browsers
       matchMedia.addListener(handleChange)
     } else {
       matchMedia.addEventListener('change', handleChange)
     }
 
     return () => {
-      if (matchMedia.removeListener) {
+      if (matchMedia.removeListener) { // The use of this method is deprecated, but we need to support older browsers
         matchMedia.removeListener(handleChange)
       } else {
         matchMedia.removeEventListener('change', handleChange)

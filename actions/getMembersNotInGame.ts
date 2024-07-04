@@ -7,9 +7,7 @@ import {eq} from "drizzle-orm";
 
 export const getMembersNotInGame = async (token: string, gameID: number): Promise<User[]> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
-  if (authenticatedUser === null) {
-    return [];
-  }
+  if (authenticatedUser === null) return [];
 
   const gamePlayersInGame = db.select().from(gamePlayers).where(eq(gamePlayers.game, gameID)).as('gamePlayersInGame')
 

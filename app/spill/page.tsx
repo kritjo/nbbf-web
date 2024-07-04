@@ -2,7 +2,7 @@ import {cookies} from "next/headers";
 import {use} from "react";
 import {getAuthenticatedUser} from "../../actions/getAuthenticatedUser";
 import {redirect} from "next/navigation";
-import GameManager from "../../components/game-manager";
+import GameManager from "../../components/gameplay/game-manager";
 import {getGames} from "../../actions/getGames";
 
 export default function Spill() {

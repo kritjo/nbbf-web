@@ -7,21 +7,15 @@ import {gamePlayers, gameRoundPlayers, gameRounds, games} from "../db/schema";
 
 export const newRound = async (token: string, gameID: number): Promise<boolean> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'medlem');
-  if (authenticatedUser === null) {
-    return false
-  }
+  if (authenticatedUser === null) return false;
 
   const game = await db.query.games.findFirst({
     where: eq(games.id, gameID),
   });
 
-  if (game === undefined) {
-    return false;
-  }
+  if (game === undefined) return false;
 
-  if (game.created_by !== authenticatedUser.id && authenticatedUser.role !== 'admin') {
-    return false;
-  }
+  if (game.created_by !== authenticatedUser.id && authenticatedUser.role !== 'admin') return false;
 
   const prevMaxRound = await db.select({
     value: sql`max(${gameRounds.round})`.mapWith(gameRounds.round)
@@ -34,7 +28,6 @@ export const newRound = async (token: string, gameID: number): Promise<boolean> 
     game: gameID,
     round: maxRound,
     created_at: new Date(),
-    wait_for: 'bids',
   }).returning();
 
   const gamePl = await db.query.gamePlayers.findMany({

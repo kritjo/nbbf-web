@@ -6,9 +6,7 @@ import {db} from "../db/connection";
 
 export const getMembers = async (token: string): Promise<User[]> => {
   const authenticatedUser = await getAuthenticatedUser(token, 'styre');
-  if (authenticatedUser === null) {
-    return [];
-  }
+  if (authenticatedUser === null) return [];
 
-  return await db.query.users.findMany();
+  return db.query.users.findMany();
 }
