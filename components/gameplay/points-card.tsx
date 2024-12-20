@@ -11,6 +11,7 @@ import {setBidsTricks} from "../../actions/setBidsTricks";
 import {PlayersInGameResponse} from "../../actions/common";
 import {getGame} from "../../actions/getGame";
 import {getPlayersInGame} from "../../actions/getPlayersInGame";
+import { finishGame } from "../../actions/finishGame";
 
 enum WaitingFor {
   Bids = 0,
@@ -183,10 +184,10 @@ const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }
                   {waitingFor === WaitingFor.Tricks && 'Bekreft stikk'}
                 </Button>
             }
-            {waitingFor === WaitingFor.NewRound &&
+            {(waitingFor === WaitingFor.NewRound && gameRoundState !== max_rounds) &&
                 <Button
                     className="text-white bg-blue-500"
-                    disabled={isPending || gameRoundState === max_rounds}
+                    disabled={isPending}
                     onClick={() => {
                       if (gameRoundState === game?.rounds)handleNewRound.mutate()
                       else {
@@ -195,7 +196,16 @@ const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }
                       }
                     }}
                 >
-                  {gameRoundState === max_rounds ? 'Ingen flere runder' : 'Neste runde'}
+                  Neste runde
+                </Button>
+            }
+            {(waitingFor === WaitingFor.NewRound && gameRoundState === max_rounds) &&
+                <Button
+                    className="text-white bg-red-500"
+                    disabled={isPending}
+                    onClick={() => finishGame(tokenValue, gameId)}
+                >
+                  Fullfør spill
                 </Button>
             }
           </div>

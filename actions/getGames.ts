@@ -21,7 +21,7 @@ export const getGames = async (token: string): Promise<GetGamesResponse[]> => {
       players: sql<number[]>`ARRAY_AGG(${users.id})`.as('players'),
       id: gamePlayers.game
   }).from(gamePlayers)
-    .innerJoin(users, eq(gamePlayers.user, users.id))
+    .fullJoin(users, eq(gamePlayers.user, users.id))
     .groupBy(gamePlayers.game)
     .as('game_players');
 
