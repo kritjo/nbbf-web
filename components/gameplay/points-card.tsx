@@ -134,7 +134,7 @@ const PointsCard = ({gameId, tokenValue}: { gameId: number, tokenValue: string }
   });
 
   const max_rounds = Math.floor((52 - 1) / game.player_count) * 2;
-  let cards_this_round;
+  let cards_this_round: number;
   if (max_rounds / 2 >= gameRoundState) {
     cards_this_round = gameRoundState;
   } else {
